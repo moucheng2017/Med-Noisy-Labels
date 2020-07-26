@@ -25,7 +25,8 @@
   <dd>(1) Download the training dataset with annotations from: https://www.med.upenn.edu/cbica/brats2019/registration.html
   <dd>(2) Unzip the data and you will have two folders: 
   <dd>(3) Extract the 2D images from nii.gz files by running
+   
    ```sh
-    - cd Brats
-    - python Prepare_BRATS.py
+      - cd Brats
+      - python Prepare_BRATS.py
    ```
