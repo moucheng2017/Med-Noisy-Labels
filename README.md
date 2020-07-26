@@ -1,7 +1,7 @@
 # LearnNoisyLabels_Pytorch
 **The architecture of our model is depicted below:**
 <br>
- <img height="500" src="images/NIPS_1.png" />
+ <img height="500" src="images/NIPS.png" />
  </br>
 
 **Below see testing samples from Brats and LIDC data set:**
@@ -24,7 +24,7 @@
 <dl>
   <dd>(1) Download the training dataset with annotations from: https://www.med.upenn.edu/cbica/brats2019/registration.html
   <dd>(2) Unzip the data and you will have two folders: 
-  <dd>(3) Extract the 2D images from nii.gz files by running
+  <dd>(3) Extract the 2D images and annotations from nii.gz files by running
    
    ```sh
       - cd Brats
