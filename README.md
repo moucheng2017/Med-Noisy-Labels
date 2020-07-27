@@ -30,3 +30,30 @@
       - cd Brats
       - python Prepare_BRATS.py
    ```
+# Training
+<dl>
+  <dd>(1) For Brats dataset, set the parameters in Test.py
+   
+   ```sh
+      - input_dim=4,
+      - class_no=4,
+      - repeat=1,
+      - train_batchsize=2,
+      - validate_batchsize=1,
+      - num_epochs=30,
+      - learning_rate=1e-4,
+      - alpha=1.5,
+      - width=16,
+      - depth=4,
+      - data_path=your path,
+      - dataset_tag='brats',
+      - label_mode='multi',
+      - save_probability_map=True,
+      - low_rank_mode=False,
+      - rank=0,
+      - epoch_threshold=0,
+      - alpha_initial=-1.5,
+      - regularisation_type='2'
+   ```
+   <dd>(2) source activate env
+   <dd>(3) python NNTrain.py
