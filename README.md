@@ -59,5 +59,6 @@
 <br>
  <img height="350" src="images/brats-compare.jpg" />
  </br>
+ 
 # How to cite this code
 Please cite the original publication:
