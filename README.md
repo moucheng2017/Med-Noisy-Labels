@@ -9,10 +9,6 @@
  <img height="500" src="images/Brats_1.jpg" />
  </br>
 
-<br>
- <img height="500" src="images/Brats_2.jpg" />
- </br>
-
 
 # Setup package in virtual environment
 ```sh
@@ -61,5 +57,5 @@
 # Evaluation
 
 <br>
- <img height="500" src="images/brats-compare.jpg" />
+ <img height="400" src="images/brats-compare.jpg" />
  </br>
