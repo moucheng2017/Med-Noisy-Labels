@@ -57,5 +57,5 @@
 # Evaluation
 
 <br>
- <img height="400" src="images/brats-compare.jpg" />
+ <img height="300" src="images/brats-compare.jpg" />
  </br>
