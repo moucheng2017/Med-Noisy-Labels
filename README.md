@@ -4,12 +4,6 @@
  <img height="500" src="images/NIPS.png" />
  </br>
 
-**Below see testing samples from Brats and LIDC data set:**
-<br>
- <img height="500" src="images/Brats_1.jpg" />
- </br>
-
-
 # Setup package in virtual environment
 ```sh
   - git clone https://github.com/UCLBrain/LearnNoisyLabels_Pytorch
@@ -55,6 +49,11 @@
    <dd>(3) python NNTrain.py
     
 # Evaluation
+
+**Below see testing samples from Brats dataset:**
+<br>
+ <img height="500" src="images/Brats_1.jpg" />
+ </br>
 
 <br>
  <img height="350" src="images/brats-compare.jpg" />
