@@ -10,7 +10,7 @@
  </br>
 
 <br>
- <img height="500" src="images/LIDC.jpg" />
+ <img height="500" src="images/Brats_2.jpg" />
  </br>
 
 
@@ -57,3 +57,9 @@
    ```
    <dd>(2) source activate env
    <dd>(3) python NNTrain.py
+    
+# Evaluation
+
+<br>
+ <img height="500" src="images/brats-compare.jpg" />
+ </br>
