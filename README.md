@@ -1,4 +1,5 @@
 # LearnNoisyLabels_Pytorch
+**This is working in progress !**
 **The architecture of our model is depicted below:**
 <br>
  <img height="500" src="images/NIPS.png" />
