@@ -63,7 +63,7 @@
 # Morphology Dataset
 
 <br>
- <img height="350" src="images/Morph.png" />
+ <img height="400" src="images/Morph.png" />
  </br>
 
 # How to cite this code
