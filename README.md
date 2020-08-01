@@ -2,7 +2,7 @@
 
 **The architecture of our model is depicted below:**
 <br>
- <img height="500" src="Figures/NIPS.png" />
+ <img height="500" src="figures/NIPS.png" />
  </br>
 
 # Setup package in virtual environment
@@ -53,17 +53,17 @@
 
 **Below see testing samples from Brats dataset:**
 <br>
- <img height="500" src="Figures/Brats_1.jpg" />
+ <img height="500" src="figures/Brats_1.jpg" />
  </br>
 
 <br>
- <img height="350" src="Figures/brats-compare.jpg" />
+ <img height="350" src="figures/brats-compare.jpg" />
  </br>
 
 # Morphology Dataset
 
 <br>
- <img height="500" src="Figures/Morph.png" />
+ <img height="500" src="figures/Morph.png" />
  </br>
 
 # How to cite this code
