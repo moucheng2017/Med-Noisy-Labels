@@ -13,10 +13,10 @@
 ```
 # Download & preprocess the Brats dataset
 
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| Dataset (with Link) | Content | Resolution (pixels) | Number of Classes |
+| ------------- | ------------- | ------------- | ------------- |
+| [MNIST](http://yann.lecun.com/exdb/mnist/)  | Handwritten Digits | 28*28 | 2 |
+| [ISBI 2015](https://smart-stats-tools.org/lesion-challenge) | Multiple Sclerosis Lesion  | 181*217*181 | 2 |
 
 <dl>
   <dd>(1) Download the training dataset with annotations from: https://www.med.upenn.edu/cbica/brats2019/registration.html
