@@ -12,6 +12,12 @@
   - conda env create -f conda_env.yml
 ```
 # Download & preprocess the Brats dataset
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
 <dl>
   <dd>(1) Download the training dataset with annotations from: https://www.med.upenn.edu/cbica/brats2019/registration.html
   <dd>(2) Unzip the data and you will have two folders: 
