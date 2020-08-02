@@ -2,9 +2,13 @@
 
 # Table of Contents
 * [Introduction](#Introduction)
-* [Setup package in virtual environment](#Setup package in virtual environment)
-* [Download & preprocess the datasets](#Download & preprocess the datasets)
+* [Setup package in virtual environment](#Setup)
+* [Download & preprocess the datasets](#Download)
 * [Training](#Training)
+* [Evaluation](#Evaluation)
+* [Performance](#Performance)
+* [Morphology Dataset](#Morphology)
+* [How to cite this code](#MHow)
 
 # Introduction
 
