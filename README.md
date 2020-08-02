@@ -89,7 +89,7 @@ Download example datasets in following table as used in the paper, and pre-proce
 | STAPLE  | 46.73 ± 0.17  | 0.2147 ± 0.0103   | 69.34 ± 0.58  | 0.0832 ± 0.0043   | 
 | Spatial STAPLE  | 47.31 ± 0.21  | 0.1871 ± 0.0094   | 70.92 ± 0.18  |  0.0746 ± 0.0057   |
 | Ours without Trace | 49.03 ± 0.34   | 0.1569 ± 0.0072   | 71.25 ± 0.12  | 0.0482 ± 0.0038    |
-| Ours | \textbf{53.47 ± 0.24}  | \textbf{0.1185 ± 0.0056 }  | \textbf{74.12 ± $ 0.19 } |  \textbf{0.0451 ± 0.0025     } |
+| Ours | **53.47 ± 0.24** |  **0.1185 ± 0.0056**  | **74.12 ± 0.19**|  **0.0451 ± 0.0025** |
 | Oracle (Ours but with known CMs)   | 67.13 ± 0.14  | 0.0843 ± 0.0029  | 79.41 ± 0.17  | 0.0381 ± 0.0021 |
 
 **Below see testing samples from Brats dataset:**
