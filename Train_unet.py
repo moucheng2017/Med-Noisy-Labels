@@ -13,60 +13,43 @@ from sklearn.metrics.pairwise import cosine_distances
 from scipy import spatial
 from sklearn.metrics import mean_squared_error
 from torch.optim import lr_scheduler
-from NNLoss import dice_loss
-from NNMetrics import segmentation_scores
-from NNUtils import CustomDataset, evaluate, test
+from Loss import dice_loss
+from Utilis import segmentation_scores
+from Utilis import CustomDataset, evaluate, test
 from tensorboardX import SummaryWriter
 from torch.autograd import Variable
 
-from NNNetwork import UNet, SegNet
+from Models import UNet
 
 
-def trainModels(dataset_tag,
-                dataset_name,
-                data_directory,
-                input_dim,
-                class_no,
-                repeat,
-                train_batchsize,
-                validate_batchsize,
-                num_epochs,
-                learning_rate,
-                width,
-                depth,
-                network,
-                augmentation='all_flip',
-                loss_f='dice'):
+def trainUnet(dataset_tag,
+              dataset_name,
+              data_directory,
+              input_dim,
+              class_no,
+              repeat,
+              train_batchsize,
+              validate_batchsize,
+              num_epochs,
+              learning_rate,
+              width,
+              depth,
+              augmentation='all_flip',
+              loss_f='dice'):
     #
     for j in range(1, repeat + 1):
         #
-        if network == 'unet':
-            #
-            Exp = UNet(in_ch=input_dim,
-                       width=width,
-                       depth=depth,
-                       class_no=class_no,
-                       norm='in',
-                       dropout=False,
-                       apply_last_layer=True)
-            #
-            Exp_name = 'UNet' + '_width' + str(width) + \
-                       '_depth' + str(depth) + \
-                       '_repeat' + str(j)
+        Exp = UNet(in_ch=input_dim,
+                   width=width,
+                   depth=depth,
+                   class_no=class_no,
+                   norm='in',
+                   dropout=False,
+                   apply_last_layer=True)
         #
-        elif network == 'segnet':
-            #
-            Exp = SegNet(in_ch=input_dim,
-                         width=width,
-                         depth=depth,
-                         norm='in',
-                         n_classes=class_no,
-                         dropout=False,
-                         apply_last_layer=True)
-            #
-            Exp_name = 'SegNet' + '_width' + str(width) + \
-                       '_depth' + str(depth) + \
-                       '_repeat' + str(j)
+        Exp_name = 'UNet' + '_width' + str(width) + \
+                   '_depth' + str(depth) + \
+                   '_repeat' + str(j)
         #
         # ====================================================================================================================================================================
         trainloader, validateloader, testloader, data_length = getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate_batchsize, augmentation)

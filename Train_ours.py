@@ -10,17 +10,15 @@ import matplotlib.pyplot as plt
 import torch.functional as F
 from torch.utils import data
 
-from NNMetrics import segmentation_scores, generalized_energy_distance
+from Utilis import segmentation_scores, generalized_energy_distance
 from tensorboardX import SummaryWriter
 from torch.autograd import Variable
 
-from NNMetrics import calculate_cm
-from NNUtils import CustomDataset_punet
-from NN_Noisy_label_loss import noisy_label_loss_v12, noisy_label_loss_low_rank, noisy_label_loss_v13, noisy_label_loss_low_rank_new
-from Baseline1 import UNet_Direct_CMs
-from Baseline2 import UNet, UNet_Implicit_CMs, UNet_CMs_low_rank
+from Utilis import CustomDataset_punet, calculate_cm
+from Loss import noisy_label_loss_low_rank, noisy_label_loss
+from Models import UNet_CMs
 
-from NNUtils import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_noisy_label_6
+from Utilis import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_noisy_label_6
 
 
 def trainModels(input_dim,
@@ -38,33 +36,17 @@ def trainModels(input_dim,
                 label_mode,
                 loss_f='noisy_label',
                 save_probability_map=True,
-                low_rank_mode=False,
-                rank=0):
+                low_rank_mode=False):
     #
-    if low_rank_mode is False:
-        #
-        assert rank == 0
-        #
-    else:
-        #
-        assert rank != 0
-        assert rank <= class_no
-        #
     for j in range(1, repeat + 1):
         #
-        if low_rank_mode is False:
-            #
-            Segmentation_net = UNet_Implicit_CMs(in_ch=input_dim, width=width, depth=depth, class_no=class_no, norm='in')
-            Exp_name = 'Seg_UNet_CMs_Direct_' + '_width' + str(width) + \
-                       '_depth' + str(depth) + '_train_batch_' + str(train_batchsize) + \
-                       '_repeat' + str(j) + '_alpha_' + str(alpha) + '_e' + str(num_epochs) + \
-                       '_lr' + str(learning_rate) + '_save_probability_' + str(save_probability_map)
-        else:
-            Segmentation_net = UNet_CMs_low_rank(in_ch=input_dim, width=width, depth=depth, class_no=class_no, norm='in', rank=rank)
-            Exp_name = 'Low_Rank_Seg_UNet_CMs_Direct_' + '_width' + str(width) + '_rank_' + str(rank) + \
-                       '_depth' + str(depth) + '_train_batch_' + str(train_batchsize) + \
-                       '_repeat' + str(j) + '_alpha_' + str(alpha) + '_e' + str(num_epochs) + \
-                       '_lr' + str(learning_rate) + '_save_probability_' + str(save_probability_map)
+        Segmentation_net = UNet_CMs(in_ch=input_dim, width=width, depth=depth, class_no=class_no, norm='in', low_rank=low_rank_mode)
+        Exp_name = 'Seg_UNet_CMs_Direct_' + '_width' + str(width) + \
+                   '_depth' + str(depth) + '_train_batch_' + str(train_batchsize) + \
+                   '_repeat' + str(j) + '_alpha_' + str(alpha) + '_e' + str(num_epochs) + \
+                   '_lr' + str(learning_rate) + '_save_probability_' + str(save_probability_map) + \
+                   '_low_rank_mode_' + str(low_rank_mode)
+
         #
         # ====================================================================================================================================================================
         trainloader, validateloader, testloader, data_length = getData(train_batchsize, validate_batchsize, data_path, dataset_tag, label_mode)
@@ -152,11 +134,6 @@ def trainSingleModel(model_seg,
     #
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     #
-    # lr_str = str(learning_rate)
-    #
-    # epoches_str = str(num_epochs)
-    #
-    # save_model_name = model_name + '_' + '_e' + epoches_str + '_lr' + lr_str
     save_model_name = model_name
     #
     saved_information_path = '../../Results'
@@ -217,25 +194,6 @@ def trainSingleModel(model_seg,
                 #
                 b, c, h, w = images.size()
                 #
-                # print(images.size())
-                #
-                # single_image = images[0, :, :, :].reshape(c, h, w).permute(1, 2, 0)
-                # plt.imshow(single_image)
-                # plt.show()
-                # # #
-                # single_image = labels_true[0, :, :, :].reshape(h, w)
-                # plt.imshow(single_image)
-                # plt.show()
-                #
-                # single_image = labels_over[0, :, :, :].reshape(h, w)
-                # plt.imshow(single_image)
-                # plt.show()
-                # check label values:
-                # unique, counts = np.unique(labels_true, return_counts=True)
-                # print(np.asarray((unique, counts)).T)
-                #
-                # print(images.size())
-                # print(labels_wrong.size())
                 #
                 optimizer1.zero_grad()
                 # optimizer2.zero_grad()
@@ -253,27 +211,16 @@ def trainSingleModel(model_seg,
                 labels_all.append(labels_wrong)
                 labels_all.append(labels_good)
                 #
-                # outputs_logits = model_seg(images)
-                # outputs_logits_noisy = model_cm(images)
-                #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
                 #
                 if low_rank_mode is False:
                     #
-                    loss, loss_ce, loss_trace = noisy_label_loss_v12(outputs_logits, outputs_logits_noisy, labels_all, alpha)
-                    # loss, loss_ce, loss_trace = noisy_label_loss_v13(pred=outputs_logits,
-                    #                                                  cms=outputs_logits_noisy,
-                    #                                                  labels=labels_all,
-                    #                                                  alpha=alpha,
-                    #                                                  epoch=epoch,
-                    #                                                  epoch_threshold=5)
+                    loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                     #
                 else:
                     #
                     loss, loss_ce, loss_trace = noisy_label_loss_low_rank(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                     #
-                # loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
-                #
                 loss.backward()
                 optimizer1.step()
                 # optimizer2.step()
@@ -291,15 +238,6 @@ def trainSingleModel(model_seg,
                 #
                 # if (j + 1) % iteration_amount == 0:
                 if (j + 1) == 1:
-                    #
-                    # v_dice, v_ged = evaluate_noisy_label(data=validateloader,
-                    #                                      model1=model_seg,
-                    #                                      model2=model_cm,
-                    #                                      class_no=class_no)
-                    # v_dice, v_ged = evaluate_noisy_label_2(data=validateloader,
-                    #                                      model1=model_seg,
-                    #                                      model2=model_cm,
-                    #                                      class_no=class_no)
                     #
                     if low_rank_mode is False:
                         v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
@@ -337,25 +275,6 @@ def trainSingleModel(model_seg,
                 #
                 b, c, h, w = images.size()
                 #
-                # print(images.size())
-                #
-                # single_image = images[0, :, :, :].reshape(c, h, w).permute(1, 2, 0)
-                # plt.imshow(single_image)
-                # plt.show()
-                # # #
-                # single_image = labels_true[0, :, :, :].reshape(h, w)
-                # plt.imshow(single_image)
-                # plt.show()
-                #
-                # single_image = labels_over[0, :, :, :].reshape(h, w)
-                # plt.imshow(single_image)
-                # plt.show()
-                # check label values:
-                # unique, counts = np.unique(labels_true, return_counts=True)
-                # print(np.asarray((unique, counts)).T)
-                #
-                # print(images.size())
-                # print(labels_wrong.size())
                 #
                 optimizer1.zero_grad()
                 # optimizer2.zero_grad()
@@ -373,22 +292,11 @@ def trainSingleModel(model_seg,
                 labels_all.append(labels_under)
                 labels_all.append(labels_wrong)
                 labels_all.append(labels_good)
-                # labels_all.append(labels_true)
-                #
-                # outputs_logits = model_seg(images)
-                # outputs_logits_noisy = model_cm(images)
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
                 #
-                loss, loss_ce, loss_trace = noisy_label_loss_v12(outputs_logits, outputs_logits_noisy, labels_all, alpha)
-                # loss, loss_ce, loss_trace = noisy_label_loss_v13(pred=outputs_logits,
-                #                                                  cms=outputs_logits_noisy,
-                #                                                  labels=labels_all,
-                #                                                  alpha=alpha,
-                #                                                  epoch=epoch,
-                #                                                  epoch_threshold=5)
-                # loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
-                #
+                loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+
                 loss.backward()
                 optimizer1.step()
                 # optimizer2.step()

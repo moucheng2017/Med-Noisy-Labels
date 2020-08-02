@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
 # from load_LIDC_data import LIDC_IDRI
-from probabilistic_unet import ProbabilisticUnet
+from Models import ProbabilisticUnet
 
-from NNUtils import CustomDataset_punet, test_punet, evaluate_punet
-from NNMetrics import generalized_energy_distance, segmentation_scores
+from Utilis import CustomDataset_punet, test_punet, evaluate_punet
+from Utilis import generalized_energy_distance, segmentation_scores
 
 # ===================
 # main computation:

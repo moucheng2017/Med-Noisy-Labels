@@ -9,9 +9,9 @@ import tifffile as tiff
 
 import torch.nn as nn
 import matplotlib.pyplot as plt
-from NNMetrics import segmentation_scores, generalized_energy_distance
 from torch.utils import data
 
+from sklearn.metrics import confusion_matrix
 # =============================================
 
 
@@ -1234,3 +1234,255 @@ def evaluate_punet(net, val_data, class_no, sampling_no):
         generalized_energy_distance_epoch += ged
         #
     return validate_iou / (no_eval), generalized_energy_distance_epoch / (no_eval)
+
+
+def segmentation_scores(label_trues, label_preds, n_class):
+    '''
+    :param label_trues:
+    :param label_preds:
+    :param n_class:
+    :return:
+    '''
+    assert len(label_trues) == len(label_preds)
+
+    if n_class == 2:
+        #
+        output_zeros = np.zeros_like(label_preds)
+        output_ones = np.ones_like(label_preds)
+        label_preds = np.where((label_preds > 0.5), output_ones, output_zeros)
+
+    label_trues += 1
+    label_preds += 1
+
+    label_preds = np.asarray(label_preds, dtype='int8').copy()
+    label_trues = np.asarray(label_trues, dtype='int8').copy()
+    label_preds = label_preds * (label_trues > 0)
+
+    intersection = label_preds * (label_preds == label_trues)
+    (area_intersection, _) = np.histogram(intersection, bins=n_class, range=(1, n_class))
+    (area_pred, _) = np.histogram(label_preds, bins=n_class, range=(1, n_class))
+    (area_lab, _) = np.histogram(label_trues, bins=n_class, range=(1, n_class))
+    area_union = area_pred + area_lab
+    #
+    return ((2 * area_intersection + 1e-6) / (area_union + 1e-6)).mean()
+
+
+def generalized_energy_distance(all_gts, all_segs, class_no):
+    '''
+    :param all_gts: a list of all noisy labels
+    :param all_segs: a list of all noisy segmentation
+    :param class_no: class number
+    :return:
+    '''
+    # This is slightly different from the original paper:
+    # We didn't take the distance to the power of 2
+    #
+    gt_gt_dist = [segmentation_scores(gt_1, gt_2, class_no) for i1, gt_1 in enumerate(all_gts) for i2, gt_2 in enumerate(all_gts) if i1 != i2]
+    seg_seg_dist = [segmentation_scores(seg_1, seg_2, class_no) for i1, seg_1 in enumerate(all_segs) for i2, seg_2 in enumerate(all_segs) if i1 != i2]
+    seg_gt_list = [segmentation_scores(seg_, gt_, class_no) for i, seg_ in enumerate(all_segs) for j, gt_ in enumerate(all_gts)]
+    ged_metric = sum(gt_gt_dist) / len(gt_gt_dist) + sum(seg_seg_dist) / len(seg_seg_dist) + 2 * sum(seg_gt_list) / len(seg_gt_list)
+    return ged_metric
+
+
+def preprocessing_accuracy(label_true, label_pred, n_class):
+    #
+    if n_class == 2:
+        output_zeros = np.zeros_like(label_pred)
+        output_ones = np.ones_like(label_pred)
+        label_pred = np.where((label_pred > 0.5), output_ones, output_zeros)
+    #
+    label_pred = np.asarray(label_pred, dtype='int8')
+    label_true = np.asarray(label_true, dtype='int8')
+
+    mask = (label_true >= 0) & (label_true < n_class) & (label_true != 8)
+
+    label_true = label_true[mask].astype(int)
+    label_pred = label_pred[mask].astype(int)
+
+    return label_true, label_pred
+
+
+def calculate_cm(pred, true):
+    #
+    pred = pred.view(-1)
+    true = true.view(-1)
+    #
+    pred = pred.cpu().detach().numpy()
+    true = true.cpu().detach().numpy()
+    #
+    confusion_matrices = confusion_matrix(y_true=true, y_pred=pred, normalize='all')
+    #
+    # if tag == 'brats':
+    #     confusion_matrices = confusion_matrix(y_true=true, y_pred=pred, normalize='all', labels=[0, 1, 2, 3])
+    # else:
+    #     confusion_matrices = confusion_matrix(y_true=true, y_pred=pred, normalize='all', labels=[0, 1])
+    #
+    #
+    return confusion_matrices
+
+# ================================
+# Evaluation
+# ================================
+
+
+def evaluate_noisy_label_4(data, model1, class_no):
+    #
+    model1.eval()
+    # model2.eval()
+    #
+    test_dice = 0
+    test_dice_all = []
+    #
+    for i, (v_images, v_labels_over, v_labels_under, v_labels_wrong, v_labels_good, v_imagename) in enumerate(data):
+        #
+        # print(i)
+        #
+        v_images = v_images.to(device='cuda', dtype=torch.float32)
+        v_outputs_logits, cms = model1(v_images)
+        b, c, h, w = v_outputs_logits.size()
+        v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
+        # cms = model2(v_images)
+        #
+        _, v_output = torch.max(v_outputs_logits, dim=1)
+        v_outputs_noisy = []
+        #
+        v_outputs_logits = v_outputs_logits.view(b, c, h*w)
+        v_outputs_logits = v_outputs_logits.permute(0, 2, 1).contiguous().view(b*h*w, c)
+        v_outputs_logits = v_outputs_logits.view(b * h * w, c, 1)
+        #
+        for cm in cms:
+            #
+            cm = cm.reshape(b, c**2, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c*c).view(b*h*w, c, c)
+            cm = cm / cm.sum(1, keepdim=True)
+            v_noisy_output = torch.bmm(cm, v_outputs_logits).view(b*h*w, c)
+            v_noisy_output = v_noisy_output.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+            _, v_noisy_output = torch.max(v_noisy_output, dim=1)
+            v_outputs_noisy.append(v_noisy_output.cpu().detach().numpy())
+        #
+        v_dice_ = segmentation_scores(v_labels_good, v_output.cpu().detach().numpy(), class_no)
+        #
+        epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_good.cpu().detach().numpy()]
+        v_ged = generalized_energy_distance(epoch_noisy_labels, v_outputs_noisy, class_no)
+        test_dice += v_dice_
+        test_dice_all.append(test_dice)
+        #
+    # print(i)
+    # print(test_dice)
+    # print(test_dice / (i + 1))
+    #
+    return test_dice / (i + 1), v_ged
+
+
+def evaluate_noisy_label_5(data, model1, class_no):
+    #
+    model1.eval()
+    # model2.eval()
+    #
+    test_dice = 0
+    test_dice_all = []
+    #
+    for i, (v_images, v_labels_over, v_labels_under, v_labels_wrong, v_labels_good, v_labels_true, v_imagename) in enumerate(data):
+        #
+        # print(i)
+        #
+        v_images = v_images.to(device='cuda', dtype=torch.float32)
+        v_outputs_logits, cms = model1(v_images)
+        b, c, h, w = v_outputs_logits.size()
+        v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
+        # cms = model2(v_images)
+        #
+        _, v_output = torch.max(v_outputs_logits, dim=1)
+        v_outputs_noisy = []
+        #
+        v_outputs_logits = v_outputs_logits.view(b, c, h*w)
+        v_outputs_logits = v_outputs_logits.permute(0, 2, 1).contiguous().view(b*h*w, c)
+        v_outputs_logits = v_outputs_logits.view(b * h * w, c, 1)
+        #
+        for cm in cms:
+            #
+            # cm = cm.reshape(b * h * w, c, c)
+            # cm = cm / cm.sum(1, keepdim=True)
+            # v_noisy_output = torch.bmm(cm, v_outputs_logits.reshape(b * h * w, c, 1)).reshape(b, c, h, w)
+            # cm = cm.permute(0, 2, 3, 1).contiguous().view(b * h * w, c, c)
+            cm = cm.reshape(b, c**2, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c*c).view(b*h*w, c, c)
+            cm = cm / cm.sum(1, keepdim=True)
+            v_noisy_output = torch.bmm(cm, v_outputs_logits).view(b*h*w, c)
+            v_noisy_output = v_noisy_output.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+            _, v_noisy_output = torch.max(v_noisy_output, dim=1)
+            v_outputs_noisy.append(v_noisy_output.cpu().detach().numpy())
+        #
+        v_dice_ = segmentation_scores(v_labels_true, v_output.cpu().detach().numpy(), class_no)
+        #
+        epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_true.cpu().detach().numpy(), v_labels_good.cpu().detach().numpy()]
+        v_ged = generalized_energy_distance(epoch_noisy_labels, v_outputs_noisy, class_no)
+        test_dice += v_dice_
+        test_dice_all.append(test_dice)
+        #
+    # print(i)
+    # print(test_dice)
+    # print(test_dice / (i + 1))
+    #
+    return test_dice / (i + 1), v_ged
+
+
+def evaluate_noisy_label_6(data, model1, class_no):
+    #
+    model1.eval()
+    # model2.eval()
+    #
+    test_dice = 0
+    test_dice_all = []
+    #
+    for i, (v_images, v_labels_over, v_labels_under, v_labels_wrong, v_labels_good, v_imagename) in enumerate(data):
+        #
+        # print(i)
+        #
+        v_images = v_images.to(device='cuda', dtype=torch.float32)
+        v_outputs_logits, cms = model1(v_images)
+        b, c, h, w = v_outputs_logits.size()
+        v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
+        # cms = model2(v_images)
+        #
+        _, v_output = torch.max(v_outputs_logits, dim=1)
+        v_outputs_noisy = []
+        #
+        v_outputs_logits = v_outputs_logits.view(b, c, h*w)
+        v_outputs_logits = v_outputs_logits.permute(0, 2, 1).contiguous().view(b*h*w, c)
+        v_outputs_logits = v_outputs_logits.view(b * h * w, c, 1)
+        #
+        for cm in cms:
+            #
+            b, c_r_d, h, w = cm.size()
+            r = c_r_d // c // 2
+            cm1 = cm[:, 0:r * c, :, :]
+            if r == 1:
+                cm2 = cm[:, r * c:c_r_d-1, :, :]
+            else:
+                cm2 = cm[:, r * c:c_r_d-1, :, :]
+            cm1_reshape = cm1.view(b, c_r_d // 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, r * c).view(b * h * w, r, c)
+            cm2_reshape = cm2.view(b, c_r_d // 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, r * c).view(b * h * w, c, r)
+            #
+            cm1_reshape = cm1_reshape / cm1_reshape.sum(1, keepdim=True)
+            cm2_reshape = cm2_reshape / cm2_reshape.sum(1, keepdim=True)
+            #
+            v_noisy_output = torch.bmm(cm1_reshape, v_outputs_logits)
+            v_noisy_output = torch.bmm(cm2_reshape, v_noisy_output).view(b * h * w, c)
+            v_noisy_output = v_noisy_output.view(b, h * w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+            #
+            # v_noisy_output = torch.bmm(cm, v_outputs_logits).view(b*h*w, c)
+            # v_noisy_output = v_noisy_output.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+            _, v_noisy_output = torch.max(v_noisy_output, dim=1)
+            v_outputs_noisy.append(v_noisy_output.cpu().detach().numpy())
+        #
+        v_dice_ = segmentation_scores(v_labels_good, v_output.cpu().detach().numpy(), class_no)
+        #
+        epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_good.cpu().detach().numpy()]
+        v_ged = generalized_energy_distance(epoch_noisy_labels, v_outputs_noisy, class_no)
+        test_dice += v_dice_
+        test_dice_all.append(test_dice)
+        #
+    # print(i)
+    # print(test_dice)
+    # print(test_dice / (i + 1))
+    #
+    return test_dice / (i + 1), v_ged
