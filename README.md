@@ -111,13 +111,13 @@ Download example datasets in following table as used in the paper, and pre-proce
   <dd>(4) Visualisation of segmentation labels on BraTS dataset: (a) GT and simulated annotator’ssegmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
 
 <br>
- <img height="350" src="figures/brats-compare.jpg" />
+ <img height="340" src="figures/brats-compare.jpg" />
  </br>
 
   <dd>(5) Visualisation of segmentation labels on LIDC-IDRI dataset: (a) GT and simulated annota-tor’s segmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
 
 <br>
- <img height="350" src="figures/LIDC-compare.jpg" />
+ <img height="340" src="figures/LIDC-compare.jpg" />
  </br>
 
 # Morphology Datasets
