@@ -13,13 +13,10 @@
 ```
 # Download & preprocess the Brats dataset
 
-| Dataset (with Link) | Content | Resolution (pixels) | Number of Classes |
-| ------------- | ------------- | ------------- | ------------- |
-| [MNIST](http://yann.lecun.com/exdb/mnist/)  | Handwritten Digits | 28 x 28 | 2 |
-| [ISBI2015](https://smart-stats-tools.org/lesion-challenge) | Multiple Sclerosis Lesion  | 181 x 217 x 181 | 2 |
+Download example datasets in following table as used in the paper, and pre-process the dataset using the folowing steps for multiclass segmentation purpose:
 
 <dl>
-  <dd>(1) Download the training dataset with annotations from: https://www.med.upenn.edu/cbica/brats2019/registration.html
+  <dd>(1) Download the training dataset with annotations from the corresponding link (e.g. Brats2019)
   <dd>(2) Unzip the data and you will have two folders: 
   <dd>(3) Extract the 2D images and annotations from nii.gz files by running
    
@@ -27,6 +24,14 @@
       - cd Brats
       - python Prepare_BRATS.py
    ```
+
+| Dataset (with Link) | Content | Resolution (pixels) | Number of Classes |
+| ------------- | ------------- | ------------- | ------------- |
+| [MNIST](http://yann.lecun.com/exdb/mnist/)  | Handwritten Digits | 28 x 28 | 2 |
+| [ISBI2015](https://smart-stats-tools.org/lesion-challenge) | Multiple Sclerosis Lesion  | 181 x 217 x 181 | 2 |
+| [Brats2019](https://www.med.upenn.edu/cbica/brats-2019/) | Multimodal Brain Tumor  | 181 x 217 x 181 | 2 |
+| [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI) | Lung Image Database Consortium image collection | 181 x 217 x 181 | 2 |
+
 # Training
 <dl>
   <dd>(1) For Brats dataset, set the parameters in Test.py
