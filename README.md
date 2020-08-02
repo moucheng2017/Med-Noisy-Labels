@@ -95,7 +95,8 @@ Download example datasets in following table as used in the paper, and pre-proce
 <dl>
   <dd>(2) Comparison of segmentation accuracy and error of CM estimation for different methods trained withonly one label available per image (mean±standard deviation). The best results are shown in bald.
 
-| Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |	  
+| Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |	
+| --- | --- | --- | --- | --- |  
 | Naive CNN on mean | mode labels| 36.12±0.93  |  n/a | 48.36±0.79   |  n/a  |
 | STAPLE  | 38.74±0.85  | 0.2956±0.1047  | 57.32±0.87  | 0.1715±0.0134     | 
 | Spatial STAPLE   | 41.59±0.74  | 0.2543±0.0867  | 62.35±0.64  | 0.1419±0.0207    |
