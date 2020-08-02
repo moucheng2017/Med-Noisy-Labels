@@ -1,4 +1,4 @@
-# LearnNoisyLabels_Pytorch (This is a work in progress, a polished version would be released very soon)
+# Modelling_Segmentation_Annotators_Pytorch
 
 **The architecture of our model is depicted below:**
 <br>
