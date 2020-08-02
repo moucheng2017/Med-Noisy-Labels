@@ -92,6 +92,16 @@ Download example datasets in following table as used in the paper, and pre-proce
 | Ours | **53.47±0.24** |  **0.1185±0.0056**  | **74.12±0.19**|  **0.0451±0.0025** |
 | Oracle (Ours but with known CMs)   | 67.13±0.14  | 0.0843±0.0029  | 79.41±0.17  | 0.0381±0.0021 |
 
+<dl>
+  <dd>(2) Comparison of segmentation accuracy and error of CM estimation for different methods trained withonly one label available per image (mean±standard deviation). The best results are shown in bald.
+
+| Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |	  
+| Naive CNN on mean | mode labels| 36.12±0.93  |  n/a | 48.36±0.79   |  n/a  |
+| STAPLE  | 38.74±0.85  | 0.2956±0.1047  | 57.32±0.87  | 0.1715±0.0134     | 
+| Spatial STAPLE   | 41.59±0.74  | 0.2543±0.0867  | 62.35±0.64  | 0.1419±0.0207    |
+| Ours without Trace | 43.74±0.49   | 0.1825±0.0724   | 66.95±0.51  | 0.0921±0.0167   |
+| Ours | **46.21±0.28**   | **0.1576±0.0487** | **68.12±0.48** | **0.0587±0.0098** |
+
 **Below see testing samples from Brats dataset:**
 <br>
  <img height="500" src="figures/Brats_1.jpg" />
