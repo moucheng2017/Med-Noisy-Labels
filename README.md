@@ -7,7 +7,7 @@
 * [Training](#Training)
 * [Evaluation](#Evaluation)
 * [Performance](#Performance)
-* [Morphology Dataset](#Morphology)
+* [Morphology Datasets](#Morphology)
 * [How to cite this code](#MHow)
 
 # Introduction
@@ -85,7 +85,7 @@ Download example datasets in following table as used in the paper, and pre-proce
  <img height="350" src="figures/brats-compare.jpg" />
  </br>
 
-# Morphology Dataset
+# Morphology Datasets
 
 <br>
  <img height="500" src="figures/Morph.png" />
