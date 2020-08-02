@@ -145,6 +145,17 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
             imageio.imsave(save_name_label, segmentation_map)
             #
 
+if __name__ == '__main__':
+
+    model_name = 'Unet_CMs'
+    model_path = '../../saved_model.pt'
+    # data path:
+    test_path = '../../data_folder'
+    dataset_tag = 'brats'
+    label_mode = 'multi'
+    test_data = CustomDataset_punet(dataset_location=test_path, dataset_tag=dataset_tag, noisylabel=label_mode, augmentation=False)
+    segmentation(model_name, model_path, test_data, class_no=4, data_set=dataset_tag)
+
 
 
 
