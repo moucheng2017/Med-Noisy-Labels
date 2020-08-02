@@ -12,6 +12,8 @@
 
 # Introduction
 
+we present a method for jointly learning, from purely noisy observations alone, the reliability of individual annotators and the true segmentation label distributions, using two coupled CNNs. The separation of the two is achieved by encouraging the estimated annotators to be maximally unreliable while achieving high fidelity with the noisy training data.
+
 **The architecture of our model is depicted below:**
 <br>
  <img height="500" src="figures/NIPS.png" />
