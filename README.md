@@ -2,11 +2,9 @@
 
 # Table of Contents
 * [Introduction](#Introduction)
-* [标题2](#标题2)
-* [标题3](#标题3)
-   * [标题3.1](#标题3.1)
-   * [标题3.2](#标题3.2)
-* [标题4](#标题4)
+* [Setup package in virtual environment](#Setup package in virtual environment)
+* [Download & preprocess the datasets](#Download & preprocess the datasets)
+* [Training](#Training)
 
 # Introduction
 
@@ -21,7 +19,7 @@
   - cd LearnNoisyLabels_Pytorch/
   - conda env create -f conda_env.yml
 ```
-# Download & preprocess the Brats dataset
+# Download & preprocess the datasets
 
 Download example datasets in following table as used in the paper, and pre-process the dataset using the folowing steps for multiclass segmentation purpose:
 
