@@ -80,7 +80,7 @@ Download example datasets in following table as used in the paper, and pre-proce
 
 | Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |
 | --- | --- | --- | --- | --- |
-| Naive CNN on mean labels | 29.42 $$\pm$$ 0.58  |  n/a | 56.74 $$\pm$$ 0.61  |  n/a
+| Naive CNN on mean labels | 29.42 \\ \pm \\ 0.58  |  n/a | 56.74 \\ \pm \\ 0.61  |  n/a
 
 **Below see testing samples from Brats dataset:**
 <br>
