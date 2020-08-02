@@ -103,13 +103,25 @@ Download example datasets in following table as used in the paper, and pre-proce
 | Ours without Trace | 43.74±0.49   | 0.1825±0.0724   | 66.95±0.51  | 0.0921±0.0167   |
 | Ours | **46.21±0.28**   | **0.1576±0.0487** | **68.12±0.48** | **0.0587±0.0098** |
 
-**Below see testing samples from Brats dataset:**
+<dl>
+  <dd>(3) The final segmentation of our model on BraTSand each annotator network predictions visualization.(Best viewed in colour: the target label is red.）
+
 <br>
  <img height="500" src="figures/Brats_1.jpg" />
  </br>
 
+<dl>
+  <dd>(4) Visualisation of segmentation labels on BraTS dataset: (a) GT and simulated annotator’ssegmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
+
 <br>
  <img height="350" src="figures/brats-compare.jpg" />
+ </br>
+
+<dl>
+  <dd>(5) Visualisation of segmentation labels on LIDC-IDRI dataset: (a) GT and simulated annota-tor’s segmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
+
+<br>
+ <img height="350" src="figures/LIDC-compare.jpg" />
  </br>
 
 # Morphology Datasets
