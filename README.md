@@ -80,7 +80,14 @@ Download example datasets in following table as used in the paper, and pre-proce
 
 | Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |
 | --- | --- | --- | --- | --- |
-| Naive CNN on mean labels | 29.42 \\ \pm \\ 0.58  |  n/a | 56.74 \\ \pm \\ 0.61  |  n/a
+| Naive CNN on mean labels | 29.42 $\pm$ 0.58  |  n/a | 56.72 $\pm$ 0.61  |  n/a  |
+| Naive CNN on mode labels | 34.12 $\pm$ 0.45  |  n/a | 58.64 $\pm$ 0.47  |  n/a  |
+| Probabilistic U-net \cite{kohl2018probabilistic}  | 40.53 $\pm$ 0.75   |  n/a  | 61.26 $\pm$ 0.69  |  n/a   |
+| STAPLE  | 46.73 $\pm$ 0.17  | 0.2147 $\pm$ 0.0103   | 69.34 $\pm$ 0.58  | 0.0832 $\pm$ 0.0043   | 
+| Spatial STAPLE  | 47.31 $\pm$ 0.21  | 0.1871 $\pm$ 0.0094   | 70.92 $\pm$ 0.18  |  0.0746 $\pm$ 0.0057   |
+| Ours without Trace | 49.03 $\pm$ 0.34   | 0.1569 $\pm$ 0.0072   | 71.25 $\pm$ 0.12  | 0.0482 $\pm$ 0.0038    |
+| Ours | \textbf{53.47 $\pm $ 0.24}  | \textbf{0.1185 $\pm$ 0.0056 }  | \textbf{74.12 $\pm $ 0.19 } |  \textbf{0.0451 $\pm$ 0.0025     } |
+| Oracle (Ours but with known CMs)   | 67.13 $\pm$ 0.14  | 0.0843 $\pm$ 0.0029  | 79.41 $\pm$ 0.17  | 0.0381 $\pm$ 0.0021 |
 
 **Below see testing samples from Brats dataset:**
 <br>
