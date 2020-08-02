@@ -92,7 +92,6 @@ Download example datasets in following table as used in the paper, and pre-proce
 | Ours | **53.47±0.24** |  **0.1185±0.0056**  | **74.12±0.19**|  **0.0451±0.0025** |
 | Oracle (Ours but with known CMs)   | 67.13±0.14  | 0.0843±0.0029  | 79.41±0.17  | 0.0381±0.0021 |
 
-<dl>
   <dd>(2) Comparison of segmentation accuracy and error of CM estimation for different methods trained withonly one label available per image (mean±standard deviation). The best results are shown in bald.
 
 | Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |	
@@ -103,21 +102,18 @@ Download example datasets in following table as used in the paper, and pre-proce
 | Ours without Trace | 43.74±0.49   | 0.1825±0.0724   | 66.95±0.51  | 0.0921±0.0167   |
 | Ours | **46.21±0.28**   | **0.1576±0.0487** | **68.12±0.48** | **0.0587±0.0098** |
 
-<dl>
   <dd>(3) The final segmentation of our model on BraTSand each annotator network predictions visualization.(Best viewed in colour: the target label is red.）
 
 <br>
  <img height="500" src="figures/Brats_1.jpg" />
  </br>
 
-<dl>
   <dd>(4) Visualisation of segmentation labels on BraTS dataset: (a) GT and simulated annotator’ssegmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
 
 <br>
  <img height="350" src="figures/brats-compare.jpg" />
  </br>
 
-<dl>
   <dd>(5) Visualisation of segmentation labels on LIDC-IDRI dataset: (a) GT and simulated annota-tor’s segmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
 
 <br>
