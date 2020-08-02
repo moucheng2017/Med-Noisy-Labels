@@ -96,7 +96,7 @@ Download example datasets in following table as used in the paper, and pre-proce
 
 | Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |	
 | --- | --- | --- | --- | --- |  
-| Naive CNN on mean | mode labels| 36.12±0.93  |  n/a | 48.36±0.79   |  n/a  |
+| Naive CNN on mean & mode labels| 36.12±0.93  |  n/a | 48.36±0.79   |  n/a  |
 | STAPLE  | 38.74±0.85  | 0.2956±0.1047  | 57.32±0.87  | 0.1715±0.0134     | 
 | Spatial STAPLE   | 41.59±0.74  | 0.2543±0.0867  | 62.35±0.64  | 0.1419±0.0207    |
 | Ours without Trace | 43.74±0.49   | 0.1825±0.0724   | 66.95±0.51  | 0.0921±0.0167   |
