@@ -65,11 +65,7 @@ Download example datasets in following table as used in the paper, and pre-proce
       - dataset_tag='brats',
       - label_mode='multi',
       - save_probability_map=True,
-      - low_rank_mode=False,
-      - rank=0,
-      - epoch_threshold=0,
-      - alpha_initial=-1.5,
-      - regularisation_type='2'
+      - low_rank_mode=False
    ```
    <dd>(2) source activate env
    <dd>(3) python NNTrain.py
