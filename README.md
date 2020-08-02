@@ -29,7 +29,7 @@ Download example datasets in following table as used in the paper, and pre-proce
 | ------------- | ------------- | ------------- | ------------- |
 | [MNIST](http://yann.lecun.com/exdb/mnist/)  | Handwritten Digits | 28 x 28 | 2 |
 | [ISBI2015](https://smart-stats-tools.org/lesion-challenge) | Multiple Sclerosis Lesion  | 181 x 217 x 181 | 2 |
-| [Brats2019](https://www.med.upenn.edu/cbica/brats-2019/) | Multimodal Brain Tumor  | 181 x 217 x 181 | 2 |
+| [Brats2019](https://www.med.upenn.edu/cbica/brats-2019/) | Multimodal Brain Tumor  | 181 x 217 x 181 | 4 |
 | [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI) | Lung Image Database Consortium image collection | 181 x 217 x 181 | 2 |
 
 # Training
