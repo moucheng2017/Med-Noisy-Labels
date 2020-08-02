@@ -78,6 +78,9 @@ Download example datasets in following table as used in the paper, and pre-proce
 
 # Performance
 
+| Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |
+| --- | --- | --- | --- | --- |
+
 **Below see testing samples from Brats dataset:**
 <br>
  <img height="500" src="figures/Brats_1.jpg" />
