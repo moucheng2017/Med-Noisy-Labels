@@ -29,10 +29,9 @@ We present a method for jointly learning, from purely noisy observations alone, 
 
 Download example datasets in following table as used in the paper, and pre-process the dataset using the folowing steps for multiclass segmentation purpose:
 
-<dl>
-  <dd>(1) Download the training dataset with annotations from the corresponding link (e.g. Brats2019)
-  <dd>(2) Unzip the data and you will have two folders: 
-  <dd>(3) Extract the 2D images and annotations from nii.gz files by running
+1. Download the training dataset with annotations from the corresponding link (e.g. Brats2019)
+2. Unzip the data and you will have two folders: 
+3. Extract the 2D images and annotations from nii.gz files by running
    
    ```sh
       - cd Brats
@@ -47,8 +46,7 @@ Download example datasets in following table as used in the paper, and pre-proce
 | [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI) | Lung Image Database Consortium image collection | 180 x 180 | 2 |   
 
 # Training
-<dl>
-  <dd>(1) For Brats dataset, set the parameters in run.py
+1. For Brats dataset, set the parameters in run.py
    
    ```sh
       - input_dim=4,
@@ -67,8 +65,8 @@ Download example datasets in following table as used in the paper, and pre-proce
       - save_probability_map=True,
       - low_rank_mode=False
    ```
-   <dd>(2) source activate env
-   <dd>(3) python run.py 
+2. source activate env
+3. python run.py 
     
 # Testing
 To test our model, please run segmentation.py with the following setting:
@@ -76,8 +74,7 @@ To test our model, please run segmentation.py with the following setting:
  2. change the test_path to your testing data.
 
 # Performance
-<dl>
-  <dd>(1) Comparison of segmentation accuracy and error of CM estimation for different methods trained withdense labels (mean±standard deviation). The best results are shown in bald. Note that we count out the Oraclefrom the model ranking as it forms a theoretical upper-bound on the performance where true labels are known onthe training data.
+1. Comparison of segmentation accuracy and error of CM estimation for different methods trained withdense labels (mean±standard deviation). The best results are shown in bald. Note that we count out the Oraclefrom the model ranking as it forms a theoretical upper-bound on the performance where true labels are known onthe training data.
 
 | Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |
 | --- | --- | --- | --- | --- |
@@ -90,7 +87,7 @@ To test our model, please run segmentation.py with the following setting:
 | Ours | **53.47±0.24** |  **0.1185±0.0056**  | **74.12±0.19**|  **0.0451±0.0025** |
 | Oracle (Ours but with known CMs)   | 67.13±0.14  | 0.0843±0.0029  | 79.41±0.17  | 0.0381±0.0021 |
 
-  <dd>(2) Comparison of segmentation accuracy and error of CM estimation for different methods trained withonly one label available per image (mean±standard deviation). The best results are shown in bald.
+2. Comparison of segmentation accuracy and error of CM estimation for different methods trained withonly one label available per image (mean±standard deviation). The best results are shown in bald.
 
 | Models | Brats Dice (%) | Brats CM estimation | LIDC-IDRI Dice (%) | LIDC-IDRI CM estimation |	
 | --- | --- | --- | --- | --- |  
@@ -100,7 +97,7 @@ To test our model, please run segmentation.py with the following setting:
 | Ours without Trace | 43.74±0.49   | 0.1825±0.0724   | 66.95±0.51  | 0.0921±0.0167   |
 | Ours | **46.21±0.28**   | **0.1576±0.0487** | **68.12±0.48** | **0.0587±0.0098** |
 
-  <dd>(3) The final segmentation of our model on BraTSand each annotator network predictions visualization.(Best viewed in colour: the target label is red.）
+3. The final segmentation of our model on BraTSand each annotator network predictions visualization.(Best viewed in colour: the target label is red.）
 
 <br>
  <img height="500" src="figures/Brats_1.jpg" />
