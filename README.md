@@ -1,4 +1,10 @@
-# Modelling_Segmentation_Annotators_Pytorch
+# Modelling Segmentation Annotators Pytorch
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+
+This repository contains our PyTorch implementations of our recent work, ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](http:). 
+
+A shorter version has been accepted at MICCAI 2020.  
+
 
 # Table of Contents
 * [Introduction](#Introduction)
@@ -123,5 +129,13 @@ We generate synthetic annotations from an assumed GT on MNIST, MS lesion and Bra
  <img height="500" src="figures/Morph.png" />
  </br>
 
-# How to cite this code
-Please cite the original publication:
+
+## Citation
+If you use this code or the dataset for your research, please cite our paper:
+```
+@article{HumanError2020,
+  title={Disentangling Human Error from the Ground Truth in Segmentation of Medical Images},
+  author={Zhang, Le and Tanno, Ryutaro and Xu, Mou-Cheng and Jacob, Joseph and Ciccarelli, Olga and Barkhof, Frederik and C. Alexander, Daniel},
+  journal={arXiv preprint arXiv:UPDATE},
+  year={2020},
+}
