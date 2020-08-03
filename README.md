@@ -72,7 +72,10 @@ Download example datasets in following table as used in the paper, and pre-proce
     
 # Testing
 
-
+ To test our model, please run segmentation.py with the following setting:
+ <dl>
+    <dd>(1) change the model_path to your pre-trained model;
+    <dd>(2) change the test_path to your testing data.
 
 # Performance
 
