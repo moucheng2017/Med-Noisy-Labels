@@ -113,13 +113,13 @@ To test our model, please run `segmentation.py` with the following setting:
  <img height="500" src="figures/Brats_1.jpg" />
  </br>
 
-  <dd>(4) Visualisation of segmentation labels on BraTS dataset: (a) GT and simulated annotator’ssegmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
+4. Visualisation of segmentation labels on BraTS dataset: (a) GT and simulated annotator’ssegmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
 
 <br>
  <img height="340" src="figures/brats-compare.jpg" />
  </br>
 
-  <dd>(5) Visualisation of segmentation labels on LIDC-IDRI dataset: (a) GT and simulated annota-tor’s segmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
+5. Visualisation of segmentation labels on LIDC-IDRI dataset: (a) GT and simulated annota-tor’s segmentations (Annotator 1 - 5); (b) the predictions from the supervised models.)
 
 <br>
  <img height="340" src="figures/LIDC-compare.jpg" />
