@@ -47,6 +47,7 @@ Download example datasets in following table as used in the paper, and pre-proce
 | [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI) | Lung Image Database Consortium image collection | 180 x 180 | 2 |
 
 # Training
+
 <dl>
   <dd>(1) For Brats dataset, set the parameters in Run.py
    
