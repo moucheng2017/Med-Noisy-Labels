@@ -32,7 +32,7 @@ Download example datasets in following table as used in the paper, and pre-proce
 <dl>
   <dd>(1) Download the training dataset with annotations from the corresponding link (e.g. Brats2019)
   <dd>(2) Unzip the data and you will have two folders: 
-  <dd>(3) Extract the 2D images and annotations from nii.gz files by running\<br>  
+  <dd>(3) Extract the 2D images and annotations from nii.gz files by running
    
    ```sh
       - cd Brats
@@ -68,13 +68,12 @@ Download example datasets in following table as used in the paper, and pre-proce
       - low_rank_mode=False
    ```
    <dd>(2) source activate env
-   <dd>(3) python run.py\<br>  
+   <dd>(3) python run.py 
     
 # Testing
 To test our model, please run segmentation.py with the following setting:
- <dl>
-    <dd>(1) change the model_path to your pre-trained model;
-    <dd>(2) change the test_path to your testing data.
+ 1. change the model_path to your pre-trained model;
+ 2. change the test_path to your testing data.
 
 # Performance
 <dl>
