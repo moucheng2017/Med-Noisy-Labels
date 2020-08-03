@@ -28,7 +28,7 @@ We present a method for jointly learning, from purely noisy observations alone, 
  </br>
 
 # Installation
-All of them can be installed via conda (anaconda). We recommend creating an conda env with all dependencies via environment file e.g., 
+All required libraries can be installed via conda (anaconda). We recommend creating an conda env with all dependencies via environment file e.g., 
 ```sh
   conda env create -f conda_env.yml
 ```
