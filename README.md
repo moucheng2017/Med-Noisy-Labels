@@ -143,3 +143,8 @@ If you use this code or the dataset for your research, please cite our paper:
   journal={arXiv preprint arXiv:UPDATE},
   year={2020},
 }
+```
+
+# Acknowledgements
+Moucheng & Le are the main developers to this repository. I would like to thank [Ryutaro Tanno](https://rt416.github.io/) at Microsoft Research Cambridge,  [Daniel C. Alexander](http://www0.cs.ucl.ac.uk/staff/d.alexander/) at University College London, UK for their valuable contributions to this paper.
+
