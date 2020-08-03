@@ -3,10 +3,7 @@
 
 This repository contains our PyTorch implementations of our recent work, ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](http:). 
 
-A shorter version has been accepted at MICCAI 2020.  
-
-
-# Table of Contents
+# Contents
 * [Introduction](#Introduction)
 * [Setup package in virtual environment](#Setup)
 * [Download & preprocess the datasets](#Download)
@@ -25,7 +22,7 @@ We present a method for jointly learning, from purely noisy observations alone, 
  <img height="500" src="figures/NIPS.png" />
  </br>
 
-# Setup package in virtual environment
+# Installation
 ```sh
   - git clone https://github.com/UCLBrain/LearnNoisyLabels_Pytorch
   - cd LearnNoisyLabels_Pytorch/
@@ -48,11 +45,11 @@ Download example datasets in following table as used in the paper, and pre-proce
 | --- | --- | --- | --- |
 | [MNIST](http://yann.lecun.com/exdb/mnist/)  | Handwritten Digits | 28 x 28 | 2 |
 | [ISBI2015](https://smart-stats-tools.org/lesion-challenge) | Multiple Sclerosis Lesion  | 181 x 217 x 181 | 2 |
-| [Brats2019](https://www.med.upenn.edu/cbica/brats-2019/) | Multimodal Brain Tumor  | 240 x 240 x 155 | 4 |
+| [BraTS2019](https://www.med.upenn.edu/cbica/brats-2019/) | Multimodal Brain Tumor  | 240 x 240 x 155 | 4 |
 | [LIDC-IDRI](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI) | Lung Image Database Consortium image collection | 180 x 180 | 2 |   
 
 # Training
-1. For Brats dataset, set the parameters in `run.py`
+For BraTS dataset, set the hyper-parameters in `run.py`
    
    ```sh
       - input_dim=4,
@@ -71,9 +68,12 @@ Download example datasets in following table as used in the paper, and pre-proce
       - save_probability_map=True,
       - low_rank_mode=False
    ```
-2. source activate env
-3. python run.py 
-    
+and run: 
+
+```
+python run.py 
+```
+
 # Testing
 To test our model, please run `segmentation.py` with the following setting:
  1. change the `model_path` to your pre-trained model;
