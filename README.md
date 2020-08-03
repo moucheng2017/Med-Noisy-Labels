@@ -23,10 +23,9 @@ We present a method for jointly learning, from purely noisy observations alone, 
  </br>
 
 # Installation
+All of them can be installed via conda (anaconda). We recommend creating an conda env with all dependencies via environment file e.g., 
 ```sh
-  - git clone https://github.com/UCLBrain/LearnNoisyLabels_Pytorch
-  - cd LearnNoisyLabels_Pytorch/
-  - conda env create -f conda_env.yml
+  conda env create -f conda_env.yml
 ```
 # Download & preprocess the datasets
 
