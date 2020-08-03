@@ -4,7 +4,7 @@
 This repository contains our PyTorch implementations of our recent work, ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](http:). 
 
 <br>
- <img height="500" src="figures/humanerror_2.png" />
+ <img height="300" src="figures/humanerror_2.png" />
  </br>
 
 
