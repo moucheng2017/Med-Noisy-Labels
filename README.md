@@ -5,7 +5,7 @@
 * [Setup package in virtual environment](#Setup)
 * [Download & preprocess the datasets](#Download)
 * [Training](#Training)
-* [Evaluation](#Evaluation)
+* [Testing](#Testing)
 * [Performance](#Performance)
 * [Morphology Datasets](#Morphology)
 * [How to cite this code](#MHow)
@@ -48,7 +48,7 @@ Download example datasets in following table as used in the paper, and pre-proce
 
 # Training
 <dl>
-  <dd>(1) For Brats dataset, set the parameters in Test.py
+  <dd>(1) For Brats dataset, set the parameters in Run.py
    
    ```sh
       - input_dim=4,
@@ -70,7 +70,13 @@ Download example datasets in following table as used in the paper, and pre-proce
    <dd>(2) source activate env
    <dd>(3) python NNTrain.py
     
-# Evaluation
+# Testing
+
+To test our model, please run segmentation.py with the following setting:
+
+<dl>
+  <dd>(1) change the model_path to your pre-trained model;
+  <dd>(2) change the test_path to your testing data.
 
 # Performance
 
