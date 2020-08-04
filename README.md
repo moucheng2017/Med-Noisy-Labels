@@ -1,7 +1,7 @@
 # Modelling Segmentation Annotators Pytorch
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
-This repository contains our PyTorch implementations of our recent work, ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](http:). 
+This repository contains our PyTorch implementation of our pre-print titled as ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](http:). Mou-Cheng Xu is the main developer of the Pytorch code; [Le Zhang](https://cheonglok.github.io/l.zhang/) is the main developer of the data simulation code; [Ryutaro Tanno](https://rt416.github.io/) is the main contributor of the idea of the paper. We also would like to thank Jin Chen, Joseph Jacob, Olga Ciccarelli, Frederik Barkhof, [Daniel C. Alexander](http://www0.cs.ucl.ac.uk/staff/d.alexander/) at University College London, UK for their valuable contributions to this paper.
 
 <br>
  <img height="400" src="figures/humanerror_2.png" />
@@ -144,7 +144,4 @@ If you use this code or the dataset for your research, please cite our paper:
   year={2020},
 }
 ```
-
-# Acknowledgements
-Moucheng Xu is the main developer to the pytorch code, [Le Zhang](https://cheonglok.github.io/l.zhang/) is the main developer to the data simulation and this repository. I also would like to thank [Ryutaro Tanno](https://rt416.github.io/) at Microsoft Research Cambridge,  Joseph Jacob, Olga Ciccarelli, Frederik Barkhof, [Daniel C. Alexander](http://www0.cs.ucl.ac.uk/staff/d.alexander/) at University College London, UK for their valuable contributions to this paper.
 
