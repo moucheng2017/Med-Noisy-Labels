@@ -146,5 +146,5 @@ If you use this code or the dataset for your research, please cite our paper:
 ```
 
 # Acknowledgements
-Moucheng Xu & [Le Zhang](https://cheonglok.github.io/l.zhang/) are the main developers to this repository. I would like to thank [Ryutaro Tanno](https://rt416.github.io/) at Microsoft Research Cambridge,  Joseph Jacob, Olga Ciccarelli, Frederik Barkhof, [Daniel C. Alexander](http://www0.cs.ucl.ac.uk/staff/d.alexander/) at University College London, UK for their valuable contributions to this paper.
+Moucheng Xu is the main developer to the pytorch code, [Le Zhang](https://cheonglok.github.io/l.zhang/) is the main developer to the data simulationa and this repository. I also would like to thank [Ryutaro Tanno](https://rt416.github.io/) at Microsoft Research Cambridge,  Joseph Jacob, Olga Ciccarelli, Frederik Barkhof, [Daniel C. Alexander](http://www0.cs.ucl.ac.uk/staff/d.alexander/) at University College London, UK for their valuable contributions to this paper.
 
