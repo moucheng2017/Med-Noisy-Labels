@@ -136,13 +136,13 @@ for ii in range(1, 11):
 
     ## print (img_data_arr)
 
-    # images_norm.to_filename(os.path.join('/home/kbronik/Desktop/working folder/25-002-bl_training/25-002-bl-t2_lesions_t13d_space.nii.gz'))
+    # images_norm.to_filename(os.path.join('/home/le/Desktop/working folder/25-002-bl_training/25-002-bl-t2_lesions_t13d_space.nii.gz'))
 
 
 
 
 
-    #url = '/home/kbronik/Desktop/working folder/25-003-bl_training/25-003-bl-flair_t13d_space_norm.nii.gz'
+    #url = '/home/le/Desktop/working folder/25-003-bl_training/25-003-bl-flair_t13d_space_norm.nii.gz'
     #image = sitk.ReadImage(url)
     #result = sitk.GetArrayFromImage(image)
     #print(type(result))
