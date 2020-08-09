@@ -1,7 +1,7 @@
 # Modelling Segmentation Annotators Pytorch
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
-This repository contains our PyTorch implementation of our pre-print titled as ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](http:). Mou-Cheng Xu is the main developer of the Pytorch code; [Le Zhang](https://cheonglok.github.io/l.zhang/) is the main developer of the data simulation code.
+This repository contains our PyTorch implementation of our pre-print titled as ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](http:). [Mou-Cheng Xu](https://moucheng2017.github.io/) is the main developer of the Python code; [Le Zhang](https://cheonglok.github.io/l.zhang/) is the main developer of the data simulation code.
 
 <br>
  <img height="400" src="figures/humanerror_2.png" />
