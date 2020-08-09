@@ -100,6 +100,120 @@ class UNet_CMs(nn.Module):
         return y, y_noisy
 
 
+class UNet_GlobalCMs(nn.Module):
+    """ Baseline with trainable global confusion matrices.
+
+    Each annotator is modelled through a class_no x class_no matrix, fixed for all images.
+    """
+    def __init__(self, in_ch, width, depth, class_no,  input_height, input_width, norm='in'):
+        # ===============================================================================
+        # in_ch: dimension of input
+        # class_no: number of output class
+        # width: number of channels in the first encoder
+        # depth: down-sampling stages - 1
+        # rank: False
+        # input_height: Height of the input image
+        # input_width: Width of the input image
+        # ===============================================================================
+        super(UNet_GlobalCMs, self).__init__()
+        #
+        self.depth = depth
+        self.noisy_labels_no = 4
+        self.final_in = class_no
+        #
+        self.decoders = nn.ModuleList()
+        self.encoders = nn.ModuleList()
+
+        for i in range(self.depth):
+
+            if i == 0:
+                #
+                self.encoders.append(double_conv(in_channels=in_ch, out_channels=width, step=1, norm=norm))
+                self.decoders.append(double_conv(in_channels=width*2, out_channels=width, step=1, norm=norm))
+                #
+            elif i < (self.depth - 1):
+                #
+                self.encoders.append(double_conv(in_channels=width*(2**(i - 1)), out_channels=width*(2**i), step=2, norm=norm))
+                self.decoders.append(double_conv(in_channels=width*(2**(i + 1)), out_channels=width*(2**(i - 1)), step=1, norm=norm))
+                #
+            else:
+                #
+                self.encoders.append(double_conv(in_channels=width*(2**(i-1)), out_channels=width*(2**(i-1)), step=2, norm=norm))
+                self.decoders.append(double_conv(in_channels=width*(2**i), out_channels=width*(2**(i - 1)), step=1, norm=norm))
+                #
+        self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+        self.conv_last = nn.Conv2d(width, self.final_in, 1, bias=True)
+
+        # Define a list of global confusion matrices:
+        self.decoders_noisy_layers = []
+        for i in range(self.noisy_labels_no):
+            self.decoders_noisy_layers.append(global_cm_layers(class_no, input_height, input_width))
+
+
+    def forward(self, x):
+        #
+        y = x
+        #
+        encoder_features = []
+        y_noisy = []
+        #
+        for i in range(len(self.encoders)):
+            #
+            y = self.encoders[i](y)
+            encoder_features.append(y)
+        # print(y.shape)
+        for i in range(len(encoder_features)):
+            #
+            y = self.upsample(y)
+            y_e = encoder_features[-(i+1)]
+            #
+            if y_e.shape[2] != y.shape[2]:
+                diffY = torch.tensor([y_e.size()[2] - y.size()[2]])
+                diffX = torch.tensor([y_e.size()[3] - y.size()[3]])
+                #
+                y = F.pad(y, [diffX // 2, diffX - diffX // 2, diffY // 2, diffY - diffY // 2])
+            #
+            y = torch.cat([y_e, y], dim=1)
+            #
+            y = self.decoders[-(i+1)](y)
+
+        # Return the confusion matrices:
+        for i in range(self.noisy_labels_no):
+            # Copy the confusion matrix over the batch: (1, c, c, h , w) => (b, c, c, h, w)
+            batch_size = x.size(0)
+            y_noisy_label = self.decoders_noisy_layers[i].repeat(batch_size, 1, 1, 1, 1)
+            y_noisy.append(y_noisy_label)
+        #
+        y = self.conv_last(y)
+        #
+        return y, y_noisy
+
+
+def global_cm_layers(class_no, height, width):
+    """ Define (unnormalised) global confusion matrix model.
+
+    This function defines an image-level (not pixel wise) global confusion matrix for each annotator.
+    Currently, it first defines a class_no x class_no confusion matrix, and then copy this over to all
+    pixels, so this function can be more readily integrated into the existing pipeline.
+
+    Args:
+        width (int): width of the image
+        height (int): height of the image
+        class_no (int): number of classes
+
+    Returns:
+        confusion_matrix (parameter tensor): unnormalised confusion matrix of size (1, c, c, h, w).
+            The elements are ensured to be positive via a softplus function, but not normalised.
+
+    """
+    # Define global confusion matrix: (1, c, c, 1, 1)
+    weights = nn.Parameter(torch.randn(1, class_no, class_no, 1, 1))
+
+    # Broadcast to shape (1, c, c, h, w) by adding a zero tensor.
+    confusion_matrix = torch.zeros(1, class_no, class_no, height, width) + F.softplus(weights)
+    return confusion_matrix
+
+
 class cm_layers(nn.Module):
 
     def __init__(self, in_channels, norm, class_no):
@@ -110,6 +224,13 @@ class cm_layers(nn.Module):
         self.relu = nn.Softplus()
 
     def forward(self, x):
+        """
+        Args:
+            x:
+
+        Returns:
+
+        """
         #
         y = self.relu(self.conv_last(self.conv_2(self.conv_1(x))))
         #
