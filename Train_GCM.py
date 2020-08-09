@@ -21,23 +21,23 @@ from Models import UNet_GlobalCMs
 from Utilis import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_noisy_label_6
 
 
-def trainModels(input_dim,
-                class_no,
-                repeat,
-                train_batchsize,
-                validate_batchsize,
-                num_epochs,
-                learning_rate,
-                input_height,
-                input_width,
-                alpha,
-                width,
-                depth,
-                data_path,
-                dataset_tag,
-                label_mode,
-                loss_f='noisy_label',
-                save_probability_map=True):
+def trainGCMModels(input_dim,
+                   class_no,
+                   repeat,
+                   train_batchsize,
+                   validate_batchsize,
+                   num_epochs,
+                   learning_rate,
+                   input_height,
+                   input_width,
+                   alpha,
+                   width,
+                   depth,
+                   data_path,
+                   dataset_tag,
+                   label_mode,
+                   loss_f='noisy_label',
+                   save_probability_map=True):
     #
     for j in range(1, repeat + 1):
         #
