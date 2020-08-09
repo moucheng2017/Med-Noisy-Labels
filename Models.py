@@ -105,7 +105,7 @@ class UNet_GlobalCMs(nn.Module):
 
     Each annotator is modelled through a class_no x class_no matrix, fixed for all images.
     """
-    def __init__(self, in_ch, width, depth, class_no,  input_height, input_width, norm='in'):
+    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm='in'):
         # ===============================================================================
         # in_ch: dimension of input
         # class_no: number of output class
@@ -145,10 +145,11 @@ class UNet_GlobalCMs(nn.Module):
         self.conv_last = nn.Conv2d(width, self.final_in, 1, bias=True)
 
         # Define a list of global confusion matrices:
+        # self.decoders_noisy_layers = []
         self.decoders_noisy_layers = nn.ModuleList()
         for i in range(self.noisy_labels_no):
-            self.decoders_noisy_layers.append(global_cm_layers(class_no, input_height, input_width))
-
+            # self.decoders_noisy_layers.append(global_cm_layers(class_no, input_height, input_width))
+            self.decoders_noisy_layers.append(gcm_layers(class_no, input_height, input_width))
 
     def forward(self, x):
         #
@@ -180,9 +181,10 @@ class UNet_GlobalCMs(nn.Module):
         # Return the confusion matrices:
         for i in range(self.noisy_labels_no):
             # Copy the confusion matrix over the batch: (1, c, c, h , w) => (b, c, c, h, w)
-            batch_size = x.size(0)
-            y_noisy_label = self.decoders_noisy_layers[i].repeat(batch_size, 1, 1, 1, 1)
-            y_noisy.append(y_noisy_label)
+            # batch_size = x.size(0)
+            # y_noisy_label = self.decoders_noisy_layers[i].repeat(batch_size, 1, 1, 1, 1)
+            # y_noisy.append(y_noisy_label.to(device='cuda', dtype=torch.float32))
+            y_noisy.append(self.decoders_noisy_layers[i](x))
         #
         y = self.conv_last(y)
         #
@@ -233,6 +235,34 @@ class cm_layers(nn.Module):
         """
         #
         y = self.relu(self.conv_last(self.conv_2(self.conv_1(x))))
+        #
+        return y
+
+
+class gcm_layers(nn.Module):
+
+    def __init__(self, class_no, input_height, input_width):
+        super(gcm_layers, self).__init__()
+        self.input_height = input_height
+        self.input_width = input_width
+        self.global_weights = nn.Parameter(torch.randn(class_no, class_no))
+        # self.conv_1 = double_conv(in_channels=in_channels, out_channels=in_channels, norm=norm, step=1)
+        # self.conv_2 = double_conv(in_channels=in_channels, out_channels=in_channels, norm=norm, step=1)
+        # self.conv_last = nn.Conv2d(in_channels, class_no**2, 1, bias=True)
+        self.relu = nn.Softplus()
+
+    def forward(self, x):
+        """
+        Args:
+            x:
+
+        Returns:
+
+        """
+        #
+        all_weights = self.global_weights.unsqueeze(0).repeat(x.size(0), 1, 1)
+        all_weights = all_weights.unsqueeze(3).unsqueeze(4).repeat(1, 1, 1, self.input_height, self.input_width)
+        y = self.relu(all_weights)
         #
         return y
 
