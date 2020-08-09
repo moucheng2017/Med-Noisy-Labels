@@ -145,7 +145,7 @@ class UNet_GlobalCMs(nn.Module):
         self.conv_last = nn.Conv2d(width, self.final_in, 1, bias=True)
 
         # Define a list of global confusion matrices:
-        self.decoders_noisy_layers = []
+        self.decoders_noisy_layers = nn.ModuleList()
         for i in range(self.noisy_labels_no):
             self.decoders_noisy_layers.append(global_cm_layers(class_no, input_height, input_width))
 
