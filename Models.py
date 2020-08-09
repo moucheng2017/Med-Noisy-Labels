@@ -100,6 +100,31 @@ class UNet_CMs(nn.Module):
         return y, y_noisy
 
 
+def global_cm_layers(class_no, height, width):
+    """ Define (unnormalised) global confusion matrix model.
+
+    This function defines an image-level (not pixel wise) global confusion matrix for each annotator.
+    Currently, it first defines a class_no x class_no confusion matrix, and then copy this over to all
+    pixels, so this function can be more readily integrated into the existing pipeline.
+
+    Args:
+        width (int): width of the image
+        height (int): height of the image
+        class_no (int): number of classes
+
+    Returns:
+        confusion_matrix (parameter tensor): unnormalised confusion matrix of size (1, c, c, h, w).
+            The elements are ensured to be positive via a softplus function, but not normalised.
+
+    """
+    # Define global confusion matrix: (1, c, c, 1, 1)
+    weights = nn.Parameter(torch.randn(1, class_no, class_no, 1, 1))
+
+    # Broadcast to shape (1, c, c, h, w) by adding a zero tensor.
+    confusion_matrix = torch.zeros(1, class_no, class_no, height, width) + F.softplus(weights)
+    return confusion_matrix
+
+
 class cm_layers(nn.Module):
 
     def __init__(self, in_channels, norm, class_no):
@@ -110,6 +135,13 @@ class cm_layers(nn.Module):
         self.relu = nn.Softplus()
 
     def forward(self, x):
+        """
+        Args:
+            x:
+
+        Returns:
+
+        """
         #
         y = self.relu(self.conv_last(self.conv_2(self.conv_1(x))))
         #
