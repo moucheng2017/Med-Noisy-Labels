@@ -243,12 +243,11 @@ class gcm_layers(nn.Module):
 
     def __init__(self, class_no, input_height, input_width):
         super(gcm_layers, self).__init__()
+        self.class_no = class_no
         self.input_height = input_height
         self.input_width = input_width
-        self.global_weights = nn.Parameter(torch.randn(class_no, class_no))
-        # self.conv_1 = double_conv(in_channels=in_channels, out_channels=in_channels, norm=norm, step=1)
-        # self.conv_2 = double_conv(in_channels=in_channels, out_channels=in_channels, norm=norm, step=1)
-        # self.conv_last = nn.Conv2d(in_channels, class_no**2, 1, bias=True)
+        # self.global_weights = nn.Parameter(torch.randn(class_no, class_no))
+        self.global_weights = nn.Parameter(torch.eye(class_no))
         self.relu = nn.Softplus()
 
     def forward(self, x):
@@ -260,10 +259,12 @@ class gcm_layers(nn.Module):
 
         """
         #
-        all_weights = self.global_weights.unsqueeze(0).repeat(x.size(0), 1, 1)
-        all_weights = all_weights.unsqueeze(3).unsqueeze(4).repeat(1, 1, 1, self.input_height, self.input_width)
-        y = self.relu(all_weights)
+        # all_weights = self.global_weights.unsqueeze(0).repeat(x.size(0), 1, 1)
+        # all_weights = all_weights.unsqueeze(3).unsqueeze(4).repeat(1, 1, 1, self.input_height, self.input_width)
+        # y = self.relu(all_weights)
         #
+        all_weights = self.global_weights.unsqueeze(0).unsqueeze(3).unsqueeze(4)
+        y = self.relu(all_weights) + torch.zeros(x.size(0), self.class_no, self.class_no, self.input_height, self.input_width).to(device='cuda')
         return y
 
 
