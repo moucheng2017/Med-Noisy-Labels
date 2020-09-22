@@ -703,9 +703,6 @@ class CustomDataset_punet(torch.utils.data.Dataset):
 
     def __getitem__(self, index):
 
-        # if self.transform is True:
-        #     #
-
         if self.label_mode == 'multi':
             #
             if self.dataset_tag == 'mnist' or self.dataset_tag == 'brats':
@@ -746,6 +743,18 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 label_wrong[label_wrong == 4.0] = 3.0
                 label_good[label_good == 4.0] = 3.0
                 label_under[label_under == 4.0] = 3.0
+
+                if self.dataset_tag == 'mnist':
+                    label_over = np.where(label_over > 0.5, 1.0, 0.0)
+                    label_under = np.where(label_under > 0.5, 1.0, 0.0)
+                    label_wrong = np.where(label_wrong > 0.5, 1.0, 0.0)
+
+                    if np.amax(label_good) != 1.0:
+                        # sometimes, some preprocessing might give it as 0 - 255 range
+                        label_good = np.where(label_good > 10.0, 1.0, 0.0)
+                    else:
+                        assert np.amax(label_good) == 1.0
+                        label_good = np.where(label_good > 0.5, 1.0, 0.0)
 
                 # print(np.unique(label_over))
                 # label_over: h x w

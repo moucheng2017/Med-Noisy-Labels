@@ -51,24 +51,26 @@ def noisy_label_loss_binary(pred, cms, labels, alpha=0.1):
     main_loss = 0.0
     regularisation = 0.0
     b, c, h, w = pred.size()
-    pred_norm = nn.Softmax(dim=1)(pred)
-    pred_norm = pred_norm.view(b, c, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c, 1)
-    # pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
-    #
+    pred = pred.view(b, c, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c, 1)
+
     for cm, label_noisy in zip(cms, labels):
-        #
+
         cm = cm.view(b, c ** 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
-        #
         cm = cm / cm.sum(1, keepdim=True)
-        #
-        pred_noisy = torch.bmm(cm, pred_norm).view(b*h*w, c)
+
+        pred_noisy = torch.bmm(cm, pred).view(b*h*w, c)
         pred_noisy = pred_noisy.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
-        pred_noisy = pred_noisy[:, 1, :, :].squeeze()
-        loss_current = nn.BCEWithLogitsLoss(reduction='mean')(pred_noisy, label_noisy.view(b, h, w))
-        #
-        main_loss += loss_current
+
+        pred_noisy_positive = pred_noisy[:, 0, :, :].squeeze()
+        loss_current = nn.BCEWithLogitsLoss(reduction='mean')(pred_noisy_positive, label_noisy.view(b, h, w))
+
+        pred_noisy_negative = pred_noisy[:, 1, :, :].squeeze()
+        label_noisy_negative = torch.ones_like(label_noisy).to(device='cuda') - label_noisy
+        loss_current_negative = nn.BCEWithLogitsLoss(reduction='mean')(pred_noisy_negative, label_noisy_negative.view(b, h, w))
+
+        main_loss += (loss_current + loss_current_negative) / 2
         regularisation += torch.trace(torch.transpose(torch.sum(cm, dim=0), 0, 1)).sum() / (b * h * w)
-        #
+
     regularisation = alpha*regularisation
     loss = main_loss + regularisation
     #
