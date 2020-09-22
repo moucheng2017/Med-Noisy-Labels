@@ -259,12 +259,12 @@ class gcm_layers(nn.Module):
 
         """
         #
-        # all_weights = self.global_weights.unsqueeze(0).repeat(x.size(0), 1, 1)
-        # all_weights = all_weights.unsqueeze(3).unsqueeze(4).repeat(1, 1, 1, self.input_height, self.input_width)
-        # y = self.relu(all_weights)
+        all_weights = self.global_weights.unsqueeze(0).repeat(x.size(0), 1, 1)
+        all_weights = all_weights.unsqueeze(3).unsqueeze(4).repeat(1, 1, 1, self.input_height, self.input_width)
+        y = self.relu(all_weights)
         #
-        all_weights = self.global_weights.unsqueeze(0).unsqueeze(3).unsqueeze(4)
-        y = self.relu(all_weights) + torch.zeros(x.size(0), self.class_no, self.class_no, self.input_height, self.input_width).to(device='cuda')
+        # all_weights = self.global_weights.unsqueeze(0).unsqueeze(3).unsqueeze(4)
+        # y = self.relu(all_weights) + torch.zeros(x.size(0), self.class_no, self.class_no, self.input_height, self.input_width).to(device='cuda')
         return y
 
 

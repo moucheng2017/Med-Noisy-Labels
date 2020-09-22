@@ -152,9 +152,12 @@ def main_loop(data_folder, store_folder, tag):
 if __name__ == '__main__':
     #
     # data_folder = '/home/moucheng/projects_data/Testing_Le'
-    data_folder = '/home/moucheng/projects_data/Training_MNIST'
-    save_folder = '/home/moucheng/projects_data/MNIST_train'
-    #
+    # data_folder = '/home/moucheng/projects_data/Training_MNIST'
+    # save_folder = '/home/moucheng/projects_data/MNIST_train'
+
+    data_folder = '../data_examples/MNIST_training'
+    save_folder = '../MNIST_samples/training'
+
     main_loop(data_folder, save_folder, tag='train')
     #
     data_folder = '/home/moucheng/projects_data/Training_MNIST'
