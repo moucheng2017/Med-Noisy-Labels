@@ -32,6 +32,8 @@ All required libraries can be installed via conda (anaconda). We recommend creat
 ```sh
   conda env create -f conda_env.yml
 ```
+# Data Simulator
+
 # Download & preprocess the datasets
 
 Download example datasets in following table as used in the paper, and pre-process the dataset using the folowing steps for multiclass segmentation purpose:
