@@ -36,27 +36,27 @@ All required libraries can be installed via conda (anaconda). We recommend creat
 
 Before running the data simulator, please make sure you have installed [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation) in your machine.
 
-For binary mask:
+**For binary mask:**
 
 1. change the folder path to your data folder and run `./data_simulation/over-segmentation.m` to generate the simulated over-segmentation mask;
 
 <br>
- <img height="150" src="figures/over-sample.png" />
+ <img height="100" src="figures/over-sample.png" />
  </br>
 
 2. change the folder path to your data folder and run `./data_simulation/under-segmentation.m` to generate the simulated under-segmentation mask;
 
 <br>
- <img height="150" src="figures/under-sample.png" />
+ <img height="100" src="figures/under-sample.png" />
  </br>
 
 3. change the folder path to your data folder and run `./data_simulation/artificial_wrong_mask.py` to generate the simulated wrong-segmentation mask;
 
 <br>
- <img height="150" src="figures/wrong-sample.png" />
+ <img height="100" src="figures/wrong-sample.png" />
  </br>
 
-For multi-class mask:
+**For multi-class mask:**
 
 change the folder path to your data folder and run './data_simulation/multiclass_data_simulator.m' to generate the over-segmentation, under-segmentation and wrong-segmentation masks simultaneously.
 
