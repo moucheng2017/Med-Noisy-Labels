@@ -38,22 +38,22 @@ Before running the data simulator, please make sure you have installed [FSL](htt
 
 For binary mask:
 
-1. change the folder path to your data folder and run './data_simulation/over-segmentation.m' to generate the simulated over-segmentation mask;
+1. change the folder path to your data folder and run `./data_simulation/over-segmentation.m` to generate the simulated over-segmentation mask;
 
 <br>
- <img height="340" src="figures/over-sample.png" />
+ <img height="300" src="figures/over-sample.png" />
  </br>
 
-2. change the folder path to your data folder and run './data_simulation/under-segmentation.m' to generate the simulated under-segmentation mask;
+2. change the folder path to your data folder and run `./data_simulation/under-segmentation.m` to generate the simulated under-segmentation mask;
 
 <br>
- <img height="340" src="figures/under-sample.png" />
+ <img height="300" src="figures/under-sample.png" />
  </br>
 
-3. change the folder path to your data folder and run './data_simulation/artificial_wrong_mask.py' to generate the simulated wrong-segmentation mask;
+3. change the folder path to your data folder and run `./data_simulation/artificial_wrong_mask.py` to generate the simulated wrong-segmentation mask;
 
 <br>
- <img height="340" src="figures/wrong-sample.png" />
+ <img height="300" src="figures/wrong-sample.png" />
  </br>
 
 For multi-class mask:
