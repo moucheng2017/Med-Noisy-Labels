@@ -58,7 +58,11 @@ Before running the data simulator, please make sure you have installed [FSL](htt
 
 **For multi-class mask:**
 
-change the folder path to your data folder and run './data_simulation/multiclass_data_simulator.m' to generate the over-segmentation, under-segmentation and wrong-segmentation masks simultaneously.
+change the folder path to your data folder and run `./data_simulation/multiclass_data_simulator.m` to generate the over-segmentation, under-segmentation and wrong-segmentation masks simultaneously.
+
+<br>
+ <img height="100" src="figures/multi-class.png" />
+ </br>
 
 # Download & preprocess the datasets
 
