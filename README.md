@@ -63,6 +63,8 @@ change the folder path to your data folder and run `./data_simulation/multiclass
 <br>
  <img height="150" src="figures/Multi-class.png" />
  </br>
+ 
+In all experiments, we use the ground truth as the good-segmentation and no segmentation as the blank-segmentation.
 
 # Download & preprocess the datasets
 
