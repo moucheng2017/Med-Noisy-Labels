@@ -11,6 +11,7 @@ This repository contains our PyTorch implementation of our pre-print titled as [
 # Contents
 * [Introduction](#Introduction)
 * [Installation](#Setup)
+* [Data Simulator](#Data Simulator)
 * [Download & preprocess the datasets](#Download)
 * [Training](#Training)
 * [Testing](#Testing)
