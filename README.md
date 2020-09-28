@@ -35,7 +35,9 @@ All required libraries can be installed via conda (anaconda). We recommend creat
 ```
 # Data Simulator
 
-Before running the data simulator, please make sure you have installed [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation) in your machine.
+In all experiments, We simulate a group of 5 annotators of disparate characteristics by performing morphological transformations (e.g., thinning, thickening, fractures, etc) on the ground-truth (GT) segmentation labels, using [Morpho-MNIST software](https://github.com/dccastro/Morpho-MNIST). We use the ground truth as the good-segmentation and no segmentation as the blank-segmentation.
+
+Here we also introduce another simple method for annotator data simulation for both binary and multi-class masks. Before running the data simulator, please make sure you have installed [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation) in your machine.
 
 **For binary mask:**
 
@@ -65,7 +67,7 @@ change the folder path to your data folder and run `./data_simulation/multiclass
  <img height="150" src="figures/Multi-class.png" />
  </br>
  
-In all experiments, we use the ground truth as the good-segmentation and no segmentation as the blank-segmentation.
+In all experiments, We simulate a group of 5 annotators of disparate characteristics by performing morphological transformations (e.g., thinning, thickening, fractures, etc) on the ground-truth (GT) segmentation labels, using [Morpho-MNIST software](https://github.com/dccastro/Morpho-MNIST). We use the ground truth as the good-segmentation and no segmentation as the blank-segmentation.
 
 # Download & preprocess the datasets
 
