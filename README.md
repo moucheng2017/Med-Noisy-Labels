@@ -67,7 +67,6 @@ change the folder path to your data folder and run `./data_simulation/multiclass
  <img height="150" src="figures/Multi-class.png" />
  </br>
  
-In all experiments, We simulate a group of 5 annotators of disparate characteristics by performing morphological transformations (e.g., thinning, thickening, fractures, etc) on the ground-truth (GT) segmentation labels, using [Morpho-MNIST software](https://github.com/dccastro/Morpho-MNIST). We use the ground truth as the good-segmentation and no segmentation as the blank-segmentation.
 
 # Download & preprocess the datasets
 
