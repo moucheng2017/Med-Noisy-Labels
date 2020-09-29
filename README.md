@@ -16,7 +16,6 @@ This repository contains our PyTorch implementation of our pre-print titled as [
 * [Training](#Training)
 * [Testing](#Testing)
 * [Performance](#Performance)
-* [Morphology Datasets](#Morphology)
 * [How to cite this code](#MHow)
 
 # Introduction
@@ -33,9 +32,14 @@ All required libraries can be installed via conda (anaconda). We recommend creat
 ```sh
   conda env create -f conda_env.yml
 ```
-# Data Simulator
+# Data Simulator (Morphological Transformations)
 
-In all experiments, We simulate a group of 5 annotators of disparate characteristics by performing morphological transformations (e.g., thinning, thickening, fractures, etc) on the ground-truth (GT) segmentation labels, using [Morpho-MNIST software](https://github.com/dccastro/Morpho-MNIST). We use the ground truth as the good-segmentation and no segmentation as the blank-segmentation.
+We generate synthetic annotations from an assumed GT on MNIST, MS lesion and BraTS datasets, to generate efficacy of the approach in an idealised situation where the GT is known. We simulate a group of 5 annotators of disparate characteristics by performing morphological transformations (e.g., thinning, thickening, fractures, etc) on the ground-truth (GT) segmentation labels, using [Morpho-MNIST software](https://github.com/dccastro/Morpho-MNIST). In particular, the first annotator provides faithful segmentation (“good-segmentation”) with approximate GT, the second tends over-segment (“over-segmentation”), the third tends to under-segment (“under-segmentation”), the fourth is prone to the combination of small fractures and over-segmentation (“wrong-segmentation”) and the fifth always annotates everything as the background (“blank-segmentation”). To create synthetic noisy labels in multi-class scenario, we first choose a target class and then apply morphological operations on the provided GT mask to create 4 synthetic noisy labels at different patterns, namely, over-segmentation, under-segmentation, wrong segmentation and good segmentation. We create training data by deriving labels from the simulated annotators. Here we provide several example images in `data_simulation`.
+
+<br>
+ <img height="500" src="figures/Morph.png" />
+ </br>
+
 
 Here we also introduce another simple method for annotator data simulation for both binary and multi-class masks. Before running the data simulator, please make sure you have installed [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation) in your machine.
 
@@ -159,14 +163,6 @@ To test our model, please run `segmentation.py` with the following setting:
 
 <br>
  <img height="340" src="figures/LIDC-compare.jpg" />
- </br>
-
-# Morphology Datasets
-
-We generate synthetic annotations from an assumed GT on MNIST, MS lesion and BraTS datasets, to generate efficacy of the approach in an idealised situation where the GT is known. We simulate a group of 5 annotators of disparate characteristics by performing morphological transformations (e.g., thinning, thickening, fractures, etc) on the ground-truth (GT) segmentation labels, using Morpho-MNIST software. In particular, the first annotator provides faithful segmentation (“good-segmentation”) with approximate GT, the second tends over-segment (“over-segmentation”), the third tends to under-segment (“under-segmentation”), the fourth is prone to the combination of small fractures and over-segmentation (“wrong-segmentation”) and the fifth always annotates everything as the background (“blank-segmentation”). To create synthetic noisy labels in multi-class scenario, we first choose a target class and then apply morphological operations on the provided GT mask to create 4 synthetic noisy labels at different patterns, namely, over-segmentation, under-segmentation, wrong segmentation and good segmentation. We create training data by deriving labels from the simulated annotators. Here we provide several example images in `data_simulation`.
-
-<br>
- <img height="500" src="figures/Morph.png" />
  </br>
 
 
