@@ -3,10 +3,11 @@
 
 This repository contains our PyTorch implementation of our NeurIPS 2020 paper ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](http:). [Mou-Cheng Xu](https://moucheng2017.github.io/) is the main developer of the Python code; [Le Zhang](https://cheonglok.github.io/l.zhang/) is the main developer of the data simulation code.
 
+'''
 <br>
  <img height="400" src="figures/humanerror_2.png" />
  </br>
-
+'''
 
 # Contents
 * [How to use our code for further research](#Manual)
