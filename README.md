@@ -186,7 +186,7 @@ If you use this code or the dataset for your research, please cite our paper:
 @article{HumanError2020,
   title={Disentangling Human Error from the Ground Truth in Segmentation of Medical Images},
   author={Zhang, Le and Tanno, Ryutaro and Xu, Mou-Cheng and Jacob, Joseph and Ciccarelli, Olga and Barkhof, Frederik and C. Alexander, Daniel},
-  journal={arXiv preprint arXiv:UPDATE},
+  journal={NeurIPS},
   year={2020},
 }
 ```
