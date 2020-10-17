@@ -145,7 +145,19 @@ class CustomDataset(torch.utils.data.Dataset):
 # ============================================================================================
 
 def evaluate_noisy_label(data, model1, model2, class_no):
-    #
+
+    """
+
+    Args:
+        data:
+        model1:
+        model2:
+        class_no:
+
+    Returns:
+
+    """
+
     model1.eval()
     model2.eval()
     #
@@ -181,13 +193,24 @@ def evaluate_noisy_label(data, model1, model2, class_no):
 
 
 def evaluate_noisy_label_2(data, model1, model2, class_no):
-    #
+
+    """
+
+    Args:
+        data:
+        model1:
+        model2:
+        class_no:
+
+    Returns:
+
+    """
     model1.eval()
     model2.eval()
-    #
+
     test_dice = 0
     test_dice_all = []
-    #
+
     for i, (v_images, v_labels_over, v_labels_under, v_labels_wrong, v_labels_true, v_imagename) in enumerate(data):
         #
         v_images = v_images.to(device='cuda', dtype=torch.float32)
@@ -222,7 +245,16 @@ def evaluate_noisy_label_2(data, model1, model2, class_no):
 
 
 def evaluate_noisy_label_3(data, model1, class_no):
-    #
+    """
+
+    Args:
+        data:
+        model1:
+        class_no:
+
+    Returns:
+
+    """
     model1.eval()
     # model2.eval()
     #
@@ -272,7 +304,16 @@ def evaluate_noisy_label_3(data, model1, class_no):
 
 
 def evaluate_noisy_label_4(data, model1, class_no):
-    #
+    """
+
+    Args:
+        data:
+        model1:
+        class_no:
+
+    Returns:
+
+    """
     model1.eval()
     # model2.eval()
     #
@@ -320,7 +361,16 @@ def evaluate_noisy_label_4(data, model1, class_no):
 
 
 def evaluate_noisy_label_6(data, model1, class_no):
-    #
+    """
+
+    Args:
+        data:
+        model1:
+        class_no:
+
+    Returns:
+
+    """
     model1.eval()
     # model2.eval()
     #
@@ -383,7 +433,18 @@ def evaluate_noisy_label_6(data, model1, class_no):
 
 
 def evaluate_noisy_label_7(data, model1, model2, class_no, low_rank):
-    #
+    """
+
+    Args:
+        data:
+        model1:
+        model2:
+        class_no:
+        low_rank:
+
+    Returns:
+
+    """
     model1.eval()
     model2.eval()
     #
@@ -450,7 +511,16 @@ def evaluate_noisy_label_7(data, model1, model2, class_no, low_rank):
 
 
 def evaluate_noisy_label_5(data, model1, class_no):
-    #
+    """
+
+    Args:
+        data:
+        model1:
+        class_no:
+
+    Returns:
+
+    """
     model1.eval()
     # model2.eval()
     #
@@ -502,7 +572,17 @@ def evaluate_noisy_label_5(data, model1, class_no):
 
 
 def evaluate(evaluatedata, model, device, class_no):
-    #
+    """
+
+    Args:
+        evaluatedata:
+        model:
+        device:
+        class_no:
+
+    Returns:
+
+    """
     model.eval()
     #
     with torch.no_grad():
@@ -532,9 +612,20 @@ def test(testdata,
          device,
          class_no,
          save_path):
-    #
+    """
+
+    Args:
+        testdata:
+        model:
+        device:
+        class_no:
+        save_path:
+
+    Returns:
+
+    """
     model.eval()
-    #
+
     with torch.no_grad():
         #
         test_iou = 0
@@ -655,7 +746,7 @@ def test(testdata,
 
 
 class CustomDataset_punet(torch.utils.data.Dataset):
-    #
+
     def __init__(self, dataset_location, dataset_tag, noisylabel, augmentation=False):
         #
         self.label_mode = noisylabel
@@ -1335,7 +1426,16 @@ def calculate_cm(pred, true):
 
 
 def evaluate_noisy_label_4(data, model1, class_no):
-    #
+    """
+
+    Args:
+        data:
+        model1:
+        class_no:
+
+    Returns:
+
+    """
     model1.eval()
     # model2.eval()
     #
@@ -1383,7 +1483,16 @@ def evaluate_noisy_label_4(data, model1, class_no):
 
 
 def evaluate_noisy_label_5(data, model1, class_no):
-    #
+    """
+
+    Args:
+        data:
+        model1:
+        class_no:
+
+    Returns:
+
+    """
     model1.eval()
     # model2.eval()
     #
@@ -1435,7 +1544,16 @@ def evaluate_noisy_label_5(data, model1, class_no):
 
 
 def evaluate_noisy_label_6(data, model1, class_no):
-    #
+    """
+
+    Args:
+        data:
+        model1:
+        class_no:
+
+    Returns:
+
+    """
     model1.eval()
     # model2.eval()
     #

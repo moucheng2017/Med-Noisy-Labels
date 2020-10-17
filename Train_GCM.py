@@ -38,7 +38,30 @@ def trainGCMModels(input_dim,
                    label_mode,
                    loss_f='noisy_label',
                    save_probability_map=True):
-    #
+    """
+    Args:
+        input_dim:
+        class_no:
+        repeat:
+        train_batchsize:
+        validate_batchsize:
+        num_epochs:
+        learning_rate:
+        input_height:
+        input_width:
+        alpha:
+        width:
+        depth:
+        data_path:
+        dataset_tag:
+        label_mode:
+        loss_f:
+        save_probability_map:
+
+    Returns:
+
+    """
+
     for j in range(1, repeat + 1):
         #
         Segmentation_net = UNet_GlobalCMs(in_ch=input_dim, width=width, depth=depth, class_no=class_no, input_height=input_height, input_width=input_width, norm='in')

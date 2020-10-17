@@ -22,7 +22,18 @@ from Utilis import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_nois
 
 
 def segmentation(model_name, model_path, testdata, class_no, data_set):
-    #
+    """
+
+    Args:
+        model_name:
+        model_path:
+        testdata:
+        class_no:
+        data_set:
+
+    Returns:
+
+    """
     save_path = '../Exp_Results_Noisy_labels'
     #
     try:

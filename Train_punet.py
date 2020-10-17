@@ -31,6 +31,27 @@ def train_punet(epochs,
                 dataset_path,
                 dataset_tag):
 
+    """
+
+    Args:
+        epochs:
+        iteration:
+        train_batch_size:
+        lr:
+        num_filters:
+        input_channels:
+        latent_dim:
+        no_conv_fcomb:
+        num_classes:
+        beta:
+        test_samples_no:
+        dataset_path:
+        dataset_tag:
+
+    Returns:
+
+    """
+
     for itr in range(iteration):
 
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

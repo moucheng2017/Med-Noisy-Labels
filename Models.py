@@ -368,17 +368,18 @@ def double_conv(in_channels, out_channels, step, norm):
 class UNet(nn.Module):
     #
     def __init__(self, in_ch, width, depth, class_no, norm, dropout=False, apply_last_layer=True):
-        '''
+        """
 
-        :param in_ch:
-        :param width:
-        :param depth:
-        :param class_no:
-        :param norm:
-        :param dropout:
-        :param apply_last_layer:
-        '''
-        #
+        Args:
+            in_ch:
+            width:
+            depth:
+            class_no:
+            norm:
+            dropout:
+            apply_last_layer:
+        """
+
         # ============================================================================================================
         # This UNet is our own implementation, it is an enhanced version of the original UNet proposed at MICCAI 2015.
         # in_ch: dimension of input

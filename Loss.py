@@ -6,28 +6,79 @@ torch.backends.cudnn.deterministic = True
 
 
 def noisy_label_loss(pred, cms, labels, alpha=0.1):
-    # Proposed novel loss function for learning noisy labels in segmentation task
-    '''
-    :param pred: predicted ground truth
-    :param cms: confusion matrices
-    :param labels: noisy labels
-    :param alpha: weight for regularisation
-    :return:
-    '''
+    """ This loss function is the proposed trace regularised loss function, suitable for either binary
+    or multi-class segmentation task.
+
+    Args:
+        pred (torch.tensor): output tensor of the last layer of the segmentation network without Sigmoid or Softmax
+        cms (list): a list of output tensors for different noisy labels
+        labels (torch.tensor):
+        alpha (double): a hyper-parameter to decide the strength of regularisation
+
+    Returns:
+        loss (double): total loss value, sum between main_loss and regularisation
+        main_loss (double): main segmentation loss
+        regularisation (double): regularisation loss
+
+    """
+    main_loss = 0.0
+    regularisation = 0.0
+    b, c, h, w = pred.size()
+
+    # normalise the segmentation output tensor along dimension 1
+    pred_norm = nn.Softmax(dim=1)(pred)
+
+    # b x c x h x w ---> b*h*w x c x 1
+    pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
+
+    for cm, label_noisy in zip(cms, labels):
+        # cm: learnt confusion matrix for each noisy label
+        # label_noisy: noisy label
+
+        # b x c**2 x h x w ---> b*h*w x c x c
+        cm = cm.view(b, c ** 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
+
+        # normalisation along the rows:
+        cm = cm / cm.sum(1, keepdim=True)
+
+        # matrix multiplication to calculate the predicted noisy segmentation:
+        # cm: b*h*w x c x c
+        # pred_noisy: b*h*w x c x 1
+        pred_noisy = torch.bmm(cm, pred_norm).view(b*h*w, c)
+        pred_noisy = pred_noisy.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+        loss_current = nn.CrossEntropyLoss(reduction='mean')(pred_noisy, label_noisy.view(b, h, w).long())
+        main_loss += loss_current
+        regularisation += torch.trace(torch.transpose(torch.sum(cm, dim=0), 0, 1)).sum() / (b * h * w)
+
+    regularisation = alpha*regularisation
+    loss = main_loss + regularisation
+
+    return loss, main_loss, regularisation
+
+
+def noisy_label_loss_global(pred, cms, labels, alpha=0.1):
+    """
+
+    Args:
+        pred:
+        cms:
+        labels:
+        alpha:
+
+    Returns:
+
+    """
     main_loss = 0.0
     regularisation = 0.0
     b, c, h, w = pred.size()
     pred_norm = nn.Softmax(dim=1)(pred)
-    pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
+    pred_norm = pred_norm.view(b, c, h*w) # b x c x h*w
     #
     for cm, label_noisy in zip(cms, labels):
-        #
-        cm = cm.view(b, c ** 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
-        #
+        # cm: b x c x c
         cm = cm / cm.sum(1, keepdim=True)
-        #
-        pred_noisy = torch.bmm(cm, pred_norm).view(b*h*w, c)
-        pred_noisy = pred_noisy.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+        pred_noisy = torch.bmm(cm, pred_norm) # b x c x h*w
+        pred_noisy = pred_noisy.view(b, c, h, w)
         loss_current = nn.CrossEntropyLoss(reduction='mean')(pred_noisy, label_noisy.view(b, h, w).long())
         #
         main_loss += loss_current
@@ -38,38 +89,19 @@ def noisy_label_loss(pred, cms, labels, alpha=0.1):
     #
     return loss, main_loss, regularisation
 
-# def noisy_label_loss_global(pred, cms, labels, alpha=0.1):
-#     # Proposed novel loss function for learning noisy labels in segmentation task
-#     '''
-#     :param pred: predicted ground truth
-#     :param cms: confusion matrices: b x c x c
-#     :param labels: noisy labels
-#     :param alpha: weight for regularisation
-#     :return:
-#     '''
-#     main_loss = 0.0
-#     regularisation = 0.0
-#     b, c, h, w = pred.size()
-#     pred_norm = nn.Softmax(dim=1)(pred)
-#     pred_norm = pred_norm.view(b, c, h*w) # b x c x h*w
-#     #
-#     for cm, label_noisy in zip(cms, labels):
-#         # cm: b x c x c
-#         cm = cm / cm.sum(1, keepdim=True)
-#         pred_noisy = torch.bmm(cm, pred_norm) # b x c x h*w
-#         pred_noisy = pred_noisy.view(b, c, h, w)
-#         loss_current = nn.CrossEntropyLoss(reduction='mean')(pred_noisy, label_noisy.view(b, h, w).long())
-#         #
-#         main_loss += loss_current
-#         regularisation += torch.trace(torch.transpose(torch.sum(cm, dim=0), 0, 1)).sum() / (b * h * w)
-#         #
-#     regularisation = alpha*regularisation
-#     loss = main_loss + regularisation
-#     #
-#     return loss, main_loss, regularisation
-
 
 def noisy_label_loss_low_rank(pred, cms, labels, alpha):
+    """
+
+    Args:
+        pred:
+        cms:
+        labels:
+        alpha:
+
+    Returns:
+
+    """
     # pred: prediction for true segmentation
     # cms: confusion matrices for each annotators
     # alpha: weight for trace

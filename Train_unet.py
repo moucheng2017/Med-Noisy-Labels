@@ -36,7 +36,27 @@ def trainUnet(dataset_tag,
               depth,
               augmentation='all_flip',
               loss_f='dice'):
-    #
+    """
+
+    Args:
+        dataset_tag:
+        dataset_name:
+        data_directory:
+        input_dim:
+        class_no:
+        repeat:
+        train_batchsize:
+        validate_batchsize:
+        num_epochs:
+        learning_rate:
+        width:
+        depth:
+        augmentation:
+        loss_f:
+
+    Returns:
+
+    """
     for j in range(1, repeat + 1):
         #
         Exp = UNet(in_ch=input_dim,

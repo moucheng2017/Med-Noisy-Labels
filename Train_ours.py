@@ -37,7 +37,29 @@ def trainModels(input_dim,
                 loss_f='noisy_label',
                 save_probability_map=True,
                 low_rank_mode=False):
-    #
+    """
+
+    Args:
+        input_dim:
+        class_no:
+        repeat:
+        train_batchsize:
+        validate_batchsize:
+        num_epochs:
+        learning_rate:
+        alpha:
+        width:
+        depth:
+        data_path:
+        dataset_tag:
+        label_mode:
+        loss_f:
+        save_probability_map:
+        low_rank_mode:
+
+    Returns:
+
+    """
     for j in range(1, repeat + 1):
         #
         Segmentation_net = UNet_CMs(in_ch=input_dim, width=width, depth=depth, class_no=class_no, norm='in', low_rank=low_rank_mode)
