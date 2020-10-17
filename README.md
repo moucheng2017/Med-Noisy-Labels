@@ -9,6 +9,7 @@ This repository contains our PyTorch implementation of our pre-print titled as [
 
 
 # Contents
+* [How to use our code for further research](#Manual)
 * [Introduction](#Introduction)
 * [Installation](#Setup)
 * [Data Simulator](#Data)
@@ -17,6 +18,15 @@ This repository contains our PyTorch implementation of our pre-print titled as [
 * [Testing](#Testing)
 * [Performance](#Performance)
 * [How to cite this code](#MHow)
+
+# How to use our code for further research
+We recommend to try the toy-example in MNIST_example.ipynb to understand the pipeline.
+
+1. If you want to apply our code on your medical data-sets:
+Following MNIST_example.ipynb, you might want to replace the data-loader with your own data-loader for preferred pre-processing.
+
+2. If you want to plug-in the proposed loss function and play around: 
+The loss function is implemented in... 
 
 # Introduction
 
