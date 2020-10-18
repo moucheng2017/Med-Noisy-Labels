@@ -4,23 +4,6 @@ This repository contains a PyTorch implementation of our NeurIPS 2020 paper ["Di
 
 [Mou-Cheng Xu](https://moucheng2017.github.io/) is the main developer of the Python code; [Le Zhang](https://cheonglok.github.io/l.zhang/) is the main developer of the data simulation code.
 
-<!---
-<br>
-<img height="400" src="figures/humanerror_2.png" />
-</br>
--->
-
-# Contents
-* [How to use our code for further research](#Manual)
-* [Introduction](#Introduction)
-* [Installation](#Setup)
-* [Data Simulator](#Data)
-* [Download & preprocess the datasets](#Download)
-* [Training](#Training)
-* [Testing](#Testing)
-* [Performance](#Performance)
-* [How to cite this code](#MHow)
-
 # How to use our code for further research
 We recommend to try the toy-example in MNIST_example.ipynb to understand the pipeline, this is a simplied main function for MNIST, similar to other main functions in Train_GCM.py, Train_ours.py, Train_puunet.py and Train_unet.py.
 
@@ -31,6 +14,22 @@ Following MNIST_example.ipynb, you might want to replace the data-loader with yo
 2. If you want to plug-in the proposed loss function and play around: 
 
 The loss function is implemented in Loss.py as noisy_label_loss.
+
+<!---
+<br>
+<img height="400" src="figures/humanerror_2.png" />
+</br>
+-->
+
+# Contents
+* [Introduction](#Introduction)
+* [Installation](#Setup)
+* [Data Simulator](#Data)
+* [Download & preprocess the datasets](#Download)
+* [Training](#Training)
+* [Testing](#Testing)
+* [Performance](#Performance)
+* [How to cite this code](#MHow)
 
 # Introduction
 
