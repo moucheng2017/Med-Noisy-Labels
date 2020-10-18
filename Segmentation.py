@@ -22,14 +22,15 @@ from Utilis import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_nois
 
 
 def segmentation(model_name, model_path, testdata, class_no, data_set):
-    """
+    """ This is to generate segmentation maps.
 
     Args:
-        model_name:
-        model_path:
-        testdata:
-        class_no:
-        data_set:
+        model_name (str): your saved model name
+        model_path (str): path to where your model is stored
+        testdata (:object, data-loader): testing data loader
+        class_no (str):
+        data_set (str): dataset tag to specificy which data set, because brats is multi-class and the others are binary,
+        so the generated segmentation maps are with different colours
 
     Returns:
 

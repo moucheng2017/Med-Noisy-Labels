@@ -31,22 +31,26 @@ def train_punet(epochs,
                 dataset_path,
                 dataset_tag):
 
-    """
+    """ This is the panel to control the training of baseline Probabilistic U-net.
 
     Args:
-        epochs:
-        iteration:
-        train_batch_size:
-        lr:
-        num_filters:
-        input_channels:
-        latent_dim:
-        no_conv_fcomb:
-        num_classes:
-        beta:
-        test_samples_no:
-        dataset_path:
-        dataset_tag:
+        input_dim: channel number of input image, for example, 3 for RGB
+        class_no: number of classes of classification
+        repeat: repat the same experiments with different stochastic seeds, we normally run each experiment at least 3 times
+        train_batchsize: training batch size, this depends on the GPU memory
+        validate_batchsize: we normally set-up as 1
+        num_epochs: training epoch length
+        learning_rate:
+        input_height: resolution of input image
+        input_width: resolution of input image
+        alpha: regularisation strength hyper-parameter
+        width: channel number of first encoder in the segmentation network, for the standard U-net, it is 64
+        depth: down-sampling stages of the segmentation network
+        data_path: path to where you store your all of your data
+        dataset_tag: 'mnist' for MNIST; 'brats' for BRATS 2018; 'lidc' for LIDC lung data set
+        label_mode: 'multi' for multi-class of proposed method; 'p_unet' for baseline probabilistic u-net; 'normal' for binary on MNIST; 'binary' for general binary segmentation
+        loss_f: 'noisy_label' for our noisy label function, or 'dice' for dice loss
+        save_probability_map: if True, we save all of the probability maps of output of networks
 
     Returns:
 

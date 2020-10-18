@@ -7,13 +7,12 @@ from torch.distributions import Normal, Independent, kl
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# =================================
-#  proposed network
-# =================================
-
 
 class UNet_CMs(nn.Module):
-    #
+    """ Proposed method containing a segmentation network and a confusion matrix network.
+    The segmentation network is U-net. The confusion  matrix network is defined in cm_layers
+
+    """
     def __init__(self, in_ch, width, depth, class_no, norm='in', low_rank=False):
         #
         # ===============================================================================
@@ -191,32 +190,12 @@ class UNet_GlobalCMs(nn.Module):
         return y, y_noisy
 
 
-def global_cm_layers(class_no, height, width):
-    """ Define (unnormalised) global confusion matrix model.
-
-    This function defines an image-level (not pixel wise) global confusion matrix for each annotator.
-    Currently, it first defines a class_no x class_no confusion matrix, and then copy this over to all
-    pixels, so this function can be more readily integrated into the existing pipeline.
-
-    Args:
-        width (int): width of the image
-        height (int): height of the image
-        class_no (int): number of classes
-
-    Returns:
-        confusion_matrix (parameter tensor): unnormalised confusion matrix of size (1, c, c, h, w).
-            The elements are ensured to be positive via a softplus function, but not normalised.
+class cm_layers(nn.Module):
+    """ This class defines the annotator network, which models the confusion matrix.
+    Essentially, it share the semantic features with the segmentation network, but the output of annotator network
+    has the size (b, c**2, h, w)
 
     """
-    # Define global confusion matrix: (1, c, c, 1, 1)
-    weights = nn.Parameter(torch.randn(1, class_no, class_no, 1, 1))
-
-    # Broadcast to shape (1, c, c, h, w) by adding a zero tensor.
-    confusion_matrix = torch.zeros(1, class_no, class_no, height, width) + F.softplus(weights)
-    return confusion_matrix
-
-
-class cm_layers(nn.Module):
 
     def __init__(self, in_channels, norm, class_no):
         super(cm_layers, self).__init__()
@@ -226,50 +205,41 @@ class cm_layers(nn.Module):
         self.relu = nn.Softplus()
 
     def forward(self, x):
-        """
-        Args:
-            x:
 
-        Returns:
-
-        """
-        #
         y = self.relu(self.conv_last(self.conv_2(self.conv_1(x))))
-        #
+
         return y
 
 
 class gcm_layers(nn.Module):
+    """ This defines the global confusion matrix layer. It defines a (class_no x class_no) confusion matrix, we then use unsqueeze function to match the
+    size with the original pixel-wise confusion matrix layer, this is due to convenience to be compact with the existing loss function and pipeline.
+
+    """
 
     def __init__(self, class_no, input_height, input_width):
         super(gcm_layers, self).__init__()
         self.class_no = class_no
         self.input_height = input_height
         self.input_width = input_width
-        # self.global_weights = nn.Parameter(torch.randn(class_no, class_no))
         self.global_weights = nn.Parameter(torch.eye(class_no))
         self.relu = nn.Softplus()
 
     def forward(self, x):
-        """
-        Args:
-            x:
 
-        Returns:
-
-        """
-        #
         all_weights = self.global_weights.unsqueeze(0).repeat(x.size(0), 1, 1)
         all_weights = all_weights.unsqueeze(3).unsqueeze(4).repeat(1, 1, 1, self.input_height, self.input_width)
         y = self.relu(all_weights)
-        #
-        # all_weights = self.global_weights.unsqueeze(0).unsqueeze(3).unsqueeze(4)
-        # y = self.relu(all_weights) + torch.zeros(x.size(0), self.class_no, self.class_no, self.input_height, self.input_width).to(device='cuda')
+
         return y
 
 
 class low_rank_cm_layers(nn.Module):
-    #
+    """ This class defines the low-rank version of the annotator network, which models the confusion matrix at low-rank approximation.
+    Essentially, it share the semantic features with the segmentation network, but the output of annotator network
+    has the size (b, c**2, h, w)
+
+    """
     def __init__(self, in_channels, norm, class_no, rank):
         super(low_rank_cm_layers, self).__init__()
         self.conv_1 = double_conv(in_channels=in_channels, out_channels=in_channels, norm=norm, step=1)
@@ -281,14 +251,13 @@ class low_rank_cm_layers(nn.Module):
         self.relu = nn.Softplus()
 
     def forward(self, x):
-        #
+
         y = self.relu(self.conv_last(self.conv_2(self.conv_1(x))))
-        #
+
         return y
 
 # =========================
 # U-net:
-# ref:
 # =========================
 
 
@@ -894,3 +863,30 @@ class UpConvBlock(nn.Module):
         out =  self.conv_block(out)
 
         return out
+
+
+
+
+# def global_cm_layers(class_no, height, width):
+#     """ Define (unnormalised) global confusion matrix model.
+#
+#     This function defines an image-level (not pixel wise) global confusion matrix for each annotator.
+#     Currently, it first defines a class_no x class_no confusion matrix, and then copy this over to all
+#     pixels, so this function can be more readily integrated into the existing pipeline.
+#
+#     Args:
+#         width (int): width of the image
+#         height (int): height of the image
+#         class_no (int): number of classes
+#
+#     Returns:
+#         confusion_matrix (parameter tensor): unnormalised confusion matrix of size (1, c, c, h, w).
+#             The elements are ensured to be positive via a softplus function, but not normalised.
+#
+#     """
+#     # Define global confusion matrix: (1, c, c, 1, 1)
+#     weights = nn.Parameter(torch.randn(1, class_no, class_no, 1, 1))
+#
+#     # Broadcast to shape (1, c, c, h, w) by adding a zero tensor.
+#     confusion_matrix = torch.zeros(1, class_no, class_no, height, width) + F.softplus(weights)
+#     return confusion_matrix
