@@ -22,6 +22,13 @@ data_tag='some_data_set'
 
 The full path to the data='/.../.../all_of_datasets/some_data_set'
 
+4. folder structure of our training data:
+
+    ├── ...
+    ├── test                    # Test files (alternatively `spec` or `tests`)
+    │   ├── benchmarks          # Load and stress tests
+    │   ├── integration         # End-to-end, integration tests (alternatively `e2e`)
+    │   └── unit 
 
 <!---
 <br>
