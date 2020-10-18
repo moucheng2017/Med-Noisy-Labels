@@ -25,6 +25,7 @@ The full path to the data='/.../.../all_of_datasets/some_data_set'
 4. folder structure of our training data:
 
 An example of BRATS in our experiments.
+
 '''
 your path
 │
