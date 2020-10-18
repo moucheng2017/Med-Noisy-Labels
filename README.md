@@ -75,6 +75,20 @@ your path
 </br>
 -->
 
+```
+app
+└── screens
+    └── App
+        └── screens
+            ├── Admin
+            │   └── screens
+            │       ├── Reports
+            │       └── Users
+            └── Course
+                └── screens
+                    └── Assignments
+```
+
 # Contents
 * [Introduction](#Introduction)
 * [Installation](#Setup)
