@@ -5,11 +5,11 @@ This repository contains a PyTorch implementation of our NeurIPS 2020 paper ["Di
 [Mou-Cheng Xu](https://moucheng2017.github.io/) is the main developer of the Python code; [Le Zhang](https://cheonglok.github.io/l.zhang/) is the main developer of the data simulation code.
 
 # How to use our code for further research
-We recommend to try the toy-example in [MNIST_example.ipynb](https://github.com/moucheng2017/Learn_Noisy_Labels_Medical_Images/blob/master/MNIST_example.ipynb) to understand the pipeline, this is a simplied main function for MNIST, similar to other main functions in Train_GCM.py, Train_ours.py, Train_puunet.py and Train_unet.py.
+We recommend to try the toy-example in [MNIST_example.ipynb](https://github.com/moucheng2017/Learn_Noisy_Labels_Medical_Images/blob/master/MNIST_example.ipynb) to understand the pipeline, this is a simplied main function for MNIST, similar to other main functions in [Train_GCM.py](https://github.com/moucheng2017/Learn_Noisy_Labels_Medical_Images/blob/master/Train_GCM.py), [Train_ours.py](https://github.com/moucheng2017/Learn_Noisy_Labels_Medical_Images/blob/master/Train_ours.py), [Train_puunet.py](https://github.com/moucheng2017/Learn_Noisy_Labels_Medical_Images/blob/master/Train_punet.py) and [Train_unet.py](https://github.com/moucheng2017/Learn_Noisy_Labels_Medical_Images/blob/master/Train_unet.py).
 
 1. If you want to apply our code on your medical data-sets:
 
-Following MNIST_example.ipynb, you might want to replace the data-loader with your own data-loader for your preferred pre-processing. An example for a data-loader can be found in Utilis.py, namely CustomDataset_punet.
+Following MNIST_example.ipynb, you might want to replace the data-loader with your own data-loader for your preferred pre-processing. An example for a data-loader can be found in [Utilis.py](https://github.com/moucheng2017/Learn_Noisy_Labels_Medical_Images/blob/master/Utilis.py), namely CustomDataset_punet.
 
 2. If you want to plug-in the proposed loss function and play around: 
 
