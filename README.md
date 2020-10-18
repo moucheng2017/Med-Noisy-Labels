@@ -22,15 +22,15 @@ This repository contains a PyTorch implementation of our NeurIPS 2020 paper ["Di
 * [How to cite this code](#MHow)
 
 # How to use our code for further research
-We recommend to try the toy-example in MNIST_example.ipynb to understand the pipeline.
+We recommend to try the toy-example in MNIST_example.ipynb to understand the pipeline, this is a simplied main function for MNIST, similar to other main functions in Train_GCM.py, Train_ours.py, Train_puunet.py and Train_unet.py.
 
 1. If you want to apply our code on your medical data-sets:
 
-Following MNIST_example.ipynb, you might want to replace the data-loader with your own data-loader for preferred pre-processing.
+Following MNIST_example.ipynb, you might want to replace the data-loader with your own data-loader for your preferred pre-processing. An example for a data-loader can be found in Utilis.py, namely CustomDataset_punet.
 
 2. If you want to plug-in the proposed loss function and play around: 
 
-The loss function is implemented in... 
+The loss function is implemented in Loss.py as noisy_label_loss.
 
 # Introduction
 
