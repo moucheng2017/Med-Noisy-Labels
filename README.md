@@ -43,7 +43,7 @@ your path
 │        │   │
 │        │   └───Good # where all good segmentation label are stored in training 
 │        │   │
-│        │   └───Image # where all training images are stored in training 
+│        │   └───Image # where all training images are stored
 │        │
 │        └───validate
 │        │   │
@@ -55,7 +55,7 @@ your path
 │        │   │
 │        │   └───Good
 │        │   │
-│        │   └───Image # where all validation images are stored in training
+│        │   └───Image # where all validation images are stored
 │        │
 │        └───test
 │        │   │
@@ -67,7 +67,7 @@ your path
 │        │   │
 │        │   └───Good
 │        │   │
-│        │   └───Image # where all testing images are stored in training
+│        │   └───Image # where all testing images are stored
 ```
 <!---
 <br>
