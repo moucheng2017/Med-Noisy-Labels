@@ -26,7 +26,7 @@ The full path to the data='/.../.../all_of_datasets/some_data_set'
 
 An example of BRATS in our experiments.
 
-'''
+```
 your path
 │
 └───data sets
@@ -68,26 +68,13 @@ your path
 │        │   └───Good
 │        │   │
 │        │   └───Image # where all testing images are stored in training
-'''
+```
 <!---
 <br>
 <img height="400" src="figures/humanerror_2.png" />
 </br>
 -->
 
-```
-app
-└── screens
-    └── App
-        └── screens
-            ├── Admin
-            │   └── screens
-            │       ├── Reports
-            │       └── Users
-            └── Course
-                └── screens
-                    └── Assignments
-```
 
 # Contents
 * [Introduction](#Introduction)
