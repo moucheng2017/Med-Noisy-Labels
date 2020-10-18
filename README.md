@@ -1,11 +1,11 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
-This repository contains a PyTorch implementation of our NeurIPS 2020 paper ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](http:). 
+This repository contains a PyTorch implementation of our NeurIPS 2020 paper ["Disentangling Human Error from the Ground Truth in Segmentation of Medical Images", 2020](https://arxiv.org/pdf/2007.15963.pdf). 
 
 [Mou-Cheng Xu](https://moucheng2017.github.io/) is the main developer of the Python code; [Le Zhang](https://cheonglok.github.io/l.zhang/) is the main developer of the data simulation code.
 
 # How to use our code for further research
-We recommend to try the toy-example in MNIST_example.ipynb to understand the pipeline, this is a simplied main function for MNIST, similar to other main functions in Train_GCM.py, Train_ours.py, Train_puunet.py and Train_unet.py.
+We recommend to try the toy-example in [MNIST_example.ipynb](https://github.com/moucheng2017/Learn_Noisy_Labels_Medical_Images/blob/master/MNIST_example.ipynb) to understand the pipeline, this is a simplied main function for MNIST, similar to other main functions in Train_GCM.py, Train_ours.py, Train_puunet.py and Train_unet.py.
 
 1. If you want to apply our code on your medical data-sets:
 
