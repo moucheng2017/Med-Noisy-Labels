@@ -1425,7 +1425,7 @@ def calculate_cm(pred, true):
 # ================================
 
 
-def evaluate_noisy_label_4(data, model1, class_no):
+def evaluate_noisy_label_4(data, model1, class_no, device):
     """
 
     Args:
@@ -1446,7 +1446,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
         #
         # print(i)
         #
-        v_images = v_images.to(device='cuda', dtype=torch.float32)
+        v_images = v_images.to(device=device, dtype=torch.float32)
         v_outputs_logits, cms = model1(v_images)
         b, c, h, w = v_outputs_logits.size()
         v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)

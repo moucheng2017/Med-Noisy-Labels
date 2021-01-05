@@ -1,3 +1,5 @@
 *.pyc
 *.pyc
 .idea
+Results/
+.ipynb_checkpoints/
