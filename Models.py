@@ -25,7 +25,8 @@ class UNet_CMs(nn.Module):
         super(UNet_CMs, self).__init__()
         #
         self.depth = depth
-        self.noisy_labels_no = 3 # 3 for gent, 4 the initial attempt
+        self.noisy_labels_no = 4
+        print("Noisy labels: ", self.noisy_labels_no)
         self.lowrank = low_rank
         #
         self.final_in = class_no
@@ -68,9 +69,7 @@ class UNet_CMs(nn.Module):
         #
         encoder_features = []
         y_noisy = []
-        print(y.shape)
-        print(len(self.encoders))
-        print(type(self.encoders[0]))
+
         #
         for i in range(len(self.encoders)):
             #

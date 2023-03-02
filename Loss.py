@@ -147,5 +147,3 @@ def dice_loss(input, target):
     union = iflat.sum() + tflat.sum()
     dice_score = (2.*intersection + smooth)/(union + smooth)
     return 1-dice_score
-
-

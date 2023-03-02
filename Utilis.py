@@ -320,7 +320,8 @@ def evaluate_noisy_label_4(data, model1, class_no):
     test_dice = 0
     test_dice_all = []
     #
-    for i, (v_images, v_labels_over, v_labels_under, v_labels_wrong, v_labels_good, v_imagename) in enumerate(data):
+    for i, (v_images, v_labels_over, v_labels_under, v_labels_wrong, #v_labels_good,
+            v_imagename) in enumerate(data):
         #
         # print(i)
         #
@@ -1044,7 +1045,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                         #label_good = np.flip(label_good, axis=1).copy()
                         #label_good = np.flip(label_good, axis=2).copy()
                         #
-                        print(type(image))
+
                 return image, label_AR, label_HS, label_SG, imagename #label_good
 
             elif self.dataset_tag == 'lidc':
@@ -1576,7 +1577,9 @@ def evaluate_noisy_label_4(data, model1, class_no):
     test_dice = 0
     test_dice_all = []
     #
-    for i, (v_images, v_labels_over, v_labels_under, v_labels_wrong, v_labels_good, v_imagename) in enumerate(data):
+    for i, (v_images, v_labels_over, v_labels_under, v_labels_wrong,
+    #       v_labels_good,
+            v_imagename) in enumerate(data):
         #
         # print(i)
         #
@@ -1602,9 +1605,11 @@ def evaluate_noisy_label_4(data, model1, class_no):
             _, v_noisy_output = torch.max(v_noisy_output, dim=1)
             v_outputs_noisy.append(v_noisy_output.cpu().detach().numpy())
         #
-        v_dice_ = segmentation_scores(v_labels_good, v_output.cpu().detach().numpy(), class_no)
+        #v_dice_ = segmentation_scores(v_labels_good, v_output.cpu().detach().numpy(), class_no)
+        v_dice_ = segmentation_scores(v_labels_over, v_output.cpu().detach().numpy(), class_no)
         #
-        epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_good.cpu().detach().numpy()]
+        #epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_good.cpu().detach().numpy()]
+        epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_over.cpu().detach().numpy()]
         v_ged = generalized_energy_distance(epoch_noisy_labels, v_outputs_noisy, class_no)
         test_dice += v_dice_
         test_dice_all.append(test_dice)
