@@ -1607,6 +1607,9 @@ def evaluate_noisy_label_4(data, model1, class_no):
         #
         #v_dice_ = segmentation_scores(v_labels_good, v_output.cpu().detach().numpy(), class_no)
         v_dice_ = segmentation_scores(v_labels_over, v_output.cpu().detach().numpy(), class_no)
+        v_dice_ += segmentation_scores(v_labels_under, v_output.cpu().detach().numpy(), class_no)
+        v_dice_ += segmentation_scores(v_labels_wrong, v_output.cpu().detach().numpy(), class_no)
+        v_dice_ /= 3
         #
         #epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_good.cpu().detach().numpy()]
         epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_over.cpu().detach().numpy()]

@@ -25,7 +25,7 @@ class UNet_CMs(nn.Module):
         super(UNet_CMs, self).__init__()
         #
         self.depth = depth
-        self.noisy_labels_no = 4
+        self.noisy_labels_no = 3
         print("Noisy labels: ", self.noisy_labels_no)
         self.lowrank = low_rank
         #
@@ -106,7 +106,7 @@ class UNet_GlobalCMs(nn.Module):
 
     Each annotator is modelled through a class_no x class_no matrix, fixed for all images.
     """
-    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm='in'):
+    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm='in', annotators=4):
         # ===============================================================================
         # in_ch: dimension of input
         # class_no: number of output class
@@ -119,7 +119,7 @@ class UNet_GlobalCMs(nn.Module):
         super(UNet_GlobalCMs, self).__init__()
         #
         self.depth = depth
-        self.noisy_labels_no = 4
+        self.noisy_labels_no = annotators
         self.final_in = class_no
         #
         self.decoders = nn.ModuleList()
