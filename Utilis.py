@@ -960,7 +960,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 #
                 image = tiff.imread(all_images[index])
                 image = np.array(image, dtype='float32')
-                print("Image shape", image.shape)
+                #print("Image shape", image.shape)
 
                 label_AR[label_AR == 4.0] = 3.0
                 label_SG[label_SG == 4.0] = 3.0
@@ -1294,7 +1294,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
 
     def __len__(self):
         # You should change 0 to the total size of your dataset.
-        print("Len: ", len(glob.glob(os.path.join(self.image_folder, '*.tif'))))
+        #print("Len: ", len(glob.glob(os.path.join(self.image_folder, '*.tif'))))
         return len(glob.glob(os.path.join(self.image_folder, '*.tif')))
 
 
