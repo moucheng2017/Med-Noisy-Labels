@@ -773,6 +773,17 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 self.label_good_folder = dataset_location + '/Annotator_4'
                 self.label_true_folder = dataset_location + '/Annotator_5'
                 self.image_folder = dataset_location + '/Image'
+            elif dataset_tag == 'oocytes':
+                self.label_over_folder = dataset_location + '/Over'
+                self.label_under_folder = dataset_location + '/Under'
+                self.label_wrong_folder = dataset_location + '/Wrong'
+                self.label_good_folder = dataset_location + '/GT'
+                self.image_folder = dataset_location + '/Gaussian'
+            elif dataset_tag == 'oocytes_gent':
+                self.label_AR_folder = dataset_location + '/AR'
+                self.label_HS_folder = dataset_location + '/HS'
+                self.label_SG_folder = dataset_location + '/SG'
+                self.image_folder = dataset_location + '/images'
                 #
         elif noisylabel == 'binary':
             if dataset_tag == 'mnist':
@@ -796,7 +807,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
 
         if self.label_mode == 'multi':
             #
-            if self.dataset_tag == 'mnist' or self.dataset_tag == 'brats':
+            if self.dataset_tag == 'mnist' or self.dataset_tag == 'brats' or self.dataset_tag == 'oocytes':
                 #
                 all_labels_over = glob.glob(os.path.join(self.label_over_folder, '*.tif'))
                 all_labels_over.sort()
@@ -835,7 +846,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 label_good[label_good == 4.0] = 3.0
                 label_under[label_under == 4.0] = 3.0
 
-                if self.dataset_tag == 'mnist':
+                if self.dataset_tag == 'mnist' or self.dataset_tag == 'oocytes':
                     label_over = np.where(label_over > 0.5, 1.0, 0.0)
                     label_under = np.where(label_under > 0.5, 1.0, 0.0)
                     label_wrong = np.where(label_wrong > 0.5, 1.0, 0.0)
@@ -851,6 +862,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 # label_over: h x w
                 # image: h x w x c
                 c_amount = len(np.shape(label_over))
+
                 # Reshaping everyting to make sure the order: channel x height x width
                 if c_amount == 3:
                     #
@@ -913,6 +925,127 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                         label_good = np.flip(label_good, axis=2).copy()
                         #
                 return image, label_over, label_under, label_wrong, label_good, imagename
+
+
+            elif self.dataset_tag == 'oocytes_gent':
+                #
+                all_labels_AR = glob.glob(os.path.join(self.label_AR_folder, '*.tif'))
+                all_labels_AR.sort()
+                #
+                all_labels_HS = glob.glob(os.path.join(self.label_HS_folder, '*.tif'))
+                all_labels_HS.sort()
+                #
+                all_labels_SG = glob.glob(os.path.join(self.label_SG_folder, '*.tif'))
+                all_labels_SG.sort()
+
+                # -missing -> think of using majority-vote or STAPLE
+                #all_labels_good = glob.glob(os.path.join(self.label_good_folder, '*.tif'))
+                #all_labels_good.sort()
+                #
+
+                all_images = glob.glob(os.path.join(self.image_folder, '*.tif'))
+                all_images.sort()
+                #
+                label_AR = tiff.imread(all_labels_AR[index])
+                label_AR = np.array(label_AR, dtype='float32')
+                #
+                label_HS = tiff.imread(all_labels_HS[index])
+                label_HS = np.array(label_HS, dtype='float32')
+                #
+                label_SG = tiff.imread(all_labels_SG[index])
+                label_SG = np.array(label_SG, dtype='float32')
+                #
+                #label_good = tiff.imread(all_labels_good[index])
+                #label_good = np.array(label_good, dtype='float32')
+                #
+                image = tiff.imread(all_images[index])
+                image = np.array(image, dtype='float32')
+                print("Image shape", image.shape)
+
+                label_AR[label_AR == 4.0] = 3.0
+                label_SG[label_SG == 4.0] = 3.0
+                #label_good[label_good == 4.0] = 3.0
+                label_HS[label_HS == 4.0] = 3.0
+
+                if self.dataset_tag == 'oocytes_gent':
+                    label_AR = np.where(label_AR > 0.5, 1.0, 0.0)
+                    label_HS = np.where(label_HS > 0.5, 1.0, 0.0)
+                    label_SG = np.where(label_SG > 0.5, 1.0, 0.0)
+
+                    #if np.amax(label_good) != 1.0:
+                        # sometimes, some preprocessing might give it as 0 - 255 range
+                    #    label_good = np.where(label_good > 10.0, 1.0, 0.0)
+                    #else:
+                    #    assert np.amax(label_good) == 1.0
+                    #    label_good = np.where(label_good > 0.5, 1.0, 0.0)
+
+                # print(np.unique(label_over))
+                # label_over: h x w
+                # image: h x w x c
+                c_amount = len(np.shape(label_AR))
+
+                if c_amount == 3:
+                    #
+                    d1, d2, d3 = np.shape(label_AR)
+                    #
+                    if d1 != min(d1, d2, d3):
+                        #
+                        assert d3 == min(d1, d2, d3)
+                        #
+                        label_AR = np.transpose(label_AR, (2, 0, 1))
+                        label_HS = np.transpose(label_HS, (2, 0, 1))
+                        label_SG = np.transpose(label_SG, (2, 0, 1))
+                        #label_good = np.transpose(label_good, (2, 0, 1))
+                    #
+                elif c_amount == 2:
+                    #
+                    label_AR = np.expand_dims(label_AR, axis=0)
+                    label_HS = np.expand_dims(label_HS, axis=0)
+                    label_SG = np.expand_dims(label_SG, axis=0)
+                    #label_good = np.expand_dims(label_good, axis=0)
+                #
+                c_amount = len(np.shape(image))
+                #
+                if c_amount == 3:
+                    #
+                    d1, d2, d3 = np.shape(image)
+                    #
+                    if d1 != min(d1, d2, d3):
+                        #
+                        image = np.transpose(image, (2, 0, 1))
+                        #
+                elif c_amount == 2:
+                    #
+                    image = np.expand_dims(image, axis=0)
+                #
+                imagename = all_images[index]
+                path_image, imagename = os.path.split(imagename)
+                imagename, imageext = os.path.splitext(imagename)
+                #
+                if self.data_aug is True:
+                    #
+                    augmentation = random.uniform(0, 1)
+                    #
+                    if augmentation > 0.5:
+                        #
+                        c, h, w = np.shape(image)
+                        #
+                        for channel in range(c):
+                            #
+                            image[channel, :, :] = np.flip(image[channel, :, :], axis=0).copy()
+                            image[channel, :, :] = np.flip(image[channel, :, :], axis=1).copy()
+                            #
+                        label_AR = np.flip(label_AR, axis=1).copy()
+                        label_AR = np.flip(label_AR, axis=2).copy()
+                        label_HS = np.flip(label_HS, axis=1).copy()
+                        label_HS = np.flip(label_HS, axis=2).copy()
+                        label_SG = np.flip(label_SG, axis=1).copy()
+                        label_SG = np.flip(label_SG, axis=2).copy()
+                        #label_good = np.flip(label_good, axis=1).copy()
+                        #label_good = np.flip(label_good, axis=2).copy()
+                        #
+                        print(type(image))
+                return image, label_AR, label_HS, label_SG, imagename #label_good
 
             elif self.dataset_tag == 'lidc':
                 #
@@ -1161,6 +1294,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
 
     def __len__(self):
         # You should change 0 to the total size of your dataset.
+        print("Len: ", len(glob.glob(os.path.join(self.image_folder, '*.tif'))))
         return len(glob.glob(os.path.join(self.image_folder, '*.tif')))
 
 
