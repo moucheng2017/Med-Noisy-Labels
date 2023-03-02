@@ -1,0 +1,8 @@
+jupyterlab
+jupytext
+torch
+imageio
+matplotlib
+tensorboardX
+tiffile
+scikit-learn
