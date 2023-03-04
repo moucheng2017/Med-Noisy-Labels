@@ -25,7 +25,7 @@ class UNet_CMs(nn.Module):
         super(UNet_CMs, self).__init__()
         #
         self.depth = depth
-        self.noisy_labels_no = 3
+        self.noisy_labels_no = 4
         print("Noisy labels: ", self.noisy_labels_no)
         self.lowrank = low_rank
         #

@@ -784,6 +784,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 self.label_AR_folder = dataset_location + '/AR'
                 self.label_HS_folder = dataset_location + '/HS'
                 self.label_SG_folder = dataset_location + '/SG'
+                self.label_avrg_folder = dataset_location + '/avrg'
                 self.image_folder = dataset_location + '/images'
                 #
         elif noisylabel == 'binary':
@@ -944,6 +945,11 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 #all_labels_good.sort()
                 #
 
+                # using majority-vote
+                all_labels_avrg = glob.glob(os.path.join(self.label_avrg_folder, '*.tif'))
+                all_labels_avrg.sort()
+                #
+
                 all_images = glob.glob(os.path.join(self.image_folder, '*.tif'))
                 all_images.sort()
                 #
@@ -956,16 +962,15 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 label_SG = tiff.imread(all_labels_SG[index])
                 label_SG = np.array(label_SG, dtype='float32')
                 #
-                #label_good = tiff.imread(all_labels_good[index])
-                #label_good = np.array(label_good, dtype='float32')
+                label_avrg = tiff.imread(all_labels_avrg[index])
+                label_avrg = np.array(label_avrg, dtype='float32')
                 #
                 image = tiff.imread(all_images[index])
                 image = np.array(image, dtype='float32')
-                #print("Image shape", image.shape)
 
                 label_AR[label_AR == 4.0] = 3.0
                 label_SG[label_SG == 4.0] = 3.0
-                #label_good[label_good == 4.0] = 3.0
+                label_avrg[label_avrg == 4.0] = 3.0
                 label_HS[label_HS == 4.0] = 3.0
 
                 if self.dataset_tag == 'oocytes_gent':
@@ -973,12 +978,12 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                     label_HS = np.where(label_HS > 0.5, 1.0, 0.0)
                     label_SG = np.where(label_SG > 0.5, 1.0, 0.0)
 
-                    #if np.amax(label_good) != 1.0:
+                    if np.amax(label_avrg) != 1.0:
                         # sometimes, some preprocessing might give it as 0 - 255 range
-                    #    label_good = np.where(label_good > 10.0, 1.0, 0.0)
-                    #else:
-                    #    assert np.amax(label_good) == 1.0
-                    #    label_good = np.where(label_good > 0.5, 1.0, 0.0)
+                        label_avrg = np.where(label_avrg > 10.0, 1.0, 0.0)
+                    else:
+                        assert np.amax(label_avrg) == 1.0
+                        label_avrg = np.where(label_avrg > 0.5, 1.0, 0.0)
 
                 # print(np.unique(label_over))
                 # label_over: h x w
@@ -996,14 +1001,14 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                         label_AR = np.transpose(label_AR, (2, 0, 1))
                         label_HS = np.transpose(label_HS, (2, 0, 1))
                         label_SG = np.transpose(label_SG, (2, 0, 1))
-                        #label_good = np.transpose(label_good, (2, 0, 1))
+                        label_avrg = np.transpose(label_avrg, (2, 0, 1))
                     #
                 elif c_amount == 2:
                     #
                     label_AR = np.expand_dims(label_AR, axis=0)
                     label_HS = np.expand_dims(label_HS, axis=0)
                     label_SG = np.expand_dims(label_SG, axis=0)
-                    #label_good = np.expand_dims(label_good, axis=0)
+                    label_avrg = np.expand_dims(label_avrg, axis=0)
                 #
                 c_amount = len(np.shape(image))
                 #
@@ -1042,11 +1047,11 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                         label_HS = np.flip(label_HS, axis=2).copy()
                         label_SG = np.flip(label_SG, axis=1).copy()
                         label_SG = np.flip(label_SG, axis=2).copy()
-                        #label_good = np.flip(label_good, axis=1).copy()
-                        #label_good = np.flip(label_good, axis=2).copy()
+                        label_avrg = np.flip(label_avrg, axis=1).copy()
+                        label_avrg = np.flip(label_avrg, axis=2).copy()
                         #
 
-                return image, label_AR, label_HS, label_SG, imagename #label_good
+                return image, label_AR, label_HS, label_SG, label_avrg, imagename
 
             elif self.dataset_tag == 'lidc':
                 #
@@ -1577,13 +1582,12 @@ def evaluate_noisy_label_4(data, model1, class_no):
     test_dice = 0
     test_dice_all = []
     #
-    for i, (v_images, v_labels_over, v_labels_under, v_labels_wrong,
-    #       v_labels_good,
-            v_imagename) in enumerate(data):
+    for i, (v_images, v_labels_AR, v_labels_HS, v_labels_SG, v_labels_avrg, v_imagename) in enumerate(data):
         #
         # print(i)
         #
-        v_images = v_images.to(device='cuda', dtype=torch.float32)
+        #v_images = v_images.to(device='cuda', dtype=torch.float32)
+        v_images = v_images.to(device='cpu', dtype=torch.float32)
         v_outputs_logits, cms = model1(v_images)
         b, c, h, w = v_outputs_logits.size()
         v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
@@ -1605,14 +1609,14 @@ def evaluate_noisy_label_4(data, model1, class_no):
             _, v_noisy_output = torch.max(v_noisy_output, dim=1)
             v_outputs_noisy.append(v_noisy_output.cpu().detach().numpy())
         #
-        #v_dice_ = segmentation_scores(v_labels_good, v_output.cpu().detach().numpy(), class_no)
-        v_dice_ = segmentation_scores(v_labels_over, v_output.cpu().detach().numpy(), class_no)
-        v_dice_ += segmentation_scores(v_labels_under, v_output.cpu().detach().numpy(), class_no)
-        v_dice_ += segmentation_scores(v_labels_wrong, v_output.cpu().detach().numpy(), class_no)
-        v_dice_ /= 3
+        v_dice_ = segmentation_scores(v_labels_avrg, v_output.cpu().detach().numpy(), class_no)
+        #v_dice_ = segmentation_scores(v_labels_AR, v_output.cpu().detach().numpy(), class_no)
+        #v_dice_ += segmentation_scores(v_labels_HS, v_output.cpu().detach().numpy(), class_no)
+        #v_dice_ += segmentation_scores(v_labels_SG, v_output.cpu().detach().numpy(), class_no)
+        #v_dice_ /= 3
         #
         #epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_good.cpu().detach().numpy()]
-        epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_over.cpu().detach().numpy()]
+        epoch_noisy_labels = [v_labels_AR.cpu().detach().numpy(), v_labels_HS.cpu().detach().numpy(), v_labels_SG.cpu().detach().numpy(), v_labels_avrg.cpu().detach().numpy()]
         v_ged = generalized_energy_distance(epoch_noisy_labels, v_outputs_noisy, class_no)
         test_dice += v_dice_
         test_dice_all.append(test_dice)
