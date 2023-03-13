@@ -158,7 +158,6 @@ def trainSingleModel(model_seg,
     iteration_amount = data_length // train_batchsize - 1
     #
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(device)
     #
     save_model_name = model_name
     #
@@ -381,7 +380,6 @@ def trainSingleModel(model_seg,
                 optimizer1.zero_grad()
                 # optimizer2.zero_grad()
                 images = images.to(device=device, dtype=torch.float32)
-                print(device)
                 #
                 labels_AR = labels_AR.to(device=device, dtype=torch.float32)
                 labels_HS = labels_HS.to(device=device, dtype=torch.float32)
