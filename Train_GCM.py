@@ -370,6 +370,88 @@ def trainSingleModel(model_seg,
                 # # #                        TensorboardX Logging                        #
                 # # # # ================================================================ #
 
+        elif data_set == 'oocytes_gent':
+            #
+            for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(trainloader):
+                #
+                b, c, h, w = images.size()
+                #
+                #
+                optimizer1.zero_grad()
+                # optimizer2.zero_grad()
+                images = images.to(device=device, dtype=torch.float32)
+                #
+                labels_AR = labels_AR.to(device=device, dtype=torch.float32)
+                labels_HS = labels_HS.to(device=device, dtype=torch.float32)
+                labels_SG = labels_SG.to(device=device, dtype=torch.float32)
+                labels_avrg = labels_avrg.to(device=device, dtype=torch.float32)
+                #
+                labels_all = []
+                #
+                labels_all.append(labels_AR)
+                labels_all.append(labels_HS)
+                labels_all.append(labels_SG)
+                labels_all.append(labels_avrg)
+                #
+                outputs_logits, outputs_logits_noisy = model_seg(images)
+                #
+                if low_rank_mode is False:
+                    #
+                    loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                    #
+                else:
+                    #
+                    loss, loss_ce, loss_trace = noisy_label_loss_low_rank(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                    #
+                loss.backward()
+                optimizer1.step()
+                # optimizer2.step()
+                #
+                _, train_output = torch.max(outputs_logits, dim=1)
+                #
+                train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
+                #
+                # print(train_iou)
+                # train_iou = segmentation_scores(labels_true.cpu().detach().numpy(), torch.sigmoid(outputs_logits[:, 0, :, :]).cpu().detach().numpy(), class_no)
+                running_loss += loss
+                running_loss_ce += loss_ce
+                running_loss_trace += loss_trace
+                running_iou += train_iou
+                #
+                # if (j + 1) % iteration_amount == 0:
+                if (j + 1) == 1:
+                    #
+                    if low_rank_mode is False:
+                        v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
+                                                               model1=model_seg,
+                                                               class_no=class_no)
+                    else:
+                        v_dice, v_ged = evaluate_noisy_label_6(data=validateloader,
+                                                               model1=model_seg,
+                                                               class_no=class_no)
+                    #
+                    print(
+                        'Step [{}/{}], '
+                        'Train loss: {:.4f}, '
+                        'Train dice: {:.4f},'
+                        'Validate dice: {:.4f},'
+                        'Validate GED: {:.4f},'
+                        'Train loss main: {:.4f},'
+                        'Train loss regualrisation: {:.4f},'.format(epoch + 1, num_epochs,
+                                                                    running_loss / (j + 1),
+                                                                    running_iou / (j + 1),
+                                                                    v_dice,
+                                                                    v_ged,
+                                                                    running_loss_ce / (j + 1),
+                                                                    running_loss_trace / (j + 1)))
+                #
+                    writer.add_scalars('scalars', {'loss': running_loss / (j + 1),
+                                                   'train iou': running_iou / (j + 1),
+                                                   'val iou': v_dice,
+                                                   'train main loss': running_loss_ce / (j + 1),
+                                                   'train regularisation loss': running_loss_trace / (j + 1)}, epoch + 1)
+                #
+
         # for param_group in optimizer.param_groups:
         #     param_group['lr'] = learning_rate*((1 - epoch / num_epochs)**0.999)
         #
