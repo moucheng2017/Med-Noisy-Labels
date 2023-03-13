@@ -161,7 +161,7 @@ def trainSingleModel(model_seg,
     #
     save_model_name = model_name
     #
-    saved_information_path = '../../Results'
+    saved_information_path = './Results'
     #
     try:
         os.mkdir(saved_information_path)
@@ -194,7 +194,7 @@ def trainSingleModel(model_seg,
     #
     print('\n')
     #
-    writer = SummaryWriter('../../Results/Log/Log_' + model_name)
+    writer = SummaryWriter('./Results/Log/Log_' + model_name)
 
     model_seg.to(device)
     # model_cm.to(device)
@@ -457,7 +457,7 @@ def trainSingleModel(model_seg,
         #
     model_seg.eval()
     # model_cm.eval()
-    save_path = '../Exp_Results_Noisy_labels'
+    save_path = './Exp_Results_Noisy_labels'
     #
     try:
         #
@@ -471,7 +471,7 @@ def trainSingleModel(model_seg,
         #
         pass
     #
-    save_path = '../Exp_Results_Noisy_labels/' + data_set
+    save_path = './Exp_Results_Noisy_labels/' + data_set
     #
     try:
         #
