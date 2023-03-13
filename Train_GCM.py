@@ -784,7 +784,7 @@ def trainSingleModel(model_seg,
             if class_no == 2:
                 #
                 plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap='gray')
-                plt.imsave(save_name_label, labels_good.reshape(h, w).cpu().detach().numpy(), cmap='gray')
+                plt.imsave(save_name_label, labels_avrg.reshape(h, w).cpu().detach().numpy(), cmap='gray')
                 #
             else:
                 testoutput_original = np.asarray(v_outputs_logits.cpu().detach().numpy(), dtype=np.uint8)
