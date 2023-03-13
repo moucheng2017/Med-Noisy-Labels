@@ -326,7 +326,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
         # print(i)
         #
         v_images = v_images.to(device='cuda', dtype=torch.float32)
-        v_outputs_logits, cms = model1(v_images)
+        v_outputs_logits, cms = model1(v_images.cuda())
         b, c, h, w = v_outputs_logits.size()
         v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
         # cms = model2(v_images)
