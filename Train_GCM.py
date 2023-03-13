@@ -158,6 +158,7 @@ def trainSingleModel(model_seg,
     iteration_amount = data_length // train_batchsize - 1
     #
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(device)
     #
     save_model_name = model_name
     #
