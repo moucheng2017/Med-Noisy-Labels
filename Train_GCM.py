@@ -381,6 +381,7 @@ def trainSingleModel(model_seg,
                 optimizer1.zero_grad()
                 # optimizer2.zero_grad()
                 images = images.to(device=device, dtype=torch.float32)
+                print(device)
                 #
                 labels_AR = labels_AR.to(device=device, dtype=torch.float32)
                 labels_HS = labels_HS.to(device=device, dtype=torch.float32)
