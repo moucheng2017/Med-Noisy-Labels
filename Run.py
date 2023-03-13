@@ -49,20 +49,20 @@ if __name__ == '__main__':
     # ============================================
     # for baseline with global confusion  matrices
     # ============================================
-    trainGCMModels(input_dim=4,
-                   class_no=4,
+    trainGCMModels(input_dim=3,
+                   class_no=2,
                    repeat=1,
-                   train_batchsize=2,
+                   train_batchsize=5,
                    validate_batchsize=1,
-                   num_epochs=2,
+                   num_epochs=20,
                    learning_rate=1e-2,
                    input_height=192,
-                   input_width=192,
+                   input_width=256,
                    alpha=0.4,
-                   width=32,
+                   width=24,
                    depth=3,
-                   data_path='/home/moucheng/Desktop/All_L10_H10',
-                   dataset_tag='brats',
+                   data_path='./oocytes_gent/',
+                   dataset_tag='oocytes_gent',
                    label_mode='multi',
                    loss_f='noisy_label',
                    save_probability_map=False)
@@ -101,4 +101,3 @@ if __name__ == '__main__':
     # # #
 
     #
-
