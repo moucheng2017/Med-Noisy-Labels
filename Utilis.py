@@ -1483,6 +1483,8 @@ def segmentation_scores(label_trues, label_preds, n_class):
     :param n_class:
     :return:
     '''
+    print("true labels:", type(label_trues))
+    print("preds:", type(label_preds))
     assert len(label_trues) == len(label_preds)
 
     if n_class == 2:
