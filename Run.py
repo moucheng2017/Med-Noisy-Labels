@@ -54,7 +54,7 @@ if __name__ == '__main__':
                    repeat=1,
                    train_batchsize=5,
                    validate_batchsize=1,
-                   num_epochs=20,
+                   num_epochs=100,
                    learning_rate=1e-2,
                    input_height=192,
                    input_width=256,
@@ -65,7 +65,7 @@ if __name__ == '__main__':
                    dataset_tag='oocytes_gent',
                    label_mode='multi',
                    loss_f='noisy_label',
-                   save_probability_map=False)
+                   save_probability_map=True)
     # ============================================
     # for baseline without label merging:
     # ============================================
