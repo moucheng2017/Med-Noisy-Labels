@@ -2,7 +2,7 @@ import torch
 # import sys
 # sys.path.append("..")
 # from Train_unet import trainUnet
- from Train_ours import trainModels
+from Train_ours import trainModels
 from Train_GCM import trainGCMModels
 # from Train_punet import train_punet
 # torch.manual_seed(0)
