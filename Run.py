@@ -52,7 +52,7 @@ if __name__ == '__main__':
     trainGCMModels(input_dim=3,
                    class_no=2,
                    repeat=1,
-                   train_batchsize=10,
+                   train_batchsize=8,
                    validate_batchsize=2,
                    num_epochs=30,
                    learning_rate=1e-2,
