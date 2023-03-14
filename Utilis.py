@@ -1485,10 +1485,10 @@ def segmentation_scores(label_trues, label_preds, n_class):
     '''
     print("true labels:", type(label_trues))
     print(label_trues[0, 0].shape)
-    print(label_trues[0, 0].max())
+    print(label_trues[0, 0].amax())
     print("preds:", type(label_preds))
     print(label_preds[0, 0].shape)
-    print(label_preds[0, 0].max())
+    print(label_preds[0, 0].amax())
     assert len(label_trues) == len(label_preds)
 
     if n_class == 2:
