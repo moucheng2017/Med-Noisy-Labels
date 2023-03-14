@@ -160,7 +160,7 @@ def trainSingleModel(model_seg,
     #
     save_model_name = model_name
     #
-    saved_information_path = '../../Results'
+    saved_information_path = './Results'
     #
     try:
         os.mkdir(saved_information_path)
@@ -193,7 +193,7 @@ def trainSingleModel(model_seg,
     #
     print('\n')
     #
-    writer = SummaryWriter('../../Results/Log/Log_' + model_name)
+    writer = SummaryWriter('./Results/Log/Log_' + model_name)
 
     model_seg.to(device)
     # model_cm.to(device)
@@ -368,13 +368,93 @@ def trainSingleModel(model_seg,
                 # # # ================================================================== #
                 # # #                        TensorboardX Logging                        #
                 # # # # ================================================================ #
-
+        elif data_set == 'oocytes_gent':
+            #
+            for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(trainloader):
+                #
+                b, c, h, w = images.size()
+                #
+                #
+                optimizer1.zero_grad()
+                # optimizer2.zero_grad()
+                images = images.to(device=device, dtype=torch.float32)
+                #
+                labels_AR = labels_AR.to(device=device, dtype=torch.float32)
+                labels_HS = labels_HS.to(device=device, dtype=torch.float32)
+                labels_SG = labels_SG.to(device=device, dtype=torch.float32)
+                labels_avrg = labels_avrg.to(device=device, dtype=torch.float32)
+                #
+                labels_all = []
+                #
+                labels_all.append(labels_AR)
+                labels_all.append(labels_HS)
+                labels_all.append(labels_SG)
+                labels_all.append(labels_avrg)
+                #
+                outputs_logits, outputs_logits_noisy = model_seg(images)
+                #
+                if low_rank_mode is False:
+                    #
+                    loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                    #
+                else:
+                    #
+                    loss, loss_ce, loss_trace = noisy_label_loss_low_rank(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                    #
+                loss.backward()
+                optimizer1.step()
+                # optimizer2.step()
+                #
+                _, train_output = torch.max(outputs_logits, dim=1)
+                #
+                train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
+                #
+                # print(train_iou)
+                # train_iou = segmentation_scores(labels_true.cpu().detach().numpy(), torch.sigmoid(outputs_logits[:, 0, :, :]).cpu().detach().numpy(), class_no)
+                running_loss += loss
+                running_loss_ce += loss_ce
+                running_loss_trace += loss_trace
+                running_iou += train_iou
+                #
+                # if (j + 1) % iteration_amount == 0:
+                if (j + 1) == 1:
+                    #
+                    if low_rank_mode is False:
+                        v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
+                                                               model1=model_seg,
+                                                               class_no=class_no)
+                    else:
+                        v_dice, v_ged = evaluate_noisy_label_6(data=validateloader,
+                                                               model1=model_seg,
+                                                               class_no=class_no)
+                    #
+                    print(
+                        'Step [{}/{}], '
+                        'Train loss: {:.4f}, '
+                        'Train dice: {:.4f},'
+                        'Validate dice: {:.4f},'
+                        'Validate GED: {:.4f},'
+                        'Train loss main: {:.4f},'
+                        'Train loss regualrisation: {:.4f},'.format(epoch + 1, num_epochs,
+                                                                    running_loss / (j + 1),
+                                                                    running_iou / (j + 1),
+                                                                    v_dice,
+                                                                    v_ged,
+                                                                    running_loss_ce / (j + 1),
+                                                                    running_loss_trace / (j + 1)))
+                #
+                    writer.add_scalars('scalars', {'loss': running_loss / (j + 1),
+                                                   'train iou': running_iou / (j + 1),
+                                                   'val iou': v_dice,
+                                                   'train main loss': running_loss_ce / (j + 1),
+                                                   'train regularisation loss': running_loss_trace / (j + 1)}, epoch + 1)
+                #
         # for param_group in optimizer.param_groups:
         #     param_group['lr'] = learning_rate*((1 - epoch / num_epochs)**0.999)
         #
     model_seg.eval()
     # model_cm.eval()
-    save_path = '../Exp_Results_Noisy_labels'
+    save_path = './Results/Exp_Results_Noisy_labels'
     #
     try:
         #
@@ -388,7 +468,7 @@ def trainSingleModel(model_seg,
         #
         pass
     #
-    save_path = '../Exp_Results_Noisy_labels/' + data_set
+    save_path = './Results/Exp_Results_Noisy_labels/' + data_set
     #
     try:
         #
@@ -743,6 +823,199 @@ def trainSingleModel(model_seg,
                             save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_noisy_class_' + str(class_index) + '_seg_probability.png'
                             plt.imsave(save_name, v_noisy_output.reshape(h, w).cpu().detach().numpy(), cmap='gray')
                             #
+    elif data_set == 'oocytes_gent':
+        #
+        for i, (v_images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(testdata):
+            #
+            cm_all_true = []
+            #
+            cm_AR_true = calculate_cm(pred=labels_AR, true=labels_avrg)
+            cm_HS_true = calculate_cm(pred=labels_HS, true=labels_avrg)
+            cm_SG_true = calculate_cm(pred=labels_SG, true=labels_avrg)
+            #
+            cm_all_true.append(cm_AR_true)
+            cm_all_true.append(cm_HS_true)
+            cm_all_true.append(cm_SG_true)
+            #
+            # cm_all_true_result = sum(cm_all_true) / len(cm_all_true)
+            #
+            v_images = v_images.to(device=device, dtype=torch.float32)
+            #
+            v_outputs_logits_original, v_outputs_logits_noisy = model_seg(v_images)
+            #
+            b, c, h, w = v_outputs_logits_original.size()
+            #
+            v_outputs_logits_original = nn.Softmax(dim=1)(v_outputs_logits_original)
+            #
+            _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
+            #
+            save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_seg.png'
+            save_name_label = save_path + '/test_' + imagename[0] + '_' + str(i) + '_label.png'
+            #
+            bb, cc, hh, ww = v_images.size()
+            #
+            for ccc in range(cc):
+                #
+                save_name_slice = save_path + '/test_' + imagename[0] + '_' + str(i) + '_slice_' + str(ccc) + '.png'
+                plt.imsave(save_name_slice, v_images[:, ccc, :, :].reshape(h, w).cpu().detach().numpy(), cmap='gray')
+            #
+            if class_no == 2:
+                #
+                plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap='gray')
+                plt.imsave(save_name_label, labels_avrg.reshape(h, w).cpu().detach().numpy(), cmap='gray')
+                #
+            else:
+                testoutput_original = np.asarray(v_outputs_logits.cpu().detach().numpy(), dtype=np.uint8)
+                testoutput_original = np.squeeze(testoutput_original, axis=0)
+                testoutput_original = np.repeat(testoutput_original[:, :, np.newaxis], 3, axis=2)
+                segmentation_map = np.zeros((h, w, 3), dtype=np.uint8)
+                segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 1, testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1)] = 255
+                segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 1, testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1)] = 0
+                segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 1, testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1)] = 0
+                #
+                segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 2, testoutput_original[:, :, 1] == 2, testoutput_original[:, :, 2] == 2)] = 0
+                segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 2, testoutput_original[:, :, 1] == 2, testoutput_original[:, :, 2] == 2)] = 255
+                segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 2, testoutput_original[:, :, 1] == 2, testoutput_original[:, :, 2] == 2)] = 0
+                #
+                segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 0
+                segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 0
+                segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 255
+                imageio.imsave(save_name, segmentation_map)
+                #
+                testoutput_original = np.asarray(labels_good.reshape(h, w).cpu().detach().numpy(), dtype=np.uint8)
+                testoutput_original = np.repeat(testoutput_original[:, :, np.newaxis], 3, axis=2)
+                segmentation_map = np.zeros((h, w, 3), dtype=np.uint8)
+                segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 1, testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1)] = 255
+                segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 1, testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1)] = 0
+                segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 1, testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1)] = 0
+                #
+                segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 2, testoutput_original[:, :, 1] == 2, testoutput_original[:, :, 2] == 2)] = 0
+                segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 2, testoutput_original[:, :, 1] == 2, testoutput_original[:, :, 2] == 2)] = 255
+                segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 2, testoutput_original[:, :, 1] == 2, testoutput_original[:, :, 2] == 2)] = 0
+                #
+                segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 0
+                segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 0
+                segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 255
+                imageio.imsave(save_name_label, segmentation_map)
+                #
+            if save_probability_map is True:
+                for class_index in range(c):
+                    #
+                    if c > 0:
+                        v_outputs_logits = v_outputs_logits_original[:, class_index, :, :]
+                        save_name = save_path + '/test_' + imagename[0] + str(i) + '_class_' + str(class_index) + '_seg_probability.png'
+                        plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap='gray')
+            #
+            nnn = 1
+            #
+            v_outputs_logits_original = v_outputs_logits_original.reshape(b, c, h*w)
+            v_outputs_logits_original = v_outputs_logits_original.permute(0, 2, 1).contiguous()
+            v_outputs_logits_original = v_outputs_logits_original.view(b * h * w, c).view(b*h*w, c, 1)
+            #
+            cm_mse = 0
+            #
+            for j, cm in enumerate(v_outputs_logits_noisy):
+                #
+                if low_rank_mode is False:
+                    #
+                    cm = cm.view(b, c**2, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c*c).view(b*h*w, c, c)
+                    cm = cm / cm.sum(1, keepdim=True)
+                    #
+                    if j < len(cm_all_true):
+                        #
+                        cm_pred_ = cm.sum(0) / (b*h*w)
+                        #
+                        # print(np.shape(cm_pred_))
+                        #
+                        cm_pred_ = cm_pred_.cpu().detach().numpy()
+                        #
+                        # print(np.shape(cm_pred_))
+                        #
+                        cm_true_ = cm_all_true[j]
+                        #
+                        # print(np.shape(cm_true_))
+                        #
+                        cm_mse_each_label = cm_pred_ - cm_true_
+                        #
+                        cm_mse_each_label = cm_mse_each_label**2
+                        # cm_mse_each_label = (cm.cpu().detach().numpy - cm_all_true[j])**2
+                        cm_mse += cm_mse_each_label.mean()
+                        #
+                        # print(cm_mse)
+                    #
+                    v_noisy_output_original = torch.bmm(cm, v_outputs_logits_original).view(b*h*w, c)
+                    v_noisy_output_original = v_noisy_output_original.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+                    #
+                else:
+                    #
+                    b, c_r_d, h, w = cm.size()
+                    r = c_r_d // c // 2
+                    cm1 = cm[:, 0:r * c, :, :]
+                    # cm1: b x c*rank x h x w
+                    if r == 1:
+                        cm2 = cm[:, r * c:c_r_d-1, :, :]
+                    else:
+                        cm2 = cm[:, r * c:c_r_d-1, :, :]
+                    # cm2: b x c*rank x h x w
+                    #
+                    cm1_reshape = cm1.view(b, c_r_d // 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, r * c).view(b * h * w, r, c)
+                    # cm1: b*h*w x r x c
+                    cm2_reshape = cm2.view(b, c_r_d // 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, r * c).view(b * h * w, c, r)
+                    #
+                    cm1_reshape = cm1_reshape / cm1_reshape.sum(1, keepdim=True)
+                    # cm1: b*h*w x r x c, normalisation along rows
+                    cm2_reshape = cm2_reshape / cm2_reshape.sum(1, keepdim=True)
+                    #
+                    v_noisy_output_original = torch.bmm(cm1_reshape, v_outputs_logits_original)
+                    # pred_noisy: b*h*w x r x 1
+                    v_noisy_output_original = torch.bmm(cm2_reshape, v_noisy_output_original).view(b * h * w, c)
+                    # pred_noisy: b*h*w x c x 1
+                    v_noisy_output_original = v_noisy_output_original.view(b, h * w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+                    #
+                #
+                _, v_noisy_output = torch.max(v_noisy_output_original, dim=1)
+                # print('noisy ' + str(nnn) + ' of test ' + str(i))
+                # print(torch.sum(cm, dim=0) / (b * h * w))
+                nnn += 1
+                # print('\n')
+                save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_noisy_' + str(j) + '_seg.png'
+                #
+                save_cm_name = save_path + '/' + imagename[0] + '_cm.npy'
+                np.save(save_cm_name, cm.cpu().detach().numpy())
+                #
+                if class_no == 2:
+                    #
+                    plt.imsave(save_name, v_noisy_output.reshape(h, w).cpu().detach().numpy(), cmap='gray')
+                    #
+                else:
+                    #
+                    testoutput_original = np.asarray(v_noisy_output.cpu().detach().numpy(), dtype=np.uint8)
+                    testoutput_original = np.squeeze(testoutput_original, axis=0)
+                    testoutput_original = np.repeat(testoutput_original[:, :, np.newaxis], 3, axis=2)
+                    #
+                    segmentation_map = np.zeros((h, w, 3), dtype=np.uint8)
+                    segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 1, testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1)] = 255
+                    segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 1, testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1)] = 0
+                    segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 1, testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1)] = 0
+                    #
+                    segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 2, testoutput_original[:, :, 1] == 2, testoutput_original[:, :, 2] == 2)] = 0
+                    segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 2, testoutput_original[:, :, 1] == 2, testoutput_original[:, :, 2] == 2)] = 255
+                    segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 2, testoutput_original[:, :, 1] == 2, testoutput_original[:, :, 2] == 2)] = 0
+                    #
+                    segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 0
+                    segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 0
+                    segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 255
+                    imageio.imsave(save_name, segmentation_map)
+                #
+                if save_probability_map is True:
+                    #
+                    for class_index in range(c):
+                        #
+                        if c > 0:
+                            #
+                            v_noisy_output = v_noisy_output_original[:, class_index, :, :]
+                            save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_noisy_class_' + str(class_index) + '_seg_probability.png'
+                            plt.imsave(save_name, v_noisy_output.reshape(h, w).cpu().detach().numpy(), cmap='gray')
     # save model
     stop = timeit.default_timer()
     #
@@ -769,4 +1042,3 @@ def trainSingleModel(model_seg,
     print('\nTraining finished and model saved\n')
     #
     return model_seg
-

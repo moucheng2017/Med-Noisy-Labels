@@ -3,3 +3,4 @@
 .idea
 *checkpoint.ipynb
 *checkpoint.py
+*.DS_Store
