@@ -530,6 +530,7 @@ def trainSingleModel(model_seg,
             save_name_label = save_path + '/test_' + imagename[0] + '_' + str(i) + '_label.png'
             #
             bb, cc, hh, ww = v_images.size()
+            print(v_images.size())
             #
             for ccc in range(cc):
                 #
