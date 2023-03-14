@@ -1484,11 +1484,11 @@ def segmentation_scores(label_trues, label_preds, n_class):
     :return:
     '''
     print("true labels:", type(label_trues))
-    print(label_trues[0, 0].shape)
+    print(label_trues.shape)
     print(label_trues[0, 0].max())
     print(label_trues[0, 0].min())
     print("preds:", type(label_preds))
-    print(label_preds[0, 0].shape)
+    print(label_preds.shape)
     print(label_preds[0, 0].max())
     print(label_preds[0, 0].min())
     assert len(label_trues) == len(label_preds)
