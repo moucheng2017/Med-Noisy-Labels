@@ -83,15 +83,11 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
     # for segmentation results generation of our models
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = torch.load(model_path)
-    print("Model loaded and ready for evaluation...")
     model.eval()
-    print("Model evaluated correctly...")
     #
     testloader = data.DataLoader(testdata, batch_size=1, shuffle=False, drop_last=False)
 
     for i, (v_images, labels_over, labels_under, labels_wrong, labels_good, imagename) in enumerate(testloader):
-
-        print("Loop testdata started...")
         #
         cm_all_true = []
         #

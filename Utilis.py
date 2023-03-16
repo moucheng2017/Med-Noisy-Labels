@@ -750,7 +750,6 @@ class CustomDataset_punet(torch.utils.data.Dataset):
 
     def __init__(self, dataset_location, dataset_tag, noisylabel, augmentation=False):
 
-        print("Initialized...")
         #
         self.label_mode = noisylabel
         self.dataset_tag = dataset_tag
@@ -788,7 +787,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 self.label_SG_folder = dataset_location + '/SG'
                 self.label_avrg_folder = dataset_location + '/avrg'
                 self.image_folder = dataset_location + '/images'
-                print("Gent data loaded...")
+                print("Gent data loaded in Utilis.py ...")
                 #
         elif noisylabel == 'binary':
             if dataset_tag == 'mnist':
@@ -1303,7 +1302,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
 
     def __len__(self):
         # You should change 0 to the total size of your dataset.
-        print("Len: ", len(glob.glob(os.path.join(self.image_folder, '*.tif'))))
+        #print("Len: ", len(glob.glob(os.path.join(self.image_folder, '*.tif'))))
         return len(glob.glob(os.path.join(self.image_folder, '*.tif')))
 
 
