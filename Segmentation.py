@@ -126,7 +126,7 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
             plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap='gray')
             plt.imsave(save_name_label, labels_good.reshape(h, w).cpu().detach().numpy(), cmap='gray')
 
-            print("Successfully saved,", i)
+            print("Successfully saved,", i + 1)
             #
         else:
             testoutput_original = np.asarray(v_outputs_logits.cpu().detach().numpy(), dtype=np.uint8)
