@@ -788,6 +788,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 self.label_SG_folder = dataset_location + '/SG'
                 self.label_avrg_folder = dataset_location + '/avrg'
                 self.image_folder = dataset_location + '/images'
+                print("Gent data loaded...")
                 #
         elif noisylabel == 'binary':
             if dataset_tag == 'mnist':
