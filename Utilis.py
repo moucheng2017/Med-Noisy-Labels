@@ -749,6 +749,8 @@ def test(testdata,
 class CustomDataset_punet(torch.utils.data.Dataset):
 
     def __init__(self, dataset_location, dataset_tag, noisylabel, augmentation=False):
+
+        print("Initialized...")
         #
         self.label_mode = noisylabel
         self.dataset_tag = dataset_tag
