@@ -86,6 +86,8 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
     model.eval()
     #
     for i, (v_images, labels_over, labels_under, labels_wrong, labels_good, imagename) in enumerate(testdata):
+
+        print("Loop testdata started...")
         #
         cm_all_true = []
         #
