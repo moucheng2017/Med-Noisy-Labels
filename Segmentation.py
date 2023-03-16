@@ -66,7 +66,7 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
         pass
     #
     save_path = save_path + '/Exp_' + \
-                '_Noisy_Label_Net_' + model_name
+                'Noisy_Label_Net_' + model_name
     #
     try:
         #
@@ -123,6 +123,8 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
             #
             plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap='gray')
             plt.imsave(save_name_label, labels_good.reshape(h, w).cpu().detach().numpy(), cmap='gray')
+
+            print("Successfully saved.")
             #
         else:
             testoutput_original = np.asarray(v_outputs_logits.cpu().detach().numpy(), dtype=np.uint8)
@@ -157,6 +159,7 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
             segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 0
             segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 255
             imageio.imsave(save_name_label, segmentation_map)
+
             print("Successfully saved.")
             #
 
@@ -172,5 +175,6 @@ if __name__ == '__main__':
     dataset_tag = 'oocytes_gent'
     label_mode = 'multi'
     class_no = 2
+    model_name = "UNet_GlobalCMs"
     test_data = CustomDataset_punet(dataset_location=test_path, dataset_tag=dataset_tag, noisylabel=label_mode, augmentation=False)
-    segmentation(model_name='Unet_CMs', model_path=model_path, testdata=test_data, class_no=class_no, data_set=dataset_tag)
+    segmentation(model_name=model_name, model_path=model_path, testdata=test_data, class_no=class_no, data_set=dataset_tag)
