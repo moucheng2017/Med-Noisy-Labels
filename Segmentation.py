@@ -173,11 +173,11 @@ if __name__ == '__main__':
     #   2. test_path: path to testing data
     #model_path = './Results/saved_models/saved_model_test01_CMs.pt'
     # model path for Global CMs
-    model_path = './Results/Global_CMs_Results/Results/trained_models/model.pt'
-    model_name = "UNet_GlobalCMs"
+    #model_path = './Results/Global_CMs_Results/Results/trained_models/model.pt'
+    #model_name = "UNet_GlobalCMs"
     # model path for CMs
-    #model_path = './Results/CMs_Results/Results/trained_models/model.pt'
-    #model_name = "UNet_CMs"
+    model_path = './Results/CMs_Results/Results/trained_models/model.pt'
+    model_name = "UNet_CMs"
     # data path:
     data_path = './oocytes_gent'
     test_path = data_path + '/test'
