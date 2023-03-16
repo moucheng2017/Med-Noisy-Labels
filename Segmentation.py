@@ -176,7 +176,8 @@ if __name__ == '__main__':
     #   2. test_path: path to testing data
     model_path = './Results/saved_models/saved_model_test01.pt'
     # data path:
-    test_path = './oocytes_gent'
+    data_path = './oocytes_gent'
+    test_path = data_path + '/test'
     dataset_tag = 'oocytes_gent'
     label_mode = 'multi'
     class_no = 2
