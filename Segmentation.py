@@ -183,4 +183,7 @@ if __name__ == '__main__':
     model_name = "UNet_GlobalCMs"
     test_data = CustomDataset_punet(dataset_location=test_path, dataset_tag=dataset_tag, noisylabel=label_mode, augmentation=False)
     print(type(test_data))
+    for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(testloader):
+        print(type(labels_avrg))
+        print(labels_avrg.size())
     segmentation(model_name=model_name, model_path=model_path, testdata=test_data, class_no=class_no, data_set=dataset_tag)
