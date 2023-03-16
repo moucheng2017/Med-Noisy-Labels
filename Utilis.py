@@ -1300,7 +1300,7 @@ class CustomDataset_punet(torch.utils.data.Dataset):
 
     def __len__(self):
         # You should change 0 to the total size of your dataset.
-        #print("Len: ", len(glob.glob(os.path.join(self.image_folder, '*.tif'))))
+        print("Len: ", len(glob.glob(os.path.join(self.image_folder, '*.tif'))))
         return len(glob.glob(os.path.join(self.image_folder, '*.tif')))
 
 
