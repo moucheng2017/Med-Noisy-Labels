@@ -457,7 +457,7 @@ def trainSingleModel(model_seg,
         #
     model_seg.eval()
     # model_cm.eval()
-    save_path = './Exp_Results_Noisy_labels'
+    save_path = './Results/Exp_Results_Noisy_labels'
     #
     try:
         #
@@ -471,7 +471,7 @@ def trainSingleModel(model_seg,
         #
         pass
     #
-    save_path = './Exp_Results_Noisy_labels/' + data_set
+    save_path = './Results/Exp_Results_Noisy_labels/' + data_set
     #
     try:
         #
