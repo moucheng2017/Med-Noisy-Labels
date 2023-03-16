@@ -35,7 +35,7 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
     Returns:
 
     """
-    save_path = '../Exp_Results_Noisy_labels'
+    save_path = './Results/Exp_Results_Noisy_labels'
     #
     try:
         #
@@ -49,7 +49,7 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
         #
         pass
     #
-    save_path = '../Exp_Results_Noisy_labels/' + data_set
+    save_path = './Results/Exp_Results_Noisy_labels/' + data_set
     #
     try:
         #
@@ -162,15 +162,11 @@ if __name__ == '__main__':
     # This is to run segmentation of trained our models
     # To use it, change:
     #   1. model_path
-    #   2. test_pat: path to testing data
-    model_path = '../../saved_model.pt'
+    #   2. test_path: path to testing data
+    model_path = './Results/saved_models/saved_model_test01.pt'
     # data path:
-    test_path = '../../data_folder'
-    dataset_tag = 'brats'
+    test_path = './oocytes_gent'
+    dataset_tag = 'oocytes_gent'
     label_mode = 'multi'
     test_data = CustomDataset_punet(dataset_location=test_path, dataset_tag=dataset_tag, noisylabel=label_mode, augmentation=False)
     segmentation(model_name='Unet_CMs', model_path=model_path, testdata=test_data, class_no=4, data_set=dataset_tag)
-
-
-
-
