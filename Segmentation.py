@@ -85,6 +85,7 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
     model = torch.load(model_path)
     print("Model loaded and ready for evaluation...")
     model.eval()
+    print("Model evaluated correctly...")
     #
     for i, (v_images, labels_over, labels_under, labels_wrong, labels_good, imagename) in enumerate(testdata):
 
