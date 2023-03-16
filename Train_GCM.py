@@ -857,20 +857,19 @@ def trainSingleModel(model_seg,
             save_name_label = save_path + '/test_' + imagename[0] + '_' + str(i) + '_label.png'
             #
             bb, cc, hh, ww = v_images.size()
-            print(v_images.size())
             #
             for ccc in range(cc):
                 #
                 save_name_slice = save_path + '/test_' + imagename[0] + '_' + str(i) + '_slice_' + str(ccc) + '.png'
                 plt.imsave(save_name_slice, v_images[:, ccc, :, :].reshape(h, w).cpu().detach().numpy(), cmap='gray')
-                print("Slice:", save_name_slice)
+                #print("Slice:", save_name_slice)
             #
             if class_no == 2:
                 #
                 plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap='gray')
                 plt.imsave(save_name_label, labels_avrg.reshape(h, w).cpu().detach().numpy(), cmap='gray')
-                print("Name:", save_name)
-                print("Label:", save_name_label)
+                #print("Name:", save_name)
+                #print("Label:", save_name_label)
                 #
             else:
                 testoutput_original = np.asarray(v_outputs_logits.cpu().detach().numpy(), dtype=np.uint8)
@@ -912,7 +911,7 @@ def trainSingleModel(model_seg,
                     if c > 0:
                         v_outputs_logits = v_outputs_logits_original[:, class_index, :, :]
                         save_name = save_path + '/test_' + imagename[0] + str(i) + '_class_' + str(class_index) + '_seg_probability.png'
-                        print(save_name)
+                        #print(save_name)
                         plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap='gray')
             #
             nnn = 1
