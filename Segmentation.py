@@ -171,13 +171,18 @@ if __name__ == '__main__':
     # To use it, change:
     #   1. model_path
     #   2. test_path: path to testing data
-    model_path = './Results/saved_models/saved_model_test01_CMs.pt'
+    #model_path = './Results/saved_models/saved_model_test01_CMs.pt'
+    # model path for Global CMs
+    model_path = './Results/Global_CMs_Results/Results/trained_models/model.pt'
+    model_name = "UNet_GlobalCMs"
+    # model path for CMs
+    #model_path = './Results/CMs_Results/Results/trained_models/model.pt'
+    #model_name = "UNet_CMs"
     # data path:
     data_path = './oocytes_gent'
     test_path = data_path + '/test'
     dataset_tag = 'oocytes_gent'
     label_mode = 'multi'
     class_no = 2
-    model_name = "UNet_CMs"
     test_data = CustomDataset_punet(dataset_location=test_path, dataset_tag=dataset_tag, noisylabel=label_mode, augmentation=False)
     segmentation(model_name=model_name, model_path=model_path, testdata=test_data, class_no=class_no, data_set=dataset_tag)
