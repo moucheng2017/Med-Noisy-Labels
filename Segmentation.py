@@ -155,6 +155,7 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
             segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 0
             segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 3, testoutput_original[:, :, 1] == 3, testoutput_original[:, :, 2] == 3)] = 255
             imageio.imsave(save_name_label, segmentation_map)
+            print("Successfully saved.")
             #
 
 if __name__ == '__main__':
