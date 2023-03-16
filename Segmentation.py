@@ -115,7 +115,6 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
         save_name_label = save_path + '/test_' + imagename[0] + '_' + str(i) + '_label.png'
         #
         bb, cc, hh, ww = v_images.size()
-        print("Images size:", v_images.size())
         #
         for ccc in range(cc):
             #
@@ -127,7 +126,7 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
             plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap='gray')
             plt.imsave(save_name_label, labels_good.reshape(h, w).cpu().detach().numpy(), cmap='gray')
 
-            print("Successfully saved.")
+            print("Successfully saved,", i)
             #
         else:
             testoutput_original = np.asarray(v_outputs_logits.cpu().detach().numpy(), dtype=np.uint8)
