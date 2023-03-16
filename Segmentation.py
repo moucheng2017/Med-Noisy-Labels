@@ -183,7 +183,7 @@ if __name__ == '__main__':
     model_name = "UNet_GlobalCMs"
     test_data = CustomDataset_punet(dataset_location=test_path, dataset_tag=dataset_tag, noisylabel=label_mode, augmentation=False)
     print(type(test_data))
-    testloader = data.DataLoader(test_dataset, batch_size=1, shuffle=False, drop_last=False)
+    testloader = data.DataLoader(test_data, batch_size=1, shuffle=False, drop_last=False)
     for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(testloader):
         print(type(labels_avrg))
         print(labels_avrg.size())
