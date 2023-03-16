@@ -35,6 +35,8 @@ def segmentation(model_name, model_path, testdata, class_no, data_set):
     Returns:
 
     """
+    print("Segmentation testing started...")
+
     save_path = './Results/Exp_Results_Noisy_labels'
     #
     try:
