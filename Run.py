@@ -60,7 +60,7 @@ if __name__ == '__main__':
                    learning_rate=1e-2,
                    input_height=192,
                    input_width=256,
-                   alpha=0.6,
+                   alpha=1.,
                    width=32,
                    depth=3,
                    data_path='./oocytes_gent/',
