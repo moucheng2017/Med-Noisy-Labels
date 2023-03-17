@@ -37,7 +37,8 @@ def trainGCMModels(input_dim,
                    dataset_tag,
                    label_mode,
                    loss_f='noisy_label',
-                   save_probability_map=True):
+                   save_probability_map=True,
+                   path_name = './Results'):
 
     """ This is the panel to control the hyper-parameter of training of baseline with the use of global confusion matrix.
 
@@ -63,7 +64,7 @@ def trainGCMModels(input_dim,
     Returns:
 
     """
-
+    print(path_name)
     for j in range(1, repeat + 1):
         #
         Segmentation_net = UNet_GlobalCMs(in_ch=input_dim, width=width, depth=depth, class_no=class_no, input_height=input_height, input_width=input_width, norm='in')
@@ -90,7 +91,8 @@ def trainGCMModels(input_dim,
                          class_no=class_no,
                          data_set=dataset_tag,
                          save_probability_map=save_probability_map,
-                         low_rank_mode=False)
+                         low_rank_mode=False,
+                         path_name = path_name)
 
 
 def getData(train_batchsize, validate_batchsize, data_path, dataset_tag, label_mode):
@@ -152,7 +154,8 @@ def trainSingleModel(model_seg,
                      class_no,
                      data_set,
                      save_probability_map,
-                     low_rank_mode=False):
+                     low_rank_mode=False,
+                     path_name = './Results'):
     #
     # change log names
     iteration_amount = data_length // train_batchsize - 1
@@ -161,7 +164,7 @@ def trainSingleModel(model_seg,
     #
     save_model_name = model_name
     #
-    saved_information_path = './Results'
+    saved_information_path = path_name
     #
     try:
         os.mkdir(saved_information_path)
@@ -194,7 +197,7 @@ def trainSingleModel(model_seg,
     #
     print('\n')
     #
-    writer = SummaryWriter('./Results/Log/Log_' + model_name)
+    writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
     model_seg.to(device)
     # model_cm.to(device)
@@ -457,7 +460,7 @@ def trainSingleModel(model_seg,
         #
     model_seg.eval()
     # model_cm.eval()
-    save_path = './Results/Exp_Results_Noisy_labels'
+    save_path = path_name + '/Exp_Results_Noisy_labels'
     #
     try:
         #
@@ -471,7 +474,7 @@ def trainSingleModel(model_seg,
         #
         pass
     #
-    save_path = './Results/Exp_Results_Noisy_labels/' + data_set
+    save_path = path_name + '/Exp_Results_Noisy_labels/' + data_set
     #
     try:
         #

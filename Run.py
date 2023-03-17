@@ -8,6 +8,7 @@ from Train_GCM import trainGCMModels
 # torch.manual_seed(0)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
+import time
 # ====================================
 
 if __name__ == '__main__':
@@ -44,7 +45,8 @@ if __name__ == '__main__':
     #             dataset_tag='oocytes_gent',
     #             label_mode='multi',
     #             save_probability_map=True,
-    #             low_rank_mode=True)
+    #             low_rank_mode=True,
+    #             path_name = './Results/CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     #
     # ============================================
     # for baseline with global confusion  matrices
@@ -65,7 +67,8 @@ if __name__ == '__main__':
                    dataset_tag='oocytes_gent',
                    label_mode='multi',
                    loss_f='noisy_label',
-                   save_probability_map=True)
+                   save_probability_map=True,
+                   path_name = './Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     # ============================================
     # for baseline without label merging:
     # ============================================
