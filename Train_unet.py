@@ -132,12 +132,6 @@ def getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate
     #
     trainloader = data.DataLoader(train_dataset, batch_size=train_batchsize, shuffle=True, num_workers=5, drop_last=True)
     #
-    #
-    for j, (images, labels_avrg, imagename) in enumerate(trainloader):
-
-        print(imagename)
-    #
-    #
     validateloader = data.DataLoader(validate_dataset, batch_size=validate_batchsize, shuffle=False, num_workers=validate_batchsize, drop_last=False)
     #
     testloader = data.DataLoader(test_dataset, batch_size=validate_batchsize, shuffle=False, num_workers=validate_batchsize, drop_last=False)

@@ -109,7 +109,7 @@ if __name__ == '__main__':
     trainUnet(dataset_tag = 'oocytes_gent',
                 dataset_name = 'oocytes_gent',
                 data_directory = './oocytes_gent/',
-                input_dim = 1,
+                input_dim = 3,
                 class_no = 2,
                 repeat = 1,
                 train_batchsize = 16,
