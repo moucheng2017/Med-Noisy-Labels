@@ -45,7 +45,7 @@ class CustomDataset(torch.utils.data.Dataset):
         label = tiff.imread(all_labels[index])
         label = np.array(label, dtype='float32')
         #
-        image = tiff.imread(all_imgs[index])
+        image = tiff.imread(all_images[index])
         image = np.array(image, dtype='float32')
 
         #
