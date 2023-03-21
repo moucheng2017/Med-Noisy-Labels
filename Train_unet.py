@@ -130,6 +130,10 @@ def getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate
     #
     test_dataset = CustomDataset(test_image_folder, test_label_folder, 'none')
     #
+    for j, (images, labels_avrg, imagename) in enumerate(trainloader):
+    
+        print(imagename)
+    #
     trainloader = data.DataLoader(train_dataset, batch_size=train_batchsize, shuffle=True, num_workers=5, drop_last=True)
     #
     validateloader = data.DataLoader(validate_dataset, batch_size=validate_batchsize, shuffle=False, num_workers=validate_batchsize, drop_last=False)
