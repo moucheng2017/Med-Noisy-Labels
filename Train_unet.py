@@ -35,7 +35,9 @@ def trainUnet(dataset_tag,
               width,
               depth,
               augmentation='all_flip',
-              loss_f='dice'):
+              loss_f='dice',
+              path_name = './Results',
+              labels_mode = 'avrg'):
 
     """ This is the panel to control the training of baseline U-net.
 
@@ -57,6 +59,7 @@ def trainUnet(dataset_tag,
         label_mode: 'multi' for multi-class of proposed method; 'p_unet' for baseline probabilistic u-net; 'normal' for binary on MNIST; 'binary' for general binary segmentation
         loss_f: 'noisy_label' for our noisy label function, or 'dice' for dice loss
         save_probability_map: if True, we save all of the probability maps of output of networks
+        labels_mode: 'avrg' if majority_vote, 'staple' if STAPLE, ...
 
     Returns:
 
@@ -76,7 +79,7 @@ def trainUnet(dataset_tag,
                    '_repeat' + str(j)
         #
         # ====================================================================================================================================================================
-        trainloader, validateloader, testloader, data_length = getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate_batchsize, augmentation)
+        trainloader, validateloader, testloader, data_length = getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate_batchsize, augmentation, labels_mode)
         # ==================
         trainSingleModel(Exp,
                          Exp_name,
@@ -89,22 +92,29 @@ def trainUnet(dataset_tag,
                          validateloader,
                          testloader,
                          losstag=loss_f,
-                         class_no=class_no)
+                         class_no=class_no,
+                         path_name = path_name)
 
 
-def getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate_batchsize, data_augment):
+def getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate_batchsize, data_augment, labels_mode):
     #
-    train_image_folder = data_directory + '/' + dataset_name + '/' + \
-        dataset_tag + '/train/patches'
-    train_label_folder = data_directory + '/' + dataset_name + '/' + \
-        dataset_tag + '/train/labels'
-    validate_image_folder = data_directory + '/' + dataset_name + '/' + \
-        dataset_tag + '/validate/patches'
-    validate_label_folder = data_directory + '/' + dataset_name + '/' + \
-        dataset_tag + '/validate/labels'
-    test_image_folder = data_directory + '/' + dataset_name + '/' + \
-        dataset_tag + '/test/patches'
-    test_label_folder = data_directory + '/' + dataset_name + '/' + \
+    train_image_folder = data_directory + 'train/' + 'images'
+    #'/' + dataset_name + '/' + \
+    #    dataset_tag + '/train/patches'
+    train_label_folder = data_directory + 'train/' + labels_mode
+    #'/' + dataset_name + '/' + \
+    #    dataset_tag + '/train/labels'
+    validate_image_folder = data_directory + 'validate/' + 'images'
+    #'/' + dataset_name + '/' + \
+    #    dataset_tag + '/validate/patches'
+    validate_label_folder = data_directory + 'validate/' + labels_mode
+    # '/' + dataset_name + '/' + \
+    #     dataset_tag + '/validate/labels'
+    test_image_folder = data_directory + 'test/' + 'images'
+    #'/' + dataset_name + '/' + \
+    #    dataset_tag + '/test/patches'
+    test_label_folder = data_directory + 'test/' + labels_mode
+    '/' + dataset_name + '/' + \
         dataset_tag + '/test/labels'
     #
     train_dataset = CustomDataset(train_image_folder, train_label_folder, data_augment)
@@ -135,7 +145,8 @@ def trainSingleModel(model,
                      validateloader,
                      testdata,
                      losstag,
-                     class_no):
+                     class_no,
+                     path_name):
     # change log names
     iteration_amount = data_length // train_batchsize - 1
     #
@@ -147,7 +158,7 @@ def trainSingleModel(model,
     #
     save_model_name = model_name + '_' + datasettag + '_e' + epoches_str + '_lr' + lr_str
     #
-    saved_information_path = '../../Results'
+    saved_information_path = path_name
     #
     try:
         os.mkdir(saved_information_path)
@@ -181,7 +192,7 @@ def trainSingleModel(model,
     #
     print('\n')
     #
-    writer = SummaryWriter('../../Results/Log_' + datasettag + '/' + save_model_name)
+    writer = SummaryWriter(path_name + '/Log_' + datasettag + '/' + save_model_name)
 
     model.to(device)
 
@@ -284,4 +295,3 @@ def trainSingleModel(model,
     print('\nTraining finished and model saved\n')
     #
     return model
-

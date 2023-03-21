@@ -4,6 +4,7 @@ import torch
 # from Train_unet import trainUnet
 from Train_ours import trainModels
 from Train_GCM import trainGCMModels
+from Train_unet import trainUnet
 # from Train_punet import train_punet
 # torch.manual_seed(0)
 torch.backends.cudnn.deterministic = True
@@ -51,24 +52,24 @@ if __name__ == '__main__':
     # ============================================
     # for baseline with global confusion  matrices
     # ============================================
-    trainGCMModels(input_dim=3,
-                   class_no=2,
-                   repeat=1,
-                   train_batchsize=2,
-                   validate_batchsize=1,
-                   num_epochs=50,
-                   learning_rate=1e-2,
-                   input_height=192,
-                   input_width=256,
-                   alpha=0.1,
-                   width=32,
-                   depth=3,
-                   data_path='./oocytes_gent/',
-                   dataset_tag='oocytes_gent',
-                   label_mode='multi',
-                   loss_f='noisy_label',
-                   save_probability_map=True,
-                   path_name = './Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+    # trainGCMModels(input_dim=3,
+    #                class_no=2,
+    #                repeat=1,
+    #                train_batchsize=2,
+    #                validate_batchsize=1,
+    #                num_epochs=50,
+    #                learning_rate=1e-2,
+    #                input_height=192,
+    #                input_width=256,
+    #                alpha=0.1,
+    #                width=32,
+    #                depth=3,
+    #                data_path='./oocytes_gent/',
+    #                dataset_tag='oocytes_gent',
+    #                label_mode='multi',
+    #                loss_f='noisy_label',
+    #                save_probability_map=True,
+    #                path_name = './Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     # ============================================
     # for baseline without label merging:
     # ============================================
@@ -101,6 +102,25 @@ if __name__ == '__main__':
     #             test_samples_no=10,
     #             dataset_path='Path',
     #             dataset_tag='mnist')
+    #
+    # ============================================
+    # for simple u-net
+    # ============================================
+    trainUnet(dataset_tag = 'oocytes_gent',
+                dataset_name = 'oocytes_gent',
+                data_directory = './oocytes_gent/',
+                input_dim = 1,
+                class_no = 2,
+                repeat = 1,
+                train_batchsize = 16,
+                validate_batchsize = 1,
+                num_epochs = 80,
+                learning_rate = 1e-4,
+                width = 64,
+                depth = 3,
+                augmentation='all_flip',
+                loss_f='dice',
+                path_name = './Results/Maj_Results/' + time.strftime("%Y%m%d-%H%M%S"),
+                labels_mode = 'avrg')
     # # #
-
     #
