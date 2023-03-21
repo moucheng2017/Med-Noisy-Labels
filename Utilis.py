@@ -30,19 +30,32 @@ class CustomDataset(torch.utils.data.Dataset):
         # 2. Preprocess the data (e.g. torchvision.Transform).
         # 3. Return a data pair (e.g. image and label).
 
-        all_images = glob.glob(os.path.join(self.imgs_folder, '*.npy'))
-        all_labels = glob.glob(os.path.join(self.labels_folder, '*.npy'))
-        # sort all in the same order
-        all_labels.sort()
+        # all_images = glob.glob(os.path.join(self.imgs_folder, '*.npy'))
+        # all_labels = glob.glob(os.path.join(self.labels_folder, '*.npy'))
+        # # sort all in the same order
+        # all_labels.sort()
+        # all_images.sort()
+
+        all_images = glob.glob(os.path.join(self.imgs_folder, '*.tif'))
         all_images.sort()
-        #
-        # label = Image.open(all_labels[index])
-        # label = tiff.imread(all_labels[index])
-        label = np.load(all_labels[index])
+
+        all_labels = glob.glob(os.path.join(self.labels_folder, '*.tif'))
+        all_labels.sort()
+
+        label = tiff.imread(all_labels[index])
         label = np.array(label, dtype='float32')
-        # image = tiff.imread(all_images[index])
-        image = np.load(all_images[index])
+        #
+        image = tiff.imread(all_imgs[index])
         image = np.array(image, dtype='float32')
+
+        #
+        # # label = Image.open(all_labels[index])
+        # # label = tiff.imread(all_labels[index])
+        # label = np.load(all_labels[index])
+        # label = np.array(label, dtype='float32')
+        # # image = tiff.imread(all_images[index])
+        # image = np.load(all_images[index])
+        # image = np.array(image, dtype='float32')
         #
         labelname = all_labels[index]
         path_label, labelname = os.path.split(labelname)
