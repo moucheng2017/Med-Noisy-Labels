@@ -114,8 +114,15 @@ def getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate
     #'/' + dataset_name + '/' + \
     #    dataset_tag + '/test/patches'
     test_label_folder = data_directory + 'test/' + labels_mode
-    '/' + dataset_name + '/' + \
-        dataset_tag + '/test/labels'
+    #'/' + dataset_name + '/' + \
+    #    dataset_tag + '/test/labels'
+    #
+    print(train_image_folder)
+    print(train_label_folder)
+    print(validate_image_folder)
+    print(validate_label_folder)
+    print(test_image_folder)
+    print(test_label_folder)
     #
     train_dataset = CustomDataset(train_image_folder, train_label_folder, data_augment)
     #
