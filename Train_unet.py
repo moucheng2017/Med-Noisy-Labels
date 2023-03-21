@@ -266,7 +266,7 @@ def trainSingleModel(model,
                 #
                 v_dice = evaluate(validateloader, model, device, class_no=class_no)
                 print(
-                    'Step [{}/{}]',
+                    'Step [{}/{}], '
                     'Train loss: {:.4f}, '
                     'Train dice: {:.4f}, '
                     'Validate dice: {:.4f}, '.format(epoch + 1, num_epochs,
