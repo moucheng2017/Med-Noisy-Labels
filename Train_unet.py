@@ -264,20 +264,21 @@ def trainSingleModel(model,
             #
             if (j + 1) % iteration_amount == 0:
                 #
-                validate_iou = evaluate(validateloader, model, device, class_no=class_no)
+                v_dice = evaluate(validateloader, model, device, class_no=class_no)
                 print(
-                    'Step [{}/{}], Train loss: {:.4f}, '
-                    'Train iou: {:.4f}, '
-                    'Val iou: {:.4f}, '.format(epoch + 1, num_epochs,
+                    'Step [{}/{}]',
+                    'Train loss: {:.4f}, '
+                    'Train dice: {:.4f}, '
+                    'Validate dice: {:.4f}, '.format(epoch + 1, num_epochs,
                                                running_loss / (j + 1),
                                                running_iou / (j + 1),
-                                               validate_iou))
+                                               v_dice))
                 # # # ================================================================== #
                 # # #                        TensorboardX Logging                        #
                 # # # # ================================================================ #
                 writer.add_scalars('scalars', {'loss': running_loss / (j + 1),
-                                               'train iou': running_iou / (j + 1),
-                                               'val iou': validate_iou}, epoch + 1)
+                                               'train dice': running_iou / (j + 1),
+                                               'validate dice': v_dice}, epoch + 1)
                 #
         for param_group in optimizer.param_groups:
             param_group['lr'] = learning_rate*((1 - epoch / num_epochs)**0.999)
