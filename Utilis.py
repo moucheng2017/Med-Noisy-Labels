@@ -152,7 +152,7 @@ class CustomDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         # You should change 0 to the total size of your dataset.
-        return len(glob.glob(os.path.join(self.imgs_folder, '*.npy')))
+        return len(glob.glob(os.path.join(self.imgs_folder, '*.tif')))
 
 
 # ============================================================================================
