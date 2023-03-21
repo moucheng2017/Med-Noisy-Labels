@@ -35,7 +35,7 @@ class CustomDataset(torch.utils.data.Dataset):
         # # sort all in the same order
         # all_labels.sort()
         # all_images.sort()
-
+        print(index)
         all_images = glob.glob(os.path.join(self.imgs_folder, '*.tif'))
         all_images.sort()
 
