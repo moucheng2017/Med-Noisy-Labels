@@ -108,7 +108,7 @@ if __name__ == '__main__':
     # ============================================
     trainUnet(dataset_tag = 'oocytes_gent',
                 dataset_name = 'oocytes_gent',
-                data_directory = './oocytes_gent/',
+                data_directory = '/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
                 input_dim = 3,
                 class_no = 2,
                 repeat = 1,
@@ -120,7 +120,7 @@ if __name__ == '__main__':
                 depth = 3,
                 augmentation='all_flip',
                 loss_f='dice',
-                path_name = './Results/Maj_Results/' + time.strftime("%Y%m%d-%H%M%S"),
+                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Maj_Results/' + time.strftime("%Y%m%d-%H%M%S"),
                 labels_mode = 'avrg')
     # # #
     #
