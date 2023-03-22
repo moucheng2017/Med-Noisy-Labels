@@ -867,28 +867,50 @@ class UpConvBlock(nn.Module):
         return out
 
 
+# ===============================
+# Confusion Matrix
+# ===============================
 
+class CMNet(nn.Module):
+    """
+    Proposed method containing only a Confusion Matrix network.
 
-# def global_cm_layers(class_no, height, width):
-#     """ Define (unnormalised) global confusion matrix model.
-#
-#     This function defines an image-level (not pixel wise) global confusion matrix for each annotator.
-#     Currently, it first defines a class_no x class_no confusion matrix, and then copy this over to all
-#     pixels, so this function can be more readily integrated into the existing pipeline.
-#
-#     Args:
-#         width (int): width of the image
-#         height (int): height of the image
-#         class_no (int): number of classes
-#
-#     Returns:
-#         confusion_matrix (parameter tensor): unnormalised confusion matrix of size (1, c, c, h, w).
-#             The elements are ensured to be positive via a softplus function, but not normalised.
-#
-#     """
-#     # Define global confusion matrix: (1, c, c, 1, 1)
-#     weights = nn.Parameter(torch.randn(1, class_no, class_no, 1, 1))
-#
-#     # Broadcast to shape (1, c, c, h, w) by adding a zero tensor.
-#     confusion_matrix = torch.zeros(1, class_no, class_no, height, width) + F.softplus(weights)
-#     return confusion_matrix
+    """
+
+    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm = 'in', annotators = 3):
+
+        # ===========================================
+        #
+        # params
+        #
+        # ===========================================
+
+        super(CMNet, self).__init__()
+
+        self.depth = depth
+        self.noisy_labels_no = annotators
+        self.final_in = class_no
+
+        self.global = global
+
+        self.encoders = nn.ModuleList()
+        self.decoders = nn.ModuleList()
+
+        # list of CMs
+        self.decoders_cms = nn.ModuleList()
+
+        for i in range(self.noisy_labels_no):
+
+            self.decoders_cms.append(gcm_layers(class_no, input_height, input_width))
+
+    def forward(self, x):
+
+        y = x
+
+        y_noisy = []
+
+        for i in range(self.noisy_labels_no):
+
+            y_noisy.append(self.decoders_cms[i](x))
+
+        return y, y_noisy

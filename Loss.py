@@ -147,3 +147,53 @@ def dice_loss(input, target):
     union = iflat.sum() + tflat.sum()
     dice_score = (2.*intersection + smooth)/(union + smooth)
     return 1-dice_score
+
+
+def cm_loss(y_init, cms, labels, alpha = 0.0):
+
+    """
+    Description:
+        pass
+
+    Args:
+        pass
+
+    Returns:
+        pass
+
+    """
+
+    loss = 0.0
+    regularisation = 0.0
+
+    # b: batch, c: channels, h: height, w: width
+    b, c, h, w = pred.size()
+
+    # normalize the input y
+    y_norm = nn.Softmax(dim = 1)(y_init)
+
+    # transform [b, c, h, w] ---> [bxhxw, c, c]
+    # permute(0, 2, 1): moves axis 0 -> 0, axis 2 -> 1, axis 1 -> 2
+    y_norm = y_norm.view(b, c, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
+
+    for cm, label in zip(cms, labels):
+        # cm: learnt confusion matrix for each label, dims: [b, cxc, h, w]
+        # label: label, dims: [b, h, w]
+
+        # transform [b, cxc, h, w] ---> [bxhxw, c, c]
+        cm = cm.view(b, c ** 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
+
+        # normalize along rows
+        cm = cm / cm.sum(1, keepdim = True)
+
+        #
+        y = torch.bmm(cm, y_norm).view(b * h * w, c)
+        y = y.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+        loss_ce = nn.CrossEntropyLoss(reduction = 'mean')(y, label.view(b, h, w).long())
+        main_loss += loss_ce
+        regularisation += torch.trace(torch.transpose(torch.sum(cm, dim = 0), 0, 1)).sum() / (b * h * w)
+
+    regularisation = alpha * regularisation
+    loss = main_loss + regularisation
+
+    return loss, main_loss, regularisation
