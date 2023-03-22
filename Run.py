@@ -121,6 +121,6 @@ if __name__ == '__main__':
                 augmentation='all_flip',
                 loss_f='dice',
                 path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Maj_Results/' + time.strftime("%Y%m%d-%H%M%S"),
-                labels_mode = 'avrg')
+                labels_mode = 'staple')
     # # #
     #
