@@ -891,8 +891,6 @@ class CMNet(nn.Module):
         self.noisy_labels_no = annotators
         self.final_in = class_no
 
-        self.global = global
-
         self.encoders = nn.ModuleList()
         self.decoders = nn.ModuleList()
 
