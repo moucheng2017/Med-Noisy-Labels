@@ -167,7 +167,7 @@ def cm_loss(y_init, cms, labels, alpha = 0.0):
     regularisation = 0.0
 
     # b: batch, c: channels, h: height, w: width
-    b, c, h, w = pred.size()
+    b, c, h, w = y_init.size()
 
     # normalize the input y
     y_norm = nn.Softmax(dim = 1)(y_init)
