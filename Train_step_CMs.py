@@ -183,7 +183,6 @@ def trainModelCM(model,
 
                 # b: batch, c: channels, h: height, w: width
                 b, c, h, w = images.size()
-                print("b, c, h, w", images.size())
 
                 # images
                 images = images.to(device = device, dtype = torch.float32)
@@ -221,3 +220,31 @@ def trainModelCM(model,
                 running_loss_ce += loss_ce
                 running_loss_trace += loss_trace
                 running_iou += train_iou
+
+                if (j + 1) == 1:
+
+                    v_dice, v_ged = evaluate_noisy_label_6(data = validateloader,
+                                                           model1 = model,
+                                                           class_no = class_no)
+
+                    print(
+                            'Step [{}/{}], '
+                            'Train loss: {:.4f}, '
+                            'Train dice: {:.4f},'
+                            'Validate dice: {:.4f},'
+                            'Validate GED: {:.4f},'
+                            'Train loss main: {:.4f},'
+                            'Train loss regualrisation: {:.4f},'.format(epoch + 1, 
+                                                                        num_epochs,
+                                                                        running_loss / (j + 1),
+                                                                        running_iou / (j + 1),
+                                                                        v_dice,
+                                                                        v_ged,
+                                                                        running_loss_ce / (j + 1),
+                                                                        running_loss_trace / (j + 1))))
+
+
+
+
+
+
