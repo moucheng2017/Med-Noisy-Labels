@@ -392,7 +392,7 @@ def trainSingleModel(model_seg,
                 labels_all.append(labels_AR)
                 labels_all.append(labels_HS)
                 labels_all.append(labels_SG)
-                labels_all.append(labels_avrg)
+                #labels_all.append(labels_avrg)
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
                 #

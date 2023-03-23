@@ -191,13 +191,13 @@ def trainModelCM(model,
                 labels_AR = labels_AR.to(device = device, dtype = torch.float32)
                 labels_HS = labels_HS.to(device = device, dtype = torch.float32)
                 labels_SG = labels_SG.to(device = device, dtype = torch.float32)
-                labels_CR = labels_CR.to(device = device, dtype = torch.float32)
+                #labels_CR = labels_CR.to(device = device, dtype = torch.float32)
 
                 labels_all = []
                 labels_all.append(labels_AR)
                 labels_all.append(labels_HS)
                 labels_all.append(labels_SG)
-                labels_all.append(labels_CR)
+                #labels_all.append(labels_CR)
 
                 # model
                 y_init, y_cms = model(images)
@@ -245,7 +245,7 @@ def trainModelCM(model,
                             )
 
                     # Include Writer
-
+    #
     model.eval()
 
     # save model
@@ -293,6 +293,14 @@ def trainModelCM(model,
         #
         pass
 
+    ### ============== ####
+
+    # if dataset_tag == 'oocytes_gent':
+
+    #     for i, (v_images, labels_AR, labels_HS, labels_SG, labels_CR, imagename) 
+
+
+
     # ==========
 
      # save model
@@ -305,6 +313,9 @@ def trainModelCM(model,
     path_model = save_model_name_full
     #
     torch.save(model, path_model)
+
+
+
 
     print('\nTraining finished and model saved\n')
     

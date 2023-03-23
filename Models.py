@@ -106,7 +106,7 @@ class UNet_GlobalCMs(nn.Module):
 
     Each annotator is modelled through a class_no x class_no matrix, fixed for all images.
     """
-    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm='in', annotators=4):
+    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm='in', dataset_tag = 'mnist', annotators=4):
         # ===============================================================================
         # in_ch: dimension of input
         # class_no: number of output class
@@ -119,8 +119,12 @@ class UNet_GlobalCMs(nn.Module):
         super(UNet_GlobalCMs, self).__init__()
         #
         self.depth = depth
-        self.noisy_labels_no = annotators
         self.final_in = class_no
+        if dataset_tag == 'oocytes_gent':
+            self.annotators = 3
+        else:
+            self.annotators = annotators
+        self.noisy_labels_no = self.annotators
         #
         self.decoders = nn.ModuleList()
         self.encoders = nn.ModuleList()
@@ -884,7 +888,7 @@ class CMNet(nn.Module):
 
     """
 
-    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm = 'in', annotators = 3):
+    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm = 'in', dataset_tag = 'oocytes_gent', annotators = 3):
 
         # ===========================================
         #
@@ -898,6 +902,7 @@ class CMNet(nn.Module):
         self.noisy_labels_no = annotators
         self.final_in = class_no
         self.in_channels = in_ch
+        self.annotators = annotators
 
         self.encoders = nn.ModuleList()
         self.decoders = nn.ModuleList()
@@ -913,7 +918,8 @@ class CMNet(nn.Module):
 
         for i in range(self.noisy_labels_no):
 
-            self.decoders_cms.append(gcm_layers(class_no, input_height, input_width))
+            #self.decoders_cms.append(gcm_layers(class_no, input_height, input_width))
+            self.decoders_cms.append(cm_layers(in_channels = width, norm = norm, class_no = self.final_in))
 
     def forward(self, x):
 

@@ -67,7 +67,7 @@ def trainGCMModels(input_dim,
     print(path_name)
     for j in range(1, repeat + 1):
         #
-        Segmentation_net = UNet_GlobalCMs(in_ch=input_dim, width=width, depth=depth, class_no=class_no, input_height=input_height, input_width=input_width, norm='in')
+        Segmentation_net = UNet_GlobalCMs(in_ch=input_dim, width=width, depth=depth, class_no=class_no, input_height=input_height, input_width=input_width, norm='in', dataset_tag = dataset_tag)
         Exp_name = 'Seg_UNet_CMs_Direct_' + '_width' + str(width) + \
                    '_depth' + str(depth) + '_train_batch_' + str(train_batchsize) + \
                    '_repeat' + str(j) + '_alpha_' + str(alpha) + '_e' + str(num_epochs) + \
@@ -394,7 +394,7 @@ def trainSingleModel(model_seg,
                 labels_all.append(labels_AR)
                 labels_all.append(labels_HS)
                 labels_all.append(labels_SG)
-                labels_all.append(labels_avrg)
+                #labels_all.append(labels_avrg)
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
                 #
