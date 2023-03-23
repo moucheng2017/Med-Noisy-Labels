@@ -904,7 +904,8 @@ class CMNet(nn.Module):
         # follow the given code:
         # transform from (b, c = 3, h, w) ---> [b, c = 2, h, w]
         # alternative could be to change the initial code to have final_in = 1
-        self.conv_last = nn.Conv2d(in_channels = width, out_channels = self.final_in, kernel_size = 1, bias = True) 
+        #self.conv_last = nn.Conv2d(in_channels = width, out_channels = self.final_in, kernel_size = 1, bias = True) 
+        self.conv_last = nn.Conv2d(width, self.final_in, 1, bias = True)
 
         # list of CMs
         self.decoders_cms = nn.ModuleList()
