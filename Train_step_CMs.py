@@ -241,7 +241,8 @@ def trainModelCM(model,
                                                                         v_dice,
                                                                         v_ged,
                                                                         running_loss_ce / (j + 1),
-                                                                        running_loss_trace / (j + 1))))
+                                                                        running_loss_trace / (j + 1))
+                            )
 
 
 
