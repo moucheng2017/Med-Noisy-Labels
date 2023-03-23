@@ -180,8 +180,8 @@ def cm_loss(y_init, cms, labels, alpha = 0.0):
         # cm: learnt confusion matrix for each label, dims: [b, cxc, h, w]
         # label: label, dims: [b, h, w]
 
-        print(type(cm))
-        print(type(labels[0]))
+        print(cm.size())
+        print(label.size())
 
         # transform [b, cxc, h, w] ---> [bxhxw, c, c]
         cm = cm.view(b, c ** 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
