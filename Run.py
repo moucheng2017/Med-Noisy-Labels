@@ -47,7 +47,7 @@ if __name__ == '__main__':
                 dataset_tag='oocytes_gent',
                 label_mode='multi',
                 save_probability_map=True,
-                low_rank_mode=True,
+                low_rank_mode=False,
                 path_name = './Results/CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
 
     # ============================================
