@@ -916,7 +916,9 @@ class CMNet(nn.Module):
     def forward(self, x):
 
         y = x
+        print("y_init:", y.size())
         y = self.conv_last(y)
+        print("y_conv:", y.size())
 
         y_noisy = []
 
