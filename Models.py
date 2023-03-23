@@ -877,7 +877,7 @@ class CMNet(nn.Module):
 
     """
 
-    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm = 'in', annotators = 3):
+    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm = 'in', annotators = 4):
 
         # ===========================================
         #
