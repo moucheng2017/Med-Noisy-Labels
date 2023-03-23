@@ -918,7 +918,8 @@ class CMNet(nn.Module):
 
         y = x
         print("y_init:", y.size())
-        y = self.conv_last(y)
+        with torch.no_grad():
+            y = self.conv_last(y)
         print("y_conv:", y.size())
 
         y_noisy = []
