@@ -154,7 +154,7 @@ def trainModelCM(model,
 
     write = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
-    print("The current model is ", saved_model_name)
+    print("The current model is ", save_model_name)
     # --------------
     # model
     model = model.to(device)
