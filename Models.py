@@ -191,6 +191,8 @@ class UNet_GlobalCMs(nn.Module):
             y_noisy.append(self.decoders_noisy_layers[i](x))
         #
         y = self.conv_last(y)
+        print("Last conv y:", y.size())
+        print("type y_noisy:", type(y_noisy))
         #
         return y, y_noisy
 
