@@ -126,7 +126,7 @@ class UNet_GlobalCMs(nn.Module):
         else:
             self.annotators = annotators
         self.noisy_labels_no = self.annotators
-        print(self.noisy_label)
+        print(self.noisy_labels_no)
         #
         self.decoders = nn.ModuleList()
         self.encoders = nn.ModuleList()
