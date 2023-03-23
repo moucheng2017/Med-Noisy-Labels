@@ -40,7 +40,7 @@ if __name__ == '__main__':
                 validate_batchsize=1,
                 num_epochs=50,
                 learning_rate=1e-2,
-                alpha=0.4,
+                alpha=1.,
                 width=32,
                 depth=3,
                 data_path='./oocytes_gent/',
