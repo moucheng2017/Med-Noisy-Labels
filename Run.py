@@ -43,12 +43,12 @@ if __name__ == '__main__':
     #             alpha=1.,
     #             width=32,
     #             depth=3,
-    #             data_path='./oocytes_gent/',
+    #             data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
     #             dataset_tag='oocytes_gent',
     #             label_mode='multi',
     #             save_probability_map=True,
     #             low_rank_mode=False,
-    #             path_name = './Results/CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+    #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
 
     # ============================================
     # for baseline with global confusion  matrices
@@ -65,12 +65,12 @@ if __name__ == '__main__':
                    alpha=0.1,
                    width=32,
                    depth=3,
-                   data_path='./oocytes_gent/',
+                   data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
                    dataset_tag='oocytes_gent',
                    label_mode='multi',
                    loss_f='noisy_label',
                    save_probability_map=True,
-                   path_name = './Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+                   path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     # ============================================
     # for baseline without label merging:
     # ============================================
