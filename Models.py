@@ -178,6 +178,7 @@ class UNet_GlobalCMs(nn.Module):
             y = torch.cat([y_e, y], dim=1)
             #
             y = self.decoders[-(i+1)](y)
+            print("y shape:", y.size())
 
         # Return the confusion matrices:
         for i in range(self.noisy_labels_no):
