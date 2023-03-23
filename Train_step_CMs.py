@@ -244,8 +244,70 @@ def trainModelCM(model,
                                                                         running_loss_trace / (j + 1))
                             )
 
+                    # Include Writer
 
+    model.eval()
 
+    # save model
+    # ==========
+    save_path = path_name + '/Exp_Results_CMs_step'
 
+    try:
+        #
+        os.mkdir(save_path)
+        #
+    except OSError as exc:
+        #
+        if exc.errno != errno.EEXIST:
+            #
+            raise
+        #
+        pass
+    #
+    save_path = path_name + '/Exp_Results_CMs_step/' + dataset_tag
+    #
+    try:
+        #
+        os.mkdir(save_path)
+        #
+    except OSError as exc:
+        #
+        if exc.errno != errno.EEXIST:
+            #
+            raise
+        #
+        pass
+    #
+    save_path = save_path + '/Exp_' + \
+                '_Noisy_Label_Net_' + save_model_name
+    #
+    try:
+        #
+        os.mkdir(save_path)
+        #
+    except OSError as exc:
+        #
+        if exc.errno != errno.EEXIST:
+            #
+            raise
+        #
+        pass
+
+    # ==========
+
+     # save model
+    stop = timeit.default_timer()
+    #
+    print('Time: ', stop - start)
+    #
+    save_model_name_full = saved_model_path + '/' + save_model_name + '_Final.pt'
+    #
+    path_model = save_model_name_full
+    #
+    torch.save(model, path_model)
+
+    print('\nTraining finished and model saved\n')
+    
+    return model
 
 
