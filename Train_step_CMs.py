@@ -183,6 +183,7 @@ def trainModelCM(model,
 
                 # b: batch, c: channels, h: height, w: width
                 b, c, h, w = images.size()
+                print("b, c, h, w", images.size())
 
                 # images
                 images = images.to(device = device, dtype = torch.float32)
