@@ -148,7 +148,7 @@ class UNet_GlobalCMs(nn.Module):
                 #
         self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
         self.conv_last = nn.Conv2d(width, self.final_in, 1, bias=True)
-        print("Len encoders:", len(self.encoders))
+
         # Define a list of global confusion matrices:
         # self.decoders_noisy_layers = []
         self.decoders_noisy_layers = nn.ModuleList()
@@ -158,9 +158,7 @@ class UNet_GlobalCMs(nn.Module):
 
     def forward(self, x):
         #
-        print("Start forward()")
         y = x
-        print("First y:", y.size())
         #
         encoder_features = []
         y_noisy = []
@@ -169,8 +167,7 @@ class UNet_GlobalCMs(nn.Module):
             #
             y = self.encoders[i](y)
             encoder_features.append(y)
-        # print(y.shape)
-        print("Len encoder features:", len(encoder_features))
+
         for i in range(len(encoder_features)):
             #
             y = self.upsample(y)
@@ -185,7 +182,6 @@ class UNet_GlobalCMs(nn.Module):
             y = torch.cat([y_e, y], dim=1)
             #
             y = self.decoders[-(i+1)](y)
-            print("y shape:", y.size())
 
         # Return the confusion matrices:
         for i in range(self.noisy_labels_no):
@@ -196,9 +192,6 @@ class UNet_GlobalCMs(nn.Module):
             y_noisy.append(self.decoders_noisy_layers[i](x))
         #
         y = self.conv_last(y)
-        print("Last conv y:", y.size())
-        print("type y_noisy:", type(y_noisy[0]))
-        print("y_noisy:", y_noisy[0].size())
         #
         return y, y_noisy
 
@@ -417,14 +410,14 @@ class UNet(nn.Module):
     def forward(self, x):
         #
         y = x
-        # print(x.shape)
+
         encoder_features = []
         #
         for i in range(len(self.encoders)):
             #
             y = self.encoders[i](y)
             encoder_features.append(y)
-        # print(y.shape)
+
         for i in range(len(encoder_features)):
             #
             y = self.upsample(y)
