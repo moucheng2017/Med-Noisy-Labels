@@ -398,13 +398,14 @@ def trainSingleModel(model_seg,
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
                 #
-                if low_rank_mode is False:
-                    #
-                    loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
-                    #
-                else:
-                    #
-                    loss, loss_ce, loss_trace = noisy_label_loss_low_rank(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                # if low_rank_mode is False:
+                #     #
+                #     loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                #     #
+                # else:
+                #     #
+                #     loss, loss_ce, loss_trace = noisy_label_loss_low_rank(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                     #
                 loss.backward()
                 optimizer1.step()
@@ -424,14 +425,18 @@ def trainSingleModel(model_seg,
                 # if (j + 1) % iteration_amount == 0:
                 if (j + 1) == 1:
                     #
-                    if low_rank_mode is False:
-                        v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
-                                                               model1=model_seg,
-                                                               class_no=class_no)
-                    else:
-                        v_dice, v_ged = evaluate_noisy_label_6(data=validateloader,
-                                                               model1=model_seg,
-                                                               class_no=class_no)
+                    v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
+                                                           model1=model_seg,
+                                                           class_no=class_no)
+                    
+                    # if low_rank_mode is False:
+                    #     v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
+                    #                                            model1=model_seg,
+                    #                                            class_no=class_no)
+                    # else:
+                    #     v_dice, v_ged = evaluate_noisy_label_6(data=validateloader,
+                    #                                            model1=model_seg,
+                    #                                            class_no=class_no)
                     #
                     print(
                         'Step [{}/{}], '

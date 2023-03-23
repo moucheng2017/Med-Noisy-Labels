@@ -1631,9 +1631,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
         #v_dice_ /= 3
         #
         #epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_good.cpu().detach().numpy()]
-        epoch_noisy_labels = [v_labels_AR.cpu().detach().numpy(), v_labels_HS.cpu().detach().numpy(), v_labels_SG.cpu().detach().numpy()
-        #, v_labels_avrg.cpu().detach().numpy()
-        ]
+        epoch_noisy_labels = [v_labels_AR.cpu().detach().numpy(), v_labels_HS.cpu().detach().numpy(), v_labels_SG.cpu().detach().numpy(), v_labels_avrg.cpu().detach().numpy()]
         v_ged = generalized_energy_distance(epoch_noisy_labels, v_outputs_noisy, class_no)
         test_dice += v_dice_
         test_dice_all.append(test_dice)
