@@ -919,7 +919,7 @@ class CMNet(nn.Module):
         for i in range(self.noisy_labels_no):
 
             #self.decoders_cms.append(gcm_layers(class_no, input_height, input_width))
-            self.decoders_cms.append(cm_layers(in_channels = width, norm = norm, class_no = self.final_in))
+            self.decoders_cms.append(cm_layers(in_channels = self.in_channels, norm = norm, class_no = self.final_in))
 
     def forward(self, x):
 
