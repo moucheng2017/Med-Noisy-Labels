@@ -32,8 +32,6 @@ def noisy_label_loss(pred, cms, labels, alpha=0.1):
     pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
 
     for cm, label_noisy in zip(cms, labels):
-        print(type(cm))
-        print(type(labels[0]))
         # cm: learnt confusion matrix for each noisy label, b x c**2 x h x w
         # label_noisy: noisy label, b x h x w
 
@@ -181,6 +179,9 @@ def cm_loss(y_init, cms, labels, alpha = 0.0):
     for cm, label in zip(cms, labels):
         # cm: learnt confusion matrix for each label, dims: [b, cxc, h, w]
         # label: label, dims: [b, h, w]
+
+        print(type(cm))
+        print(type(labels[0]))
 
         # transform [b, cxc, h, w] ---> [bxhxw, c, c]
         cm = cm.view(b, c ** 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
