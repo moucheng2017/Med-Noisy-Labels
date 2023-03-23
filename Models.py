@@ -156,6 +156,7 @@ class UNet_GlobalCMs(nn.Module):
         #
         print("Start forward()")
         y = x
+        print("First y:", y.size())
         #
         encoder_features = []
         y_noisy = []
@@ -192,7 +193,8 @@ class UNet_GlobalCMs(nn.Module):
         #
         y = self.conv_last(y)
         print("Last conv y:", y.size())
-        print("type y_noisy:", type(y_noisy))
+        print("type y_noisy:", type(y_noisy[0]))
+        print("y_noisy:", y_noisy[0].size())
         #
         return y, y_noisy
 
