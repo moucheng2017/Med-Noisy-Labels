@@ -175,11 +175,11 @@ def cm_loss(y_init, cms, labels, alpha = 0.0):
 
     # normalize the input y
     y_norm = nn.Softmax(dim = 1)(y_init)
-
+    print(y_norm.size())
     # transform [b, c, h, w] ---> [bxhxw, c, 1]
     # permute(0, 2, 1): moves axis 0 -> 0, axis 2 -> 1, axis 1 -> 2
     y_norm = y_norm.view(b, c, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c, 1)
-
+    print(y_norm.size())
     for cm, label in zip(cms, labels):
         # cm: learnt confusion matrix for each label, dims: [b, cxc, h, w]
         # label: label, dims: [b, h, w]
@@ -189,12 +189,13 @@ def cm_loss(y_init, cms, labels, alpha = 0.0):
 
         # transform [b, cxc, h, w] ---> [bxhxw, c, c]
         cm = cm.view(b, c ** 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
-
+        print(cm.size())
         # normalize along rows
         cm = cm / cm.sum(1, keepdim = True)
-
+        print(cm.size())
         #
         y = torch.bmm(cm, y_norm).view(b * h * w, c)
+        print(y.size())
         y = y.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
         loss_ce = nn.CrossEntropyLoss(reduction = 'mean')(y, label.view(b, h, w).long())
         main_loss += loss_ce
