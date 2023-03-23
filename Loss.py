@@ -172,9 +172,9 @@ def cm_loss(y_init, cms, labels, alpha = 0.0):
     # normalize the input y
     y_norm = nn.Softmax(dim = 1)(y_init)
 
-    # transform [b, c, h, w] ---> [bxhxw, c, c]
+    # transform [b, c, h, w] ---> [bxhxw, c, 1]
     # permute(0, 2, 1): moves axis 0 -> 0, axis 2 -> 1, axis 1 -> 2
-    y_norm = y_norm.view(b, c, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
+    y_norm = y_norm.view(b, c, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, 1)
 
     for cm, label in zip(cms, labels):
         # cm: learnt confusion matrix for each label, dims: [b, cxc, h, w]
