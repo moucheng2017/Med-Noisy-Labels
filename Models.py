@@ -144,7 +144,7 @@ class UNet_GlobalCMs(nn.Module):
                 #
         self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
         self.conv_last = nn.Conv2d(width, self.final_in, 1, bias=True)
-
+        print("Len encoders:", len(self.encoders))
         # Define a list of global confusion matrices:
         # self.decoders_noisy_layers = []
         self.decoders_noisy_layers = nn.ModuleList()
@@ -154,6 +154,7 @@ class UNet_GlobalCMs(nn.Module):
 
     def forward(self, x):
         #
+        print("Start forward()")
         y = x
         #
         encoder_features = []
@@ -164,6 +165,7 @@ class UNet_GlobalCMs(nn.Module):
             y = self.encoders[i](y)
             encoder_features.append(y)
         # print(y.shape)
+        print("Len encoder features:", len(encoder_features))
         for i in range(len(encoder_features)):
             #
             y = self.upsample(y)
