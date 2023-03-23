@@ -884,7 +884,7 @@ class CMNet(nn.Module):
 
     """
 
-    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm = 'in', annotators = 4):
+    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm = 'in', annotators = 3):
 
         # ===========================================
         #
@@ -905,7 +905,7 @@ class CMNet(nn.Module):
         # follow the given code:
         # transform from (b, c = 3, h, w) ---> [b, c = 2, h, w]
         # alternative could be to change the initial code to have final_in = 1
-        #self.conv_last = nn.Conv2d(in_channels = width, out_channels = self.final_in, kernel_size = 1, bias = True) 
+        # self.conv_last = nn.Conv2d(in_channels = width, out_channels = self.final_in, kernel_size = 1, bias = True) 
         self.conv_last = nn.Conv2d(self.in_channels, self.final_in, 1, bias = True)
 
         # list of CMs
@@ -918,9 +918,11 @@ class CMNet(nn.Module):
     def forward(self, x):
 
         y = x
-        print("y_init:", y.size())
+
+        # follow the given code:
+        # transform from (b, c = 3, h, w) ---> [b, c = 2, h, w]
+        # alternative could be to change the initial code to have final_in = 1
         y = self.conv_last(y)
-        print("y_conv:", y.size())
 
         y_noisy = []
 
