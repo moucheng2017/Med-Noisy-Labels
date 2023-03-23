@@ -223,7 +223,7 @@ def trainModelCM(model,
 
                 if (j + 1) == 1:
 
-                    v_dice, v_ged = evaluate_noisy_label_6(data = validateloader,
+                    v_dice, v_ged = evaluate_noisy_label_4(data = validateloader,
                                                            model1 = model,
                                                            class_no = class_no)
 
