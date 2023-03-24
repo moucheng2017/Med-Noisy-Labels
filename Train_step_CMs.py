@@ -318,7 +318,6 @@ def trainModelCM(model,
             v_outputs_logits_original, v_outputs_logits_noisy = model(v_images)
 
             b, c, h, w = v_outputs_logits_original.size()
-            print("Output logits size:", v_outputs_logits_original.size())
 
             v_outputs_logits_original = nn.Softmax(dim = 1)(v_outputs_logits_original)
 
@@ -385,7 +384,12 @@ def trainModelCM(model,
                 save_cm_name = save_path + '/' + imagename[0] + '_cm.npy'
                 np.save(save_cm_name, cm.cpu().detach().numpy())
                 
-                print("CM shape:", cm.shape)
+                print("CM random pixel 4:", cm[4])
+                print("CM random pixel 4:", cm[71])
+                print("CM random pixel 4:", cm[344])
+                print("CM random pixel 4:", cm[9084])
+                print("CM random pixel 4:", cm[25295])
+
 
                 plt.imsave(save_name, v_noisy_output.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
                 
