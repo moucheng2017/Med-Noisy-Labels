@@ -305,9 +305,9 @@ def trainModelCM(model,
             cm_all_true = []
             cm_mse = 0                  # Mean Squared Error
 
-            cm_AR_true = calculate_cm(pred = labels_AR, true = labels_avrg)
-            cm_HS_true = calculate_cm(pred = labels_HS, true = labels_avrg)
-            cm_SG_true = calculate_cm(pred = labels_SG, true = labels_avrg)
+            cm_AR_true = calculate_cm(pred = labels_AR, true = labels_CR)
+            cm_HS_true = calculate_cm(pred = labels_HS, true = labels_CR)
+            cm_SG_true = calculate_cm(pred = labels_SG, true = labels_CR)
 
             cm_all_true.append(cm_AR_true)
             cm_all_true.append(cm_HS_true)
