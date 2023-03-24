@@ -53,24 +53,24 @@ if __name__ == '__main__':
     # ============================================
     # for baseline with global confusion  matrices
     # ============================================
-    trainGCMModels(input_dim=3,
-                   class_no=2,
-                   repeat=1,
-                   train_batchsize=2,
-                   validate_batchsize=1,
-                   num_epochs=50,
-                   learning_rate=1e-2,
-                   input_height=192,
-                   input_width=256,
-                   alpha=0.1,
-                   width=32,
-                   depth=3,
-                   data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
-                   dataset_tag='oocytes_gent',
-                   label_mode='multi',
-                   loss_f='noisy_label',
-                   save_probability_map=True,
-                   path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+    # trainGCMModels(input_dim=3,
+    #                class_no=2,
+    #                repeat=1,
+    #                train_batchsize=2,
+    #                validate_batchsize=1,
+    #                num_epochs=50,
+    #                learning_rate=1e-2,
+    #                input_height=192,
+    #                input_width=256,
+    #                alpha=0.1,
+    #                width=32,
+    #                depth=3,
+    #                data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
+    #                dataset_tag='oocytes_gent',
+    #                label_mode='multi',
+    #                loss_f='noisy_label',
+    #                save_probability_map=True,
+    #                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     # ============================================
     # for baseline without label merging:
     # ============================================
@@ -128,23 +128,23 @@ if __name__ == '__main__':
     # ============================================
     # Stepwise method: Step CMs
     # ============================================
-    # trainStepCM(input_dim = 3,
-    #             class_no = 2,
-    #             repeat = 1,
-    #             train_batchsize = 2,
-    #             validate_batchsize = 1,
-    #             num_epochs = 20,
-    #             learning_rate = 1e-2,
-    #             input_height = 192,
-    #             input_width = 256,
-    #             alpha = 1.0,
-    #             width = 32,
-    #             depth = 3,
-    #             data_path = '/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
-    #             dataset_tag = 'oocytes_gent',
-    #             label_mode = 'multi',
-    #             loss_f = 'noisy_label',
-    #             save_probability_map = True,
-    #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Stepwise_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+    trainStepCM(input_dim = 3,
+                class_no = 2,
+                repeat = 1,
+                train_batchsize = 2,
+                validate_batchsize = 1,
+                num_epochs = 20,
+                learning_rate = 1e-2,
+                input_height = 192,
+                input_width = 256,
+                alpha = 1.0,
+                width = 32,
+                depth = 3,
+                data_path = '/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
+                dataset_tag = 'oocytes_gent',
+                label_mode = 'multi',
+                loss_f = 'noisy_label',
+                save_probability_map = True,
+                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Stepwise_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     # # #
     #

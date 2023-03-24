@@ -293,15 +293,114 @@ def trainModelCM(model,
         #
         pass
 
-    ### ============== ####
+    ### =============== ###
+    ### === TESTING === ###
+    ### =============== ###
+    
 
-    # if dataset_tag == 'oocytes_gent':
+    if dataset_tag == 'oocytes_gent':
 
-    #     for i, (v_images, labels_AR, labels_HS, labels_SG, labels_CR, imagename) 
+        for i, (v_images, labels_AR, labels_HS, labels_SG, labels_CR, imagename) in enumerate(testdata):
 
+            cm_all_true = []
+            cm_mse = 0                  # Mean Squared Error
 
+            cm_AR_true = calculate_cm(pred = labels_AR, true = labels_avrg)
+            cm_HS_true = calculate_cm(pred = labels_HS, true = labels_avrg)
+            cm_SG_true = calculate_cm(pred = labels_SG, true = labels_avrg)
 
-    # ==========
+            cm_all_true.append(cm_AR_true)
+            cm_all_true.append(cm_HS_true)
+            cm_all_true.append(cm_SG_true)
+
+            v_images = v_images.to(device = device, dtype = torch.float32)
+
+            v_outputs_logits_original, v_outputs_logits_noisy = model(v_images)
+
+            b, c, h, w = v_outputs_logits_original.size()
+            print("Output logits size:", v_outputs_logits_original.size())
+
+            v_outputs_logits_original = nn.Softmax(dim = 1)(v_outputs_logits_original)
+
+            _, v_outputs_logits = torch.max(v_outputs_logits_original, dim = 1)
+
+            # save #
+            # ---- #
+            save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_cms_step.png'
+            save_name_label = save_path + '/test_' + imagename[0] + '_' + str(i) + '_label.png'
+            #
+            plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave(save_name_label, labels_true.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            #
+            bb, cc, hh, ww = v_images.size()
+            for ccc in range(cc):
+                #
+                save_name_slice = save_path + '/test_' + imagename[0] + '_' + str(i) + '_slice_' + str(ccc) + '.png'
+                plt.imsave(save_name_slice, v_images[:, ccc, :, :].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+                #
+            if save_probability_map is True:
+                for class_index in range(c):
+                    #
+                    if c > 0:
+                        v_outputs_logits = v_outputs_logits_original[:, class_index, :, :]
+                        save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_class_' + str(class_index) + '_cms_step_probability.png'
+                        plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            # ---- #
+
+            v_outputs_logits_original = v_outputs_logits_original.reshape(b, c, h * w)
+            v_outputs_logits_original = v_outputs_logits_original.permute(0, 2, 1).contiguous()
+            v_outputs_logits_original = v_outputs_logits_original.view(b * h * w, c).view(b * h * w, c, 1)
+
+            for j, cm in enumerate(v_outputs_logits_noisy):
+                
+                if low_rank_mode is False:
+
+                    cm = cm.view(b, c ** 2, h * w).permute(0, 2, 1).contiguous().view(b * h * w, c * c).view(b * h * w, c, c)
+                    
+                    cm = cm / cm.sum(1, keepdim = True)
+                    
+                    v_noisy_output_original = torch.bmm(cm, v_outputs_logits_original).view(b * h * w, c)
+                    
+                    v_noisy_output_original = v_noisy_output_original.view(b, h * w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+                    
+                    if j < len(cm_all_true):
+                        
+                        cm_pred_ = cm.sum(0) / (b * h * w)
+                        cm_pred_ = cm_pred_.cpu().detach().numpy()
+
+                        cm_true_ = cm_all_true[j]
+                        
+                        # MSE
+                        cm_mse_each_label = cm_pred_ - cm_true_
+                        cm_mse_each_label = cm_mse_each_label ** 2
+
+                        cm_mse += cm_mse_each_label.mean()
+
+                        _, v_noisy_output = torch.max(v_noisy_output_original, dim = 1)
+
+                # save #
+                # ---- #
+                save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_noisy_' + str(j) + '_cms_step.png'
+                
+                save_cm_name = save_path + '/' + imagename[0] + '_cm.npy'
+                np.save(save_cm_name, cm.cpu().detach().numpy())
+                
+                print("CM shape:", cm.shape)
+
+                plt.imsave(save_name, v_noisy_output.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+                
+                if save_probability_map is True:
+                    
+                    for class_index in range(c):
+                        
+                        if c > 0:
+                            
+                            v_noisy_output = v_noisy_output_original[:, class_index, :, :]
+                            save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_noisy_class_' + str(class_index) + '_cms_step_probability.png'
+                            plt.imsave(save_name, v_noisy_output.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+                # ---- #
+
+    ### =============== ###
 
      # save model
     stop = timeit.default_timer()
