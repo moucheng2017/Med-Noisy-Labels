@@ -330,7 +330,7 @@ def trainModelCM(model,
             save_name_label = save_path + '/test_' + imagename[0] + '_' + str(i) + '_label.png'
             #
             plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
-            plt.imsave(save_name_label, labels_true.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave(save_name_label, labels_avrg.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             #
             bb, cc, hh, ww = v_images.size()
             for ccc in range(cc):
