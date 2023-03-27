@@ -62,7 +62,6 @@ class CustomDataset(torch.utils.data.Dataset):
         labelname, labelext = os.path.splitext(labelname)
         #
         c_amount = len(np.shape(label))
-        print(c_amount)
         #
 
         #
@@ -162,6 +161,7 @@ class CustomDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         # You should change 0 to the total size of your dataset.
+        print(len(glob.glob(os.path.join(self.imgs_folder, '*.tif'))))
         return len(glob.glob(os.path.join(self.imgs_folder, '*.tif')))
 
 
