@@ -85,6 +85,7 @@ class CustomDataset(torch.utils.data.Dataset):
             image = np.reshape(image, (1, h, w))
 
         d1, d2, d3 = np.shape(image)
+        print(np.shape(image))
         #
         # if d1 != min(d1, d2, d3):
         #     #
@@ -156,6 +157,11 @@ class CustomDataset(torch.utils.data.Dataset):
                     #
                 label = np.flip(label, axis=1).copy()
                 label = np.flip(label, axis=2).copy()
+
+        print(type(image))
+        print(type(label))
+        print(type(labelname))
+        print(labelname)
 
         return image, label, labelname
 
