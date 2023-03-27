@@ -127,8 +127,8 @@ if __name__ == '__main__':
     # ============================================
     # for simple u-net for skin training
     # ============================================
-    trainUnet(dataset_tag = 'oocytes_gent',
-                dataset_name = 'oocytes_gent',
+    trainUnet(dataset_tag = 'skin',
+                dataset_name = 'skin',
                 data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin/',
                 input_dim = 3,
                 class_no = 2,
