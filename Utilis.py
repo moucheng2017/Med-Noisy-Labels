@@ -62,6 +62,7 @@ class CustomDataset(torch.utils.data.Dataset):
         labelname, labelext = os.path.splitext(labelname)
         #
         c_amount = len(np.shape(label))
+        print(c_amount)
         #
 
         #
