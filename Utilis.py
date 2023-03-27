@@ -76,11 +76,20 @@ class CustomDataset(torch.utils.data.Dataset):
             h, w = np.shape(label)
             label = np.reshape(label, (1, h, w))
         #
+
+        if len(np.shape(image)) == 3:
+            d1, d2, d3 = np.shape(image)
+            if d1 != min(d1, d2, d3):
+                image = np.reshape(image, (d3, d1, d2))
+        elif len(np.shape(image)) == 2:
+            h, w = np.shape(image)
+            image = np.reshape(image, (1, h, w))
+
         d1, d2, d3 = np.shape(image)
         #
-        if d1 != min(d1, d2, d3):
-            #
-            image = np.reshape(image, (d3, d1, d2))
+        # if d1 != min(d1, d2, d3):
+        #     #
+        #     image = np.reshape(image, (d3, d1, d2))
         #
         if self.data_augmentation == 'full':
             # augmentation:
