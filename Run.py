@@ -123,28 +123,48 @@ if __name__ == '__main__':
     #             loss_f='dice',
     #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Maj_Results/' + time.strftime("%Y%m%d-%H%M%S"),
     #             labels_mode = 'staple')
+    #
+    # ============================================
+    # for simple u-net for skin training
+    # ============================================
+    trainUnet(dataset_tag = 'oocytes_gent',
+                dataset_name = 'oocytes_gent',
+                data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin/',
+                input_dim = 3,
+                class_no = 2,
+                repeat = 1,
+                train_batchsize = 16,
+                validate_batchsize = 1,
+                num_epochs = 100,
+                learning_rate = 1e-4,
+                width = 64,
+                depth = 3,
+                augmentation='all_flip',
+                loss_f='dice',
+                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/skin/' + time.strftime("%Y%m%d-%H%M%S"),
+                labels_mode = 'staple')
     # # #
     #
     # ============================================
     # Stepwise method: Step CMs
     # ============================================
-    trainStepCM(input_dim = 3,
-                class_no = 2,
-                repeat = 1,
-                train_batchsize = 2,
-                validate_batchsize = 1,
-                num_epochs = 20,
-                learning_rate = 1e-2,
-                input_height = 192,
-                input_width = 256,
-                alpha = 10.0,
-                width = 32,
-                depth = 3,
-                data_path = '/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
-                dataset_tag = 'oocytes_gent',
-                label_mode = 'multi',
-                loss_f = 'noisy_label',
-                save_probability_map = True,
-                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Stepwise_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+    # trainStepCM(input_dim = 3,
+    #             class_no = 2,
+    #             repeat = 1,
+    #             train_batchsize = 2,
+    #             validate_batchsize = 1,
+    #             num_epochs = 20,
+    #             learning_rate = 1e-2,
+    #             input_height = 192,
+    #             input_width = 256,
+    #             alpha = 10.0,
+    #             width = 32,
+    #             depth = 3,
+    #             data_path = '/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
+    #             dataset_tag = 'oocytes_gent',
+    #             label_mode = 'multi',
+    #             loss_f = 'noisy_label',
+    #             save_probability_map = True,
+    #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Stepwise_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     # # #
     #
