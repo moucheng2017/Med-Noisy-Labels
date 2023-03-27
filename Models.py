@@ -442,6 +442,100 @@ class UNet(nn.Module):
         return y
 
 
+
+
+# ===============================
+# Alternative U-net
+# ===============================
+class UNet_v2(nn.Module):
+    #
+    def __init__(self, in_ch, width, depth, class_no, norm, dropout=True, apply_last_layer=True):
+        """
+
+        Args:
+            in_ch:
+            width:
+            depth:
+            class_no:
+            norm:
+            dropout:
+            apply_last_layer:
+        """
+
+        # ============================================================================================================
+        # This UNet is an alternative implementation, to work better with bright-field microscopy images.
+        # in_ch: dimension of input
+        # class_no: number of output class
+        # width: number of channels in the first encoder
+        # depth: down-sampling stages - 1
+        # ============================================================================================================
+        super(UNet, self).__init__()
+        #
+        self.apply_last_layer = apply_last_layer
+        self.depth = depth
+        self.dropout = dropout
+        #
+        if class_no > 2:
+            #
+            self.final_in = class_no
+        else:
+            #
+            self.final_in = 1
+        #
+        self.decoders = nn.ModuleList()
+        self.encoders = nn.ModuleList()
+        self.dropout_layers = nn.ModuleList()
+
+        self.encoders.append(double_conv(in_channels = 2, out_channels = 32, step = 1, norm = norm))
+        self.encoders.append(double_conv(in_channels = 32, out_channels = 64, step = 1, norm = norm))
+        self.encoders.append(double_conv(in_channels = 64, out_channels = 128, step = 1, norm = norm))
+        self.encoders.append(double_conv(in_channels = 128, out_channels = 256, step = 1, norm = norm))
+        self.encoders.append(double_conv(in_channels = 256, out_channels = 512, step = 1, norm = norm))
+
+        self.dropout_layers.append(nn.Dropout2d(0.5))
+
+        self.decoders.append(double_conv(in_channels = 512, out_channels = 256, step = 1, norm = norm))
+        self.decoders.append(double_conv(in_channels = 256, out_channels = 128, step = 1, norm = norm))
+        self.decoders.append(double_conv(in_channels = 128, out_channels = 64, step = 1, norm = norm))
+        self.decoders.append(double_conv(in_channels = 64, out_channels = 32, step = 1, norm = norm))
+                
+        self.upsample = nn.Upsample(scale_factor = 2, mode = 'bilinear', align_corners = True)
+        self.conv_last = nn.Conv2d(32, self.final_in, 1, bias=True)
+        #
+
+    def forward(self, x):
+
+        y = x
+
+        encoder_features = []
+
+        for i in range(len(self.encoders)):
+
+            y = self.encoders[i](y)
+            encoder_features.append(y)
+
+        for i in range(len(encoder_features)):
+
+            y = self.upsample(y)
+            y_e = encoder_features[-(i+1)]
+
+            diffY = torch.tensor([y_e.size()[2] - y.size()[2]])
+            diffX = torch.tensor([y_e.size()[3] - y.size()[3]])
+
+            y = F.pad(y, [diffX // 2, diffX - diffX // 2, diffY // 2, diffY - diffY // 2])
+
+            y = torch.cat([y_e, y], dim=1)
+            y = self.decoders[-(i+1)](y)
+            
+            y = self.dropout_layers[i](y)
+
+        if self.apply_last_layer is True:
+            
+            y = self.conv_last(y)
+        
+        return y
+
+
 # ===============================
 # Probablistic U-net
 # ===============================
