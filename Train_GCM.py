@@ -1043,6 +1043,7 @@ def trainSingleModel(model_seg,
     path_model = save_model_name_full
     #
     torch.save(model_seg, path_model)
+    torch.save(model_seg.state_dict(), path_model[:-3] + '_Final_dict.pt')
     #
     # save_model_name_full = saved_model_path + '/' + save_model_name + '_Final_cm.pt'
     #
