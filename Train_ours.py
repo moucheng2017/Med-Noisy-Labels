@@ -204,8 +204,16 @@ def trainSingleModel(model_seg,
         path_load_model = "./pretrained/GCM_model.pt"
         model_seg = model_seg.load_state_dict(torch.load(path_load_model), strict = False)
 
-        for param in model_seg.parameters():
-            param.requires_grad = False
+        #for param in model_seg.parameters():
+        #    param.requires_grad = False
+        for layer in model_seg.decoders():
+            layer.requires_grad = False
+        for layer in model_seg.encoders():
+            layer.requires_grad = False
+        for layer in model_seg.upsample():
+            layer.requires_grad = False
+        for layer in model_seg.conv_last():
+            layer.requires_grad = False
 
         for layer in model_seg.decoders_noisy():
             layer.requires_grad = True
