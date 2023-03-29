@@ -202,7 +202,7 @@ def trainSingleModel(model_seg,
     if model_seg_stepwise == True:
 
         path_load_model = "./pretrained/GCM_model.pt"
-        model_seg = model_seg.load_state_dict(torch.load(path_load_model))
+        model_seg = model_seg.load_state_dict(torch.load(path_load_model), strict = False)
 
         for param in model_seg.parameters():
             param.requires_grad = False
