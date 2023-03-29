@@ -198,6 +198,18 @@ def trainSingleModel(model_seg,
     #
     writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
+    model_seg_stepwise = True
+    if model_seg_stepwise == True:
+
+        path_load_model = "./pretrained/GCM_model.pt"
+        model_seg = model_seg.load_state_dict(torch.load(path_load_model))
+
+        for param in model_seg.parameters():
+            param.requires_grad = False
+
+        for layer in model_seg.decoders_noisy():
+            layer.requires_grad = True
+
     model_seg.to(device)
     # model_cm.to(device)
 
