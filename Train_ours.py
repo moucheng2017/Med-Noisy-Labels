@@ -16,7 +16,7 @@ from torch.autograd import Variable
 
 from Utilis import CustomDataset_punet, calculate_cm
 from Loss import noisy_label_loss_low_rank, noisy_label_loss
-from Models import UNet_CMs
+from Models import UNet_CMs, UNet_GlobalCMs
 
 from Utilis import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_noisy_label_6
 
@@ -197,12 +197,12 @@ def trainSingleModel(model_seg,
     print('\n')
     #
     writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
-    print(model_seg)    
+
     model_seg_stepwise = False
     if model_seg_stepwise == True:
 
         path_load_model = "./pretrained/GCM_model.pt"
-        model_seg = model_seg.load_state_dict(torch.load(path_load_model), strict = False)
+        model_seg.load_state_dict(torch.load(path_load_model), strict = False)
         print(model_seg)
         #for param in model_seg.parameters():
         #    param.requires_grad = False
