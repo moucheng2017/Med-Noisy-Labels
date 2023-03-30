@@ -231,7 +231,7 @@ def trainSingleModel(model_seg,
         print(model_seg)
         #for param in model_seg.parameters():
         #    param.requires_grad = False
-        for layer in model_seg.decoders():
+        for layer in model_seg.decoders:
             layer.requires_grad = False
         for layer in model_seg.encoders():
             layer.requires_grad = False
