@@ -233,14 +233,14 @@ def trainSingleModel(model_seg,
         #    param.requires_grad = False
         for layer in model_seg.decoders:
             layer.requires_grad = False
-        for layer in model_seg.encoders():
+        for layer in model_seg.encoders:
             layer.requires_grad = False
-        for layer in model_seg.upsample():
+        for layer in model_seg.upsample:
             layer.requires_grad = False
-        for layer in model_seg.conv_last():
+        for layer in model_seg.conv_last:
             layer.requires_grad = False
 
-        for layer in model_seg.decoders_noisy():
+        for layer in model_seg.decoders_noisy:
             layer.requires_grad = True
 
     model_seg.to(device)
