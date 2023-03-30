@@ -217,8 +217,6 @@ def trainSingleModel(model_seg,
 
     print(model_seg)
 
-    break
-
     if model_seg_stepwise == True:
 
         path_load_model = "./pretrained/GCM_model.pt"
