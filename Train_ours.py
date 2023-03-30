@@ -215,6 +215,10 @@ def trainSingleModel(model_seg,
     model_seg.load_state_dict(modified_state_dict, strict=False)
     model_seg.eval()
 
+    print(model_seg.encoders)
+    print(model_seg.decoders)
+    print(model_seg.decoders_noisy_layers)
+
     print(model_seg)
 
     if model_seg_stepwise == True:
