@@ -200,32 +200,34 @@ def trainSingleModel(model_seg,
 
     model_seg_stepwise = True
 
-    from collections import OrderedDict
+    
 
-    path_load_model = "./pretrained/GCM_model.pt"
-    def map_keys(loaded_state_dict):
-        new_state_dict = OrderedDict()
-        for k, v in loaded_state_dict.items():
-            new_key = k  # Modify the key here based on the mismatch pattern
-            new_state_dict[new_key] = v
-        return new_state_dict
+    # print("encoders: ", model_seg.encoders)
+    # print("decoders: ", model_seg.decoders)
+    # print("noisy_dec: ", model_seg.decoders_noisy_layers)
 
-    loaded_state_dict = torch.load(path_load_model, map_location=torch.device('cpu'))
-    modified_state_dict = map_keys(loaded_state_dict)
-    model_seg.load_state_dict(modified_state_dict, strict=False)
-    model_seg.eval()
-
-    print("encoders: ", model_seg.encoders)
-    print("decoders: ", model_seg.decoders)
-    print("noisy_dec: ", model_seg.decoders_noisy_layers)
-
-    print(model_seg)
+    # print(model_seg)
 
     if model_seg_stepwise == True:
 
         path_load_model = "./pretrained/GCM_model.pt"
-        model_seg.load_state_dict(torch.load(path_load_model, map_location = torch.device('cpu')), strict = False)
+
+        from collections import OrderedDict
+
+        path_load_model = "./pretrained/GCM_model.pt"
+        def map_keys(loaded_state_dict):
+            new_state_dict = OrderedDict()
+            for k, v in loaded_state_dict.items():
+                new_key = k  # Modify the key here based on the mismatch pattern
+                new_state_dict[new_key] = v
+            return new_state_dict
+
+        loaded_state_dict = torch.load(path_load_model, map_location=torch.device('cpu'))
+        modified_state_dict = map_keys(loaded_state_dict)
+        model_seg.load_state_dict(modified_state_dict, strict=False)
         model_seg.eval()
+        # model_seg.load_state_dict(torch.load(path_load_model, map_location = torch.device('cpu')), strict = False)
+        # model_seg.eval()
         print(model_seg)
         #for param in model_seg.parameters():
         #    param.requires_grad = False
