@@ -199,6 +199,26 @@ def trainSingleModel(model_seg,
     writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
     model_seg_stepwise = True
+
+    from collections import OrderedDict
+
+    path_load_model = "./pretrained/GCM_model.pt"
+    def map_keys(loaded_state_dict):
+        new_state_dict = OrderedDict()
+        for k, v in loaded_state_dict.items():
+            new_key = k  # Modify the key here based on the mismatch pattern
+            new_state_dict[new_key] = v
+        return new_state_dict
+
+    loaded_state_dict = torch.load(path_load_model, map_location=torch.device('cpu'))
+    modified_state_dict = map_keys(loaded_state_dict)
+    model_seg.load_state_dict(modified_state_dict, strict=False)
+    model_seg.eval()
+
+    print(model_seg)
+
+    break
+
     if model_seg_stepwise == True:
 
         path_load_model = "./pretrained/GCM_model.pt"
