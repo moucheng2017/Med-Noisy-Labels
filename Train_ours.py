@@ -237,8 +237,8 @@ def trainSingleModel(model_seg,
             layer.requires_grad = False
         # for layer in model_seg.upsample:
         #     layer.requires_grad = False
-        for layer in model_seg.conv_last:
-            layer.requires_grad = False
+        # for layer in model_seg.conv_last:
+        #     layer.requires_grad = False
 
         for layer in model_seg.decoders_noisy:
             layer.requires_grad = True
