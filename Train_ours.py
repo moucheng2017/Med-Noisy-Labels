@@ -242,6 +242,11 @@ def trainSingleModel(model_seg,
 
         for layer in model_seg.decoders_noisy_layers:
             layer.requires_grad = True
+        
+        total_params = sum(p.numel() for p in model_seg.parameters())
+        print("Total number of params: ", total_params)
+        total_params_grad  = sum(p.numel() for p in model_seg.parameters() if p.requires_grad)
+        print("Total number of params with grad: ", total_params_grad)
 
     model_seg.to(device)
     # model_cm.to(device)
