@@ -39,7 +39,7 @@ if __name__ == '__main__':
                 train_batchsize=2,
                 validate_batchsize=1,
                 num_epochs=30,
-                learning_rate=1e-3,
+                learning_rate=1e-4,
                 alpha=0.0,
                 width=32,
                 depth=3,
