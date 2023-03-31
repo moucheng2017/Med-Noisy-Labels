@@ -229,15 +229,13 @@ def trainSingleModel(model_seg,
         # model_seg.load_state_dict(torch.load(path_load_model, map_location = torch.device('cpu')), strict = False)
         # model_seg.eval()
         print(model_seg)
-        #for param in model_seg.parameters():
-        #    param.requires_grad = False
-        for layer in model_seg.decoders:
-            layer.requires_grad = False
-        for layer in model_seg.encoders:
-            layer.requires_grad = False
-        # for layer in model_seg.upsample:
+
+        for param in model_seg.parameters():
+            param.requires_grad = False
+
+        # for layer in model_seg.decoders:
         #     layer.requires_grad = False
-        # for layer in model_seg.conv_last:
+        # for layer in model_seg.encoders:
         #     layer.requires_grad = False
 
         for layer in model_seg.decoders_noisy_layers:
