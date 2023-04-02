@@ -491,6 +491,11 @@ def trainSingleModel(model_seg,
 
                     train_dice.append(running_iou / (j + 1))
                     valid_dice.append(v_dice)
+                    print(type(running_loss))
+                    print(type(running_loss_trace))
+                    print(type(running_iou))
+                    print(type(v_dice))
+                    break
                     #
                     print(
                         'Step [{}/{}], '
@@ -518,8 +523,10 @@ def trainSingleModel(model_seg,
         #
     model_seg.eval()
     # model_cm.eval()
+    print("Reached!")
     save_path = path_name + '/Exp_Results_Noisy_labels'
     plot_curves(path_name, total_train_loss, total_ce_loss, total_trace_loss, train_dice, valid_dice)
+    print('Reached?')
     #
     try:
         #

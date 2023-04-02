@@ -38,7 +38,7 @@ if __name__ == '__main__':
                 repeat=1,
                 train_batchsize=2,
                 validate_batchsize=1,
-                num_epochs=30,
+                num_epochs=1,
                 learning_rate=1e-4,
                 alpha=0.0,
                 width=32,
