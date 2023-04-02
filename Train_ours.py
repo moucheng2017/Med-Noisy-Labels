@@ -485,16 +485,12 @@ def trainSingleModel(model_seg,
                                                                model1=model_seg,
                                                                class_no=class_no)
                     #
-                    total_train_loss.append(running_loss / (j + 1))
-                    total_ce_loss.append(running_loss_ce / (j + 1))
-                    total_trace_loss.append(running_loss_trace / (j + 1))
+                    total_train_loss.append((running_loss / (j + 1)).cpu().numpy())
+                    total_ce_loss.append((running_loss_ce / (j + 1).cpu().numpy()))
+                    total_trace_loss.append((running_loss_trace / (j + 1)).cpu().numpy())
 
                     train_dice.append(running_iou / (j + 1))
                     valid_dice.append(v_dice)
-                    print(type(running_loss))
-                    print(type(running_loss_trace))
-                    print(type(running_iou))
-                    print(type(v_dice))
                     break
                     #
                     print(
