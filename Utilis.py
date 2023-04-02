@@ -1798,7 +1798,7 @@ def plot_curves(path, train_losses, ce_losses, trace_losses, train_metric, val_m
     plt.legend()
     plt.title('Losses')
     plt.savefig(path + '/loss_curves.png')  # Save the loss curves as an image
-    plt.show()
+    #plt.show()
 
     # Plotting the training and validation metric
     plt.figure()
@@ -1809,4 +1809,4 @@ def plot_curves(path, train_losses, ce_losses, trace_losses, train_metric, val_m
     plt.legend()
     plt.title(f'Training and Validation {metric_name}')
     plt.savefig(path + '/' + f'{metric_name.lower()}_curves.png')  # Save the metric curves as an image
-    plt.show()
+    #plt.show()
