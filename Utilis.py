@@ -1783,3 +1783,30 @@ def evaluate_noisy_label_6(data, model1, class_no):
     # print(test_dice / (i + 1))
     #
     return test_dice / (i + 1), v_ged
+
+def plot_curves(path, train_losses, ce_losses, trace_losses, train_metric, val_metric, metric_name = 'Dice Coef.'):
+   
+    epochs = range(1, len(train_losses) + 1)
+
+    # Plotting the training and validation loss
+    plt.figure()
+    plt.plot(epochs, train_losses, label = 'Total loss')
+    plt.plot(epochs, ce_losses, label = 'CE loss')
+    plt.plot(epochs, trace_losses, label = 'Trace loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.title('Losses')
+    plt.savefig(path + '/loss_curves.png')  # Save the loss curves as an image
+    plt.show()
+
+    # Plotting the training and validation metric
+    plt.figure()
+    plt.plot(epochs, train_metric, label = f'Training {metric_name}')
+    plt.plot(epochs, val_metric, label = f'Validation {metric_name}')
+    plt.xlabel('Epochs')
+    plt.ylabel(metric_name)
+    plt.legend()
+    plt.title(f'Training and Validation {metric_name}')
+    plt.savefig(path + '/' + f'{metric_name.lower()}_curves.png')  # Save the metric curves as an image
+    plt.show()

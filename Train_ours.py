@@ -14,7 +14,7 @@ from Utilis import segmentation_scores, generalized_energy_distance
 from tensorboardX import SummaryWriter
 from torch.autograd import Variable
 
-from Utilis import CustomDataset_punet, calculate_cm
+from Utilis import CustomDataset_punet, calculate_cm, plot_curves
 from Loss import noisy_label_loss_low_rank, noisy_label_loss
 from Models import UNet_CMs, UNet_GlobalCMs
 
@@ -254,6 +254,12 @@ def trainSingleModel(model_seg,
 
     start = timeit.default_timer()
 
+    total_train_loss = []
+    total_ce_loss = []
+    total_trace_loss = []
+    train_dice = []
+    valid_dice = []
+
     for epoch in range(num_epochs):
         #
         model_seg.train()
@@ -479,6 +485,13 @@ def trainSingleModel(model_seg,
                                                                model1=model_seg,
                                                                class_no=class_no)
                     #
+                    total_train_loss.append(running_loss / (j + 1))
+                    total_ce_loss.append(running_loss_ce / (j + 1))
+                    total_trace_loss.append(running_loss_trace / (j + 1))
+
+                    train_dice.append(running_iou / (j + 1))
+                    valid_dice.append(v_dice)
+                    #
                     print(
                         'Step [{}/{}], '
                         'Train loss: {:.4f}, '
@@ -506,6 +519,7 @@ def trainSingleModel(model_seg,
     model_seg.eval()
     # model_cm.eval()
     save_path = path_name + '/Exp_Results_Noisy_labels'
+    plot_curves(path_name, total_train_loss, total_ce_loss, total_trace_loss, train_dice, valid_dice)
     #
     try:
         #
