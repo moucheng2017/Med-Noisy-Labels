@@ -96,10 +96,6 @@ class UNet_CMs(nn.Module):
             y_noisy_label = self.decoders_noisy_layers[i](y)
             y_noisy.append(y_noisy_label)
         #
-        print("Type y: ", type(y))
-        print("Type y_noisy: ", type(y_noisy))
-        print("Length y_noisy: ", len(y_noisy))
-        print("Type y_noisy_label: ", type(y_noisy_label))
         y = self.conv_last(y)
         #
         return y, y_noisy
