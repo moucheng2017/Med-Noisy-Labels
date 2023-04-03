@@ -1608,7 +1608,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
     #
     for i, (v_images, v_labels_AR, v_labels_HS, v_labels_SG, v_labels_avrg, v_imagename) in enumerate(data):
         #
-        print(v_imagename)
+        #print(v_imagename)
         #
         v_images = v_images.to(device='cuda', dtype=torch.float32)
         #v_images = v_images.to(device='cpu', dtype=torch.float32)
