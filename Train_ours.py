@@ -233,8 +233,8 @@ def trainSingleModel(model_seg,
         for param in model_seg.decoders_noisy_layers.parameters():
             param.requires_grad = True
 
-        for param in model_seg.decoders[0].parameters():
-            param.requires_grad = True
+        # for param in model_seg.decoders[0].parameters():
+        #     param.requires_grad = True
 
         for param in model_seg.conv_last.parameters():
             param.requires_grad = True
