@@ -1614,11 +1614,13 @@ def evaluate_noisy_label_4(data, model1, class_no):
         #v_images = v_images.to(device='cpu', dtype=torch.float32)
         v_outputs_logits, cms = model1(v_images)
         b, c, h, w = v_outputs_logits.size()
-        #v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
-        v_outputs_logits = nn.Softmax(dim=1)(cms[0])
+        v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
         # cms = model2(v_images)
         #
-        _, v_output = torch.max(v_outputs_logits, dim=1)
+        
+        ###_, v_output = torch.max(v_outputs_logits, dim=1)
+        _, v_output = torch.max(cms[0], dim=1)
+
         v_outputs_noisy = []
         #
         v_outputs_logits = v_outputs_logits.view(b, c, h*w)
