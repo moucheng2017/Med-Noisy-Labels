@@ -1615,7 +1615,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
         v_outputs_logits, cms = model1(v_images)
         b, c, h, w = v_outputs_logits.size()
         #v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
-        v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits[0])
+        v_outputs_logits = nn.Softmax(dim=1)(cms[0])
         # cms = model2(v_images)
         #
         _, v_output = torch.max(v_outputs_logits, dim=1)
