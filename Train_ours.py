@@ -454,8 +454,8 @@ def trainSingleModel(model_seg,
                 optimizer1.step()
                 # optimizer2.step()
                 #
-                ###_, train_output = torch.max(outputs_logits, dim=1)
-                _, train_output = torch.max(outputs_logits_noisy[0], dim=1)
+                _, train_output = torch.max(outputs_logits, dim=1)
+                ###_, train_output = torch.max(outputs_logits_noisy[0], dim=1)
                 #
                 train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
                 #
