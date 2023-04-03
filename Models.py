@@ -98,6 +98,8 @@ class UNet_CMs(nn.Module):
         #
         print("Type y: ", type(y))
         print("Type y_noisy: ", type(y_noisy))
+        print("Length y_noisy: ", len(y_noisy))
+        print("Type y_noisy_label: ", type(y_noisy_label))
         y = self.conv_last(y)
         #
         return y, y_noisy
