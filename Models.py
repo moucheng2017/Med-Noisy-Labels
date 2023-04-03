@@ -311,7 +311,7 @@ def double_conv(in_channels, out_channels, step, norm):
             nn.PReLU(),
             nn.Conv2d(out_channels, out_channels, 3, stride=1, padding=1, groups=1, bias=False),
             nn.InstanceNorm2d(out_channels, affine=True),
-            nn.PReLU()
+            nn.PReLU(),
             nn.Dropout(0.2)
         )
     elif norm == 'bn':
@@ -462,7 +462,7 @@ class DoubleConv(nn.Module):
             nn.ReLU(inplace = True),
             nn.Conv2d(mid_channels, out_channels, kernel_size = 3, padding = 1, bias = False),
             nn.BatchNorm2d(out_channels),
-            nn.ReLU(inplace = True)
+            nn.ReLU(inplace = True),
             nn.Dropout(0.2)
         )
 
