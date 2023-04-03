@@ -25,7 +25,7 @@ class UNet_CMs(nn.Module):
         super(UNet_CMs, self).__init__()
         #
         self.depth = depth
-        self.noisy_labels_no = 4
+        self.noisy_labels_no = 3
         print("Noisy labels: ", self.noisy_labels_no)
         self.lowrank = low_rank
         #
@@ -96,6 +96,8 @@ class UNet_CMs(nn.Module):
             y_noisy_label = self.decoders_noisy_layers[i](y)
             y_noisy.append(y_noisy_label)
         #
+        print("Type y: ", type(y))
+        print("Type y_noisy: ", type(y_noisy))
         y = self.conv_last(y)
         #
         return y, y_noisy
