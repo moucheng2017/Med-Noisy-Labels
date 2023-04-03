@@ -198,7 +198,7 @@ def trainSingleModel(model_seg,
     #
     writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
-    model_seg_stepwise = True
+    model_seg_stepwise = False
 
     if model_seg_stepwise == True:
 
