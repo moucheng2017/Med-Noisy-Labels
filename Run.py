@@ -42,7 +42,7 @@ if __name__ == '__main__':
                 learning_rate=1e-2,
                 alpha=0.05,
                 width=32,
-                depth=2,
+                depth=4,
                 data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
                 dataset_tag='oocytes_gent',
                 label_mode='multi',
