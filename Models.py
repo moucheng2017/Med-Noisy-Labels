@@ -311,7 +311,7 @@ def double_conv(in_channels, out_channels, step, norm):
             nn.PReLU(),
             nn.Conv2d(out_channels, out_channels, 3, stride=1, padding=1, groups=1, bias=False),
             nn.InstanceNorm2d(out_channels, affine=True),
-            nn.PReLU(),
+            nn.PReLU()
         )
     elif norm == 'bn':
         return nn.Sequential(

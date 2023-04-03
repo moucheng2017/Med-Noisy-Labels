@@ -198,7 +198,7 @@ def trainSingleModel(model_seg,
     #
     writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
-    model_seg_stepwise = False
+    model_seg_stepwise = True
 
     if model_seg_stepwise == True:
 
@@ -233,14 +233,17 @@ def trainSingleModel(model_seg,
         for param in model_seg.decoders_noisy_layers.parameters():
             param.requires_grad = True
 
-        for param in model_seg.decoders[0].parameters():
+        # for param in model_seg.decoders[0][3].parameters():
+        #     param.requires_grad = True
+
+        for param in model_seg.conv_last.parameters():
             param.requires_grad = True
 
-        for param in model_seg.decoders[1].parameters():
-            param.requires_grad = True
+        # for param in model_seg.decoders[1].parameters():
+        #     param.requires_grad = True
 
-        for param in model_seg.decoders[2].parameters():
-            param.requires_grad = True
+        # for param in model_seg.decoders[2].parameters():
+        #     param.requires_grad = True
         
     total_params = sum(p.numel() for p in model_seg.parameters())
     print("Total number of params: ", total_params)
