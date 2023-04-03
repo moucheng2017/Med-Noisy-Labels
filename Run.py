@@ -40,7 +40,7 @@ if __name__ == '__main__':
                 validate_batchsize=1,
                 num_epochs=30,
                 learning_rate=1e-3,
-                alpha=0.0,
+                alpha=0.4,
                 width=32,
                 depth=3,
                 data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
