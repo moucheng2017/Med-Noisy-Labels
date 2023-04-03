@@ -198,15 +198,7 @@ def trainSingleModel(model_seg,
     #
     writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
-    model_seg_stepwise = True
-
-    
-
-    # print("encoders: ", model_seg.encoders)
-    # print("decoders: ", model_seg.decoders)
-    # print("noisy_dec: ", model_seg.decoders_noisy_layers)
-
-    # print(model_seg)
+    model_seg_stepwise = False
 
     if model_seg_stepwise == True:
 
@@ -228,7 +220,7 @@ def trainSingleModel(model_seg,
         model_seg.eval()
         # model_seg.load_state_dict(torch.load(path_load_model, map_location = torch.device('cpu')), strict = False)
         # model_seg.eval()
-        print(model_seg)
+        # print(model_seg)
 
         for param in model_seg.parameters():
             param.requires_grad = False
@@ -241,10 +233,10 @@ def trainSingleModel(model_seg,
         for param in model_seg.decoders_noisy_layers.parameters():
             param.requires_grad = True
         
-        total_params = sum(p.numel() for p in model_seg.parameters())
-        print("Total number of params: ", total_params)
-        total_params_grad  = sum(p.numel() for p in model_seg.parameters() if p.requires_grad)
-        print("Total number of params with grad: ", total_params_grad)
+    total_params = sum(p.numel() for p in model_seg.parameters())
+    print("Total number of params: ", total_params)
+    total_params_grad  = sum(p.numel() for p in model_seg.parameters() if p.requires_grad)
+    print("Total number of params with grad: ", total_params_grad)
 
     model_seg.to(device)
     # model_cm.to(device)
