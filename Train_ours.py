@@ -235,6 +235,9 @@ def trainSingleModel(model_seg,
 
         for param in model_seg.decoders[0].parameters():
             param.requires_grad = True
+
+        for param in model_seg.decoders[1].parameters():
+            param.requires_grad = True
         
     total_params = sum(p.numel() for p in model_seg.parameters())
     print("Total number of params: ", total_params)
