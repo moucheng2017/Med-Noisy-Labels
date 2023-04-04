@@ -400,7 +400,8 @@ def trainSingleModel(model_seg,
                 print("CMs number: ", len(outputs_logits_noisy))
                 print("CM type: ", type(outputs_logits_noisy[0]))
                 print("CM shape: ", outputs_logits_noisy[0].shape)
-                
+                print("Annot 1: ", outputs_logits_noisy)
+                np.save('./cms.npy', outputs_logits_noisy.cpu().detach().numpy())
                 #
                 loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                 break

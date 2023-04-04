@@ -43,6 +43,7 @@ def noisy_label_loss(pred, cms, labels, alpha=0.1):
         print("cm size: ", cm.shape)
         print("cm[0] size: ", cm[0].shape)
         print(cm[0])
+        print(cm[5490])
         # matrix multiplication to calculate the predicted noisy segmentation:
         # cm: b*h*w x c x c
         # pred_noisy: b*h*w x c x 1
