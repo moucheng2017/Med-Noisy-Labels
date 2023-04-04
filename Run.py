@@ -33,44 +33,44 @@ if __name__ == '__main__':
     # ==========================================
     # for training with our model
     # ==========================================
-    trainModels(input_dim=3,
-                class_no=2,
-                repeat=1,
-                train_batchsize=2,
-                validate_batchsize=1,
-                num_epochs=100,
-                learning_rate=1e-2,
-                alpha=0.1,
-                width=32,
-                depth=3,
-                data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
-                dataset_tag='oocytes_gent',
-                label_mode='multi',
-                save_probability_map=True,
-                low_rank_mode=False,
-                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+    # trainModels(input_dim=3,
+    #             class_no=2,
+    #             repeat=1,
+    #             train_batchsize=2,
+    #             validate_batchsize=1,
+    #             num_epochs=100,
+    #             learning_rate=1e-2,
+    #             alpha=0.1,
+    #             width=32,
+    #             depth=3,
+    #             data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
+    #             dataset_tag='oocytes_gent',
+    #             label_mode='multi',
+    #             save_probability_map=True,
+    #             low_rank_mode=False,
+    #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
 
     # ============================================
     # for baseline with global confusion  matrices
     # ============================================
-    # trainGCMModels(input_dim=3,
-    #                class_no=2,
-    #                repeat=1,
-    #                train_batchsize=2,
-    #                validate_batchsize=1,
-    #                num_epochs=50,
-    #                learning_rate=1e-3,
-    #                input_height=192,
-    #                input_width=256,
-    #                alpha=0.1,
-    #                width=32,
-    #                depth=3,
-    #                data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
-    #                dataset_tag='oocytes_gent',
-    #                label_mode='multi',
-    #                loss_f='noisy_label',
-    #                save_probability_map=True,
-    #                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+    trainGCMModels(input_dim=3,
+                   class_no=2,
+                   repeat=1,
+                   train_batchsize=2,
+                   validate_batchsize=1,
+                   num_epochs=50,
+                   learning_rate=1e-2,
+                   input_height=192,
+                   input_width=256,
+                   alpha=0.4,
+                   width=32,
+                   depth=3,
+                   data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
+                   dataset_tag='oocytes_gent',
+                   label_mode='multi',
+                   loss_f='noisy_label',
+                   save_probability_map=True,
+                   path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     # ============================================
     # for baseline without label merging:
     # ============================================
