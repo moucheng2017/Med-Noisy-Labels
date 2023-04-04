@@ -401,7 +401,9 @@ def trainSingleModel(model_seg,
                 print("CM type: ", type(outputs_logits_noisy[0]))
                 print("CM shape: ", outputs_logits_noisy[0].shape)
                 print("Annot 1: ", outputs_logits_noisy)
-                np.save('./cms.npy', outputs_logits_noisy.cpu().detach().numpy())
+                np.save('./cms1.npy', outputs_logits_noisy[0].cpu().detach().numpy())
+                np.save('./cms2.npy', outputs_logits_noisy[1].cpu().detach().numpy())
+                np.save('./cms3.npy', outputs_logits_noisy[2].cpu().detach().numpy())
                 #
                 loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                 break
