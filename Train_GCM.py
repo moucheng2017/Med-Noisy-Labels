@@ -398,11 +398,12 @@ def trainSingleModel(model_seg,
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
                 print("CMs number: ", len(outputs_logits_noisy))
-                print("CM type: ", type(outputs_logits_noisy))
+                print("CM type: ", type(outputs_logits_noisy[0]))
                 print("CM shape: ", outputs_logits_noisy[0].shape)
-                break
+                
                 #
                 loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                break
                 # if low_rank_mode is False:
                 #     #
                 #     loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
