@@ -379,6 +379,9 @@ def trainSingleModel(model_seg,
                 #
                 b, c, h, w = images.size()
                 #
+                img_ = images[0].cpu().detach().numpy()
+                print(img_.shape)
+                print(img_.max())
                 #
                 optimizer1.zero_grad()
                 # optimizer2.zero_grad()
