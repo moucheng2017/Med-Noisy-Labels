@@ -683,11 +683,8 @@ def test(testdata,
 
             b, c, h, w = np.shape(testlabel)
             testoutput_original = np.asarray(testoutput.cpu().detach().numpy(), dtype=np.uint8)
-            print("shape: ", testoutput_original.shape)
             testoutput_original = np.squeeze(testoutput_original, axis=0)
-            print("shape: ", testoutput_original.shape)
             testoutput_original = np.repeat(testoutput_original, 3, axis=0)
-            print("shape: ", testoutput_original.shape)
             #
             if class_no == 2:
                 segmentation_map = np.zeros((3, h, w), dtype=np.uint8)
