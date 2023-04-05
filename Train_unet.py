@@ -76,7 +76,7 @@ def trainUnet(dataset_tag,
         #
         Exp_name = 'UNet' + '_width' + str(width) + \
                    '_depth' + str(depth) + \
-                   '_repeat' + str(j)
+                   '_repeat' + str(j) + '_' + labels_mode
         #
         # ====================================================================================================================================================================
         trainloader, validateloader, testloader, data_length = getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate_batchsize, augmentation, labels_mode)
@@ -217,6 +217,11 @@ def trainSingleModel(model,
             # check label values:
             # unique, counts = np.unique(labels, return_counts=True)
             # print(np.asarray((unique, counts)).T)
+            #
+            print(imagename)
+            print(type(images))
+            print(type(images[0]))
+
             #
             optimizer.zero_grad()
             #
