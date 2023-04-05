@@ -686,15 +686,15 @@ def test(testdata,
             print("shape: ", testoutput_original.shape)
             testoutput_original = np.squeeze(testoutput_original, axis=0)
             print("shape: ", testoutput_original.shape)
-            testoutput_original = np.repeat(testoutput_original[:, :, np.newaxis], 3, axis=2)
+            testoutput_original = np.repeat(testoutput_original, 3, axis=0)
             print("shape: ", testoutput_original.shape)
             #
             if class_no == 2:
                 segmentation_map = np.zeros((h, w, 3), dtype=np.uint8)
                 #
-                segmentation_map[:, :, 0][np.logical_and(testoutput_original[:, :, 0] == 1, np.logical_and(testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1))] = 255
-                segmentation_map[:, :, 1][np.logical_and(testoutput_original[:, :, 0] == 1, np.logical_and(testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1))] = 0
-                segmentation_map[:, :, 2][np.logical_and(testoutput_original[:, :, 0] == 1, np.logical_and(testoutput_original[:, :, 1] == 1, testoutput_original[:, :, 2] == 1))] = 0
+                segmentation_map[0, :, :][np.logical_and(testoutput_original[0, :, :] == 1, np.logical_and(testoutput_original[1, :, :] == 1, testoutput_original[2, :, :] == 1))] = 255
+                segmentation_map[1, :, :][np.logical_and(testoutput_original[0, :, :] == 1, np.logical_and(testoutput_original[1, :, :] == 1, testoutput_original[2, :, :] == 1))] = 0
+                segmentation_map[2, :, :][np.logical_and(testoutput_original[0, :, :] == 1, np.logical_and(testoutput_original[1, :, :] == 1, testoutput_original[2, :, :] == 1))] = 0
                 #
             else:
                 segmentation_map = np.zeros((h, w, 3), dtype=np.uint8)
