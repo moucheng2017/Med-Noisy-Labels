@@ -71,7 +71,7 @@ def trainUnet(dataset_tag,
                    depth=depth,
                    class_no=class_no,
                    norm='in',
-                   dropout=False,
+                   dropout=True,
                    apply_last_layer=True)
         #
         Exp_name = 'UNet' + '_width' + str(width) + \
@@ -218,15 +218,10 @@ def trainSingleModel(model,
             # unique, counts = np.unique(labels, return_counts=True)
             # print(np.asarray((unique, counts)).T)
             #
-            #print(imagename)
-            print(type(images))
-            print(type(images[0]))
-            print(images.size())
-            img_ = images[0].cpu().detach().numpy()
-            print(img_.shape)
-            print(img_.max())
-            
-            break
+            # print(imagename)
+            # img_ = images[0].cpu().detach().numpy()
+            # print(img_.shape)
+            # print(img_.max())            
             #
             optimizer.zero_grad()
             #
