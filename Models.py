@@ -320,7 +320,8 @@ def double_conv(in_channels, out_channels, step, norm):
             nn.PReLU(),
             nn.Conv2d(out_channels, out_channels, 3, stride=1, padding=1, groups=1, bias=False),
             nn.BatchNorm2d(out_channels, affine=True),
-            nn.PReLU()
+            nn.PReLU(),
+            nn.MaxPool2d((2, 2))
         )
     elif norm == 'ln':
         return nn.Sequential(
@@ -442,7 +443,88 @@ class UNet(nn.Module):
         return y
 
 
+# ===============================
+# Skin-net
+# ===============================
+class SkinNet(nn.Module):
 
+    def __init__(self, in_channels, out_channels):
+        super(SkinNet, self).__init__()
+
+        # Encoder
+        self.enc1 = self._conv_block(in_channels, 16)
+        self.enc2 = self._conv_block(16, 32)
+        self.enc3 = self._conv_block(32, 64)
+        self.enc4 = self._conv_block(64, 128)
+        self.enc5 = self._conv_block(128, 256)
+
+        # Bottleneck
+        self.bottleneck = nn.Sequential(
+            nn.Conv2d(256, 256, kernel_size = 3, padding = 1),
+            nn.ReLU(inplace = True),
+            nn.Dropout(0.3),
+            nn.Conv2d(256, 256, kernel_size = 3, padding = 1),
+            nn.ReLU(inplace = True)
+        )
+
+        # Decoder
+        self.dec4 = self._upconv_block(256, 128)
+        self.dec3 = self._upconv_block(128, 64)
+        self.dec2 = self._upconv_block(64, 32)
+        self.dec1 = self._upconv_block(32, 16)
+
+        # Output
+        self.out = nn.Conv2d(16, out_channels, kernel_size = 1)
+
+    def _conv_block(self, in_channels, out_channels):
+        return nn.Sequential(
+                                nn.Conv2d(in_channels, out_channels, kernel_size = 3, padding = 1),
+                                nn.ReLU(inplace = True),
+                                nn.Dropout(0.1),
+                                nn.Conv2d(out_channels, out_channels, kernel_size = 3, padding = 1),
+                                nn.ReLU(inplace = True),
+                                nn.MaxPool2d(kernel_size = 2, stride = 2)
+                            )
+    
+    def _upconv_block(self, in_channels, out_channels):
+        return nn.Sequential(
+                                nn.ConvTranspose2d(in_channels, out_channels, kernel_size = 2, stride = 2),
+                                nn.ReLU(inplace = True)
+                            )
+
+    def forward(self, x):
+        
+        # Encoder
+        enc1 = self.enc1(x)
+        enc2 = self.enc2(enc1)
+        enc3 = self.enc3(enc2)
+        enc4 = self.enc4(enc3)
+        enc5 = self.enc5(enc4)
+
+        # Bottleneck
+        bottleneck = self.bottleneck(enc5)
+
+        # Decoder
+        dec4 = self.dec4(bottleneck)
+        dec4 = torch.cat((dec4, enc4), dim = 1)
+        dec4 = self._conv_block(256, 128)(dec4)
+
+        dec3 = self.dec3(dec4)
+        dec3 = torch.cat((dec3, enc3), dim = 1)
+        dec3 = self._conv_block(128, 64)(dec3)
+
+        dec2 = self.dec2(dec3)
+        dec2 = torch.cat((dec2, enc2), dim = 1)
+        dec2 = self._conv_block(64, 32)(dec2)
+
+        dec1 = self.dec1(dec2)
+        dec1 = torch.cat((dec1, enc1), dim = 1)
+        dec1 = self._conv_block(32, 16)(dec1)
+
+        # Output layer
+        out = torch.sigmoid(self.out(dec1))
+        
+        return out
 
 # ===============================
 # Alternative U-net
@@ -450,16 +532,15 @@ class UNet(nn.Module):
 
 class DoubleConv(nn.Module):
 
-    def __init__(self, in_channels, out_channels, mid_channels = None):
+    def __init__(self, in_channels, out_channels):
         super().__init__()
 
-        if not mid_channels:
-            mid_channels = out_channels
         self.double_conv = nn.Sequential(
-            nn.Conv2d(in_channels, mid_channels, kernel_size = 3, padding = 1, bias = False),
-            nn.BatchNorm2d(mid_channels),
+            nn.Conv2d(in_channels, out_channels, kernel_size = (3, 3), padding = 1, padding_mode = "zeros", bias = True),
+            nn.Dropout(0.1),
+            nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace = True),
-            nn.Conv2d(mid_channels, out_channels, kernel_size = 3, padding = 1, bias = False),
+            nn.Conv2d(out_channels, out_channels, kernel_size = 3, padding = 1, bias = True),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace = True),
             nn.Dropout(0.2)
