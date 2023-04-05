@@ -218,10 +218,12 @@ def trainSingleModel(model,
             # unique, counts = np.unique(labels, return_counts=True)
             # print(np.asarray((unique, counts)).T)
             #
-            print(imagename)
+            #print(imagename)
             print(type(images))
             print(type(images[0]))
-
+            print(images.size)
+            print(images[0].size)
+            break
             #
             optimizer.zero_grad()
             #
