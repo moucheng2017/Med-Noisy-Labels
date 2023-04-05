@@ -690,7 +690,7 @@ def test(testdata,
             print("shape: ", testoutput_original.shape)
             #
             if class_no == 2:
-                segmentation_map = np.zeros((h, w, 3), dtype=np.uint8)
+                segmentation_map = np.zeros((3, h, w), dtype=np.uint8)
                 #
                 segmentation_map[0, :, :][np.logical_and(testoutput_original[0, :, :] == 1, np.logical_and(testoutput_original[1, :, :] == 1, testoutput_original[2, :, :] == 1))] = 255
                 segmentation_map[1, :, :][np.logical_and(testoutput_original[0, :, :] == 1, np.logical_and(testoutput_original[1, :, :] == 1, testoutput_original[2, :, :] == 1))] = 0
