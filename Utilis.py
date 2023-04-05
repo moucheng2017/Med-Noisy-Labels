@@ -682,9 +682,10 @@ def test(testdata,
                 pass
 
             b, c, h, w = np.shape(testlabel)
-            print("shape: ", testoutput.cpu().detach().numpy().shape)
             testoutput_original = np.asarray(testoutput.cpu().detach().numpy(), dtype=np.uint8)
+            print("shape: ", testoutput_original.shape)
             testoutput_original = np.squeeze(testoutput_original, axis=0)
+            print("shape: ", testoutput_original.shape)
             testoutput_original = np.repeat(testoutput_original[:, :, np.newaxis], 3, axis=2)
             print("shape: ", testoutput_original.shape)
             #
