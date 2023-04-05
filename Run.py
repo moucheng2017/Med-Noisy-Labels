@@ -136,7 +136,7 @@ if __name__ == '__main__':
                 train_batchsize = 2,
                 validate_batchsize = 1,
                 num_epochs = 200,
-                learning_rate = 1e-5,
+                learning_rate = 1e-4,
                 width = 32,
                 depth = 5,
                 augmentation='all_flip',
