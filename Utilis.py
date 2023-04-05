@@ -744,6 +744,8 @@ def test(testdata,
                     #
             prediction_name = 'seg_' + testname[0] + '.png'
             full_error_map_name = os.path.join(prediction_map_path, prediction_name)
+            segmentation_map = np.swapaxes(segmentation_map, axis1 = 0, axis2 = 1)
+            segmentation_map = np.swapaxes(segmentation_map, axis1 = 1, axis2 = 2)
             imageio.imsave(full_error_map_name, segmentation_map)
 
         #
