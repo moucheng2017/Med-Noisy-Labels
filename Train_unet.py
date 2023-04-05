@@ -222,7 +222,10 @@ def trainSingleModel(model,
             print(type(images))
             print(type(images[0]))
             print(images.size())
-            print(images[0].size())
+            img_ = images[0].cpu().detach().numpy()
+            print(img_.shape)
+            print(img_.max())
+            
             break
             #
             optimizer.zero_grad()
