@@ -586,7 +586,7 @@ class OutConv(nn.Module):
     def __init__(self, in_channels, out_channels):
         super(OutConv, self).__init__()
         #self.conv = nn.Conv2d(in_channels, out_channels, kernel_size = 1)
-        self.out = torch.sigmoid()
+        self.out = nn.Sigmoid()
 
     def forward(self, x):
         return self.out(x)
