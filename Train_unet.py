@@ -222,9 +222,8 @@ def trainSingleModel(model,
             # print(np.asarray((unique, counts)).T)
             #
             # print(imagename)
-            img_ = images[0].cpu().detach().numpy()
-            print(img_.shape)
-            print(labels[0].cpu().detach().numpy().shape)
+            print("Images shape: ", images[0].cpu().detach().numpy().shape)
+            print("Labels shape: ", labels[0].cpu().detach().numpy().shape)
             # print(img_.max())            
             #
             optimizer.zero_grad()
@@ -240,8 +239,7 @@ def trainSingleModel(model,
                 labels = labels.to(device=device, dtype=torch.long)
 
             outputs_logits = model(images)
-            print("type", type(outputs_logits))
-            print(torch.sigmoid(outputs_logits).size())
+            print("Sigmoid of outputs: ", torch.sigmoid(outputs_logits).cpu().detach().numpy().shape)
             #
             if class_no == 2:
                 #
