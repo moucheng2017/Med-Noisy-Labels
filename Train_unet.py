@@ -224,7 +224,7 @@ def trainSingleModel(model,
             # print(imagename)
             img_ = images[0].cpu().detach().numpy()
             print(img_.shape)
-            print(labels[0].cpu().detach().numpy())
+            print(labels[0].cpu().detach().numpy().shape)
             # print(img_.max())            
             #
             optimizer.zero_grad()
