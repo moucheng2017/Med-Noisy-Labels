@@ -578,6 +578,7 @@ class Up(nn.Module):
                         diffY // 2, diffY - diffY // 2])
 
         x = torch.cat([x2, x1], dim = 1)
+        print(x.size)
 
         return self.conv(x)
 
@@ -605,13 +606,13 @@ class UNet_v3(nn.Module):
         self.down3 = (Down(64, 128))
         self.down4 = (Down(128, 256))
         self.down5 = (Down(256, 512))
-        #factor = 2 if bilinear else 1
+        factor = 2 if bilinear else 1
         #self.down4 = (Down(512, 1024 // factor))
-        self.up1 = (Up(512, 256))
-        self.up2 = (Up(256, 128))
-        self.up3 = (Up(128, 64))
-        self.up4 = (Up(64, 32))
-        self.up5 = (Up(32, 16))
+        self.up1 = (Up(512, 512 // factor))
+        self.up2 = (Up(256, 256 // factor))
+        self.up3 = (Up(128, 128 // factor))
+        self.up4 = (Up(64, 64 // factor))
+        self.up5 = (Up(32, 32 // factor))
         self.outc = (OutConv(16, n_classes))
 
     def forward(self, x):
