@@ -615,8 +615,8 @@ class UNet_v3(nn.Module):
         self.down5 = (Down(256, 512))
         factor = 2 if bilinear else 1
         #self.down4 = (Down(512, 1024 // factor))
-        self.up1 = (Up(512 * 2, 512 // factor))
-        self.up2 = (Up(256, 256 // factor))
+        self.up1 = (Up(256, 128 // factor))
+        self.up2 = (Up(128, 64 // factor))
         self.up3 = (Up(128, 128 // factor))
         self.up4 = (Up(64, 64 // factor))
         self.up5 = (Up(32, 32 // factor))
