@@ -222,8 +222,9 @@ def trainSingleModel(model,
             # print(np.asarray((unique, counts)).T)
             #
             # print(imagename)
-            # img_ = images[0].cpu().detach().numpy()
-            # print(img_.shape)
+            img_ = images[0].cpu().detach().numpy()
+            print(img_.shape)
+            print(labels[0].cpu().detach().numpy())
             # print(img_.max())            
             #
             optimizer.zero_grad()
