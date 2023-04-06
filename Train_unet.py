@@ -241,7 +241,7 @@ def trainSingleModel(model,
 
             outputs_logits = model(images)
             print("type", type(outputs_logits))
-            print(outputs_logits.size())
+            print(torch.sigmoid(outputs_logits).size())
             #
             if class_no == 2:
                 #
