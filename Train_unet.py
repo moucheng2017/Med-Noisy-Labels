@@ -19,7 +19,7 @@ from Utilis import CustomDataset, evaluate, test
 from tensorboardX import SummaryWriter
 from torch.autograd import Variable
 
-from Models import UNet, SkinNet
+from Models import UNet, SkinNet, UNet_v3
 
 
 def trainUnet(dataset_tag,
@@ -75,8 +75,8 @@ def trainUnet(dataset_tag,
                    apply_last_layer=True)
         #
 
-        Skin = SkinNet(input_dim, out_channels = 1)
-
+        #Skin = SkinNet(input_dim, out_channels = 1)
+        Skin = UNet_v3(n_channels = input_dim, n_classes = class_no)
         Exp_name = 'UNet' + '_width' + str(width) + \
                    '_depth' + str(depth) + \
                    '_repeat' + str(j) + '_' + labels_mode

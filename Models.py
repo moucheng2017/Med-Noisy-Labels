@@ -537,13 +537,12 @@ class DoubleConv(nn.Module):
 
         self.double_conv = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, kernel_size = (3, 3), padding = 1, padding_mode = "zeros", bias = True),
-            nn.Dropout(0.1),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace = True),
+            nn.Dropout(0.1),
             nn.Conv2d(out_channels, out_channels, kernel_size = 3, padding = 1, bias = True),
             nn.BatchNorm2d(out_channels),
-            nn.ReLU(inplace = True),
-            nn.Dropout(0.2)
+            nn.ReLU(inplace = True)
         )
 
     def forward(self, x):
@@ -586,10 +585,11 @@ class OutConv(nn.Module):
     
     def __init__(self, in_channels, out_channels):
         super(OutConv, self).__init__()
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size = 1)
+        #self.conv = nn.Conv2d(in_channels, out_channels, kernel_size = 1)
+        self.out = torch.sigmoid(self.out(dec1))
 
     def forward(self, x):
-        return self.conv(x)
+        return self.out(x)
 
 class UNet_v3(nn.Module):
 
@@ -599,16 +599,19 @@ class UNet_v3(nn.Module):
         self.n_classes = n_classes
         self.bilinear = bilinear
 
-        self.inc = (DoubleConv(n_channels, 64))
-        self.down1 = (Down(64, 128))
-        self.down2 = (Down(128, 256))
-        self.down3 = (Down(256, 512))
-        factor = 2 if bilinear else 1
-        self.down4 = (Down(512, 1024 // factor))
-        self.up1 = (Up(1024, 512 // factor, bilinear))
-        self.up2 = (Up(512, 256 // factor, bilinear))
-        self.up3 = (Up(256, 128 // factor, bilinear))
-        self.up4 = (Up(128, 64, bilinear))
+        self.inc = (DoubleConv(n_channels, 16))
+        self.down1 = (Down(16, 32))
+        self.down2 = (Down(32, 64))
+        self.down3 = (Down(64, 128))
+        self.down4 = (Down(128, 256))
+        self.down5 = (Down(256, 512))
+        #factor = 2 if bilinear else 1
+        #self.down4 = (Down(512, 1024 // factor))
+        self.up1 = (Up(512, 256))
+        self.up2 = (Up(256, 128))
+        self.up3 = (Up(128, 64))
+        self.up4 = (Up(64, 32))
+        self.up5 = (Up(32, 16))
         self.outc = (OutConv(64, n_classes))
 
     def forward(self, x):
