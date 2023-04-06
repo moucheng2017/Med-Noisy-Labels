@@ -240,6 +240,8 @@ def trainSingleModel(model,
                 labels = labels.to(device=device, dtype=torch.long)
 
             outputs_logits = model(images)
+            print("type", type(outputs_logits))
+            print(outputs_logits.size())
             #
             if class_no == 2:
                 #
