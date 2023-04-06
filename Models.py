@@ -578,7 +578,7 @@ class Up(nn.Module):
                         diffY // 2, diffY - diffY // 2])
 
         x = torch.cat([x2, x1], dim = 1)
-        print(x.size)
+        print(x.size())
 
         return self.conv(x)
 
