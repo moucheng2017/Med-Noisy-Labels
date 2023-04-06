@@ -543,7 +543,7 @@ class DoubleConv(nn.Module):
             nn.BatchNorm2d(mid_channels),
             nn.ReLU(inplace = True),
             nn.Dropout(0.1),
-            nn.Conv2d(mid_channels, out_channels, kernel_size = 3, padding = 1, bias = True),
+            nn.Conv2d(mid_channels, out_channels, kernel_size = (3, 3), padding = 1, bias = True),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace = True)
         )
@@ -615,7 +615,7 @@ class UNet_v3(nn.Module):
         self.down5 = (Down(256, 512))
         factor = 2 if bilinear else 1
         #self.down4 = (Down(512, 1024 // factor))
-        self.up1 = (Up(512, 512 // factor))
+        self.up1 = (Up(512 * 2, 512 // factor))
         self.up2 = (Up(256, 256 // factor))
         self.up3 = (Up(128, 128 // factor))
         self.up4 = (Up(64, 64 // factor))
