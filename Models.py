@@ -532,15 +532,18 @@ class SkinNet(nn.Module):
 
 class DoubleConv(nn.Module):
 
-    def __init__(self, in_channels, out_channels):
+    def __init__(self, in_channels, out_channels, mid_channels = None):
         super().__init__()
 
+        if not mid_channels:
+            mid_channels = out_channels
+
         self.double_conv = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, kernel_size = (3, 3), padding = 1, padding_mode = "zeros", bias = True),
-            nn.BatchNorm2d(out_channels),
+            nn.Conv2d(in_channels, mid_channels, kernel_size = (3, 3), padding = 1, padding_mode = "zeros", bias = True),
+            nn.BatchNorm2d(mid_channels),
             nn.ReLU(inplace = True),
             nn.Dropout(0.1),
-            nn.Conv2d(out_channels, out_channels, kernel_size = 3, padding = 1, bias = True),
+            nn.Conv2d(mid_channels, out_channels, kernel_size = 3, padding = 1, bias = True),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace = True)
         )
@@ -567,7 +570,7 @@ class Up(nn.Module):
 
         if bilinear:
             self.up = nn.Upsample(scale_factor = 2, mode = 'bilinear', align_corners = True)
-            self.conv = DoubleConv(in_channels, out_channels)
+            self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
 
     def forward(self, x1, x2):
         x1 = self.up(x1)
@@ -608,7 +611,7 @@ class UNet_v3(nn.Module):
         self.down5 = (Down(256, 512))
         factor = 2 if bilinear else 1
         #self.down4 = (Down(512, 1024 // factor))
-        self.up1 = (Up(512, 512))
+        self.up1 = (Up(512, 512 // factor))
         self.up2 = (Up(256, 256 // factor))
         self.up3 = (Up(128, 128 // factor))
         self.up4 = (Up(64, 64 // factor))
