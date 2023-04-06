@@ -617,9 +617,9 @@ class UNet_v3(nn.Module):
         #self.down4 = (Down(512, 1024 // factor))
         self.up1 = (Up(256, 128 // factor))
         self.up2 = (Up(128, 64 // factor))
-        self.up3 = (Up(128, 128 // factor))
-        self.up4 = (Up(64, 64 // factor))
-        self.up5 = (Up(32, 32 // factor))
+        self.up3 = (Up(64, 32 // factor))
+        self.up4 = (Up(32, 16 // factor))
+        #self.up5 = (Up(32, 32 // factor))
         self.outc = (OutConv(16, n_classes))
 
     def forward(self, x):
