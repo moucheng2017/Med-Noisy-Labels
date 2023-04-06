@@ -586,7 +586,7 @@ class OutConv(nn.Module):
     def __init__(self, in_channels, out_channels):
         super(OutConv, self).__init__()
         #self.conv = nn.Conv2d(in_channels, out_channels, kernel_size = 1)
-        self.out = torch.sigmoid(self.out(dec1))
+        self.out = torch.sigmoid()
 
     def forward(self, x):
         return self.out(x)
@@ -612,7 +612,7 @@ class UNet_v3(nn.Module):
         self.up3 = (Up(128, 64))
         self.up4 = (Up(64, 32))
         self.up5 = (Up(32, 16))
-        self.outc = (OutConv(64, n_classes))
+        self.outc = (OutConv(16, n_classes))
 
     def forward(self, x):
         x1 = self.inc(x)
