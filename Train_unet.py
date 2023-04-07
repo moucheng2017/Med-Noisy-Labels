@@ -307,6 +307,7 @@ def trainSingleModel(model,
     path_model = save_model_name_full
     #
     torch.save(model, path_model)
+    torch.save(model.state_dict(), path_model + '_skin_Final_dict.pt')
     #
     print('\nTraining finished and model saved\n')
     #
