@@ -620,7 +620,7 @@ class UNet_v3(nn.Module):
         self.up4 = (Up(32, 16 // factor))
         #self.up5 = (Up(32, 32 // factor))
         #self.outc = (OutConv(16, n_classes))
-        self.outc = (OutConv(16, 1))                # 1 because it is binary output ??
+        self.outc = (OutConv(16, 3))                # 1 because it is binary output ??
 
     def forward(self, x):
         x1 = self.inc(x)
