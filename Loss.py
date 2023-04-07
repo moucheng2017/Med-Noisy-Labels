@@ -141,8 +141,8 @@ def dice_loss(input, target):
     smooth = 1
     # input = F.softmax(input, dim=1)
     # input = torch.sigmoid(input) #for binary
-    print("Input: ", input.size())
-    print("Target: ", target.size())
+    # print("Input: ", input.size())
+    # print("Target: ", target.size())
     iflat = input.view(-1)
     tflat = target.view(-1)
     intersection = (iflat * tflat).sum()
