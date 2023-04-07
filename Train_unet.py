@@ -239,8 +239,7 @@ def trainSingleModel(model,
                 labels = labels.to(device=device, dtype=torch.long)
 
             outputs_logits = model(images)
-            print(outputs_logits.shape)
-            print(torch.sigmoid(outputs_logits).size())
+            print(outputs_logits.size())
             #
             if class_no == 2:
                 #
