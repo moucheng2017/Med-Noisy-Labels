@@ -204,6 +204,8 @@ def trainSingleModel(model,
     #
     writer = SummaryWriter(path_name + '/Log_' + datasettag + '/' + save_model_name)
 
+    print(model)
+    
     model.to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.999), eps=1e-8, weight_decay=1e-5)
