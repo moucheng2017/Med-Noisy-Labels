@@ -84,7 +84,7 @@ def trainUnet(dataset_tag,
         # ====================================================================================================================================================================
         trainloader, validateloader, testloader, data_length = getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate_batchsize, augmentation, labels_mode)
         # ==================
-        trainSingleModel(Skin,
+        trainSingleModel(Exp,
                          Exp_name,
                          num_epochs,
                          data_length,
