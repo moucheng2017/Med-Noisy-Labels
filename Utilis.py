@@ -6,6 +6,7 @@ import imageio
 import errno
 import numpy as np
 import tifffile as tiff
+import gzip
 
 import torch.nn as nn
 import matplotlib.pyplot as plt
@@ -36,17 +37,29 @@ class CustomDataset(torch.utils.data.Dataset):
         # all_labels.sort()
         # all_images.sort()
 
-        all_images = glob.glob(os.path.join(self.imgs_folder, '*.tif'))
-        all_images.sort()
+        self.skin_np = True
+        if self.skin_np:
+            all_images = glob.glob(os.path.join(self.imgs_folder, '*.npy.gz'))
+            all_images.sort()
 
-        all_labels = glob.glob(os.path.join(self.labels_folder, '*.tif'))
-        all_labels.sort()
+            all_labels = glob.glob(os.path.join(self.labels_folder, '*.npy.gz'))
+            all_labels.sort()
 
-        label = tiff.imread(all_labels[index])
-        label = np.array(label, dtype='float32')
-        #
-        image = tiff.imread(all_images[index])
-        image = np.array(image, dtype='float32')
+            label = np.load(gzip.open(all_labels[index]))
+            image = np.load(gzip.open(all_images[index]))
+        
+        else:
+            all_images = glob.glob(os.path.join(self.imgs_folder, '*.tif'))
+            all_images.sort()
+
+            all_labels = glob.glob(os.path.join(self.labels_folder, '*.tif'))
+            all_labels.sort()
+
+            label = tiff.imread(all_labels[index])
+            image = tiff.imread(all_images[index])
+
+            label = np.array(label, dtype='float32')
+            image = np.array(image, dtype='float32')
 
         #
         # # label = Image.open(all_labels[index])
@@ -162,7 +175,10 @@ class CustomDataset(torch.utils.data.Dataset):
     def __len__(self):
         # You should change 0 to the total size of your dataset.
         #print("Len: ", len(glob.glob(os.path.join(self.imgs_folder, '*.tif'))))
-        return len(glob.glob(os.path.join(self.imgs_folder, '*.tif')))
+        if self.skin_np:
+            return len(glob.glob(os.path.join(self.imgs_folder, '*.npy.gz')))
+        else:
+            return len(glob.glob(os.path.join(self.imgs_folder, '*.tif')))
 
 
 # ============================================================================================
