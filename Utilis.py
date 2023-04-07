@@ -24,6 +24,7 @@ class CustomDataset(torch.utils.data.Dataset):
         self.imgs_folder = imgs_folder
         self.labels_folder = labels_folder
         self.data_augmentation = augmentation
+        self.skin_np = True
         # self.transform = transforms
 
     def __getitem__(self, index):
@@ -37,7 +38,6 @@ class CustomDataset(torch.utils.data.Dataset):
         # all_labels.sort()
         # all_images.sort()
 
-        self.skin_np = True
         if self.skin_np:
             all_images = glob.glob(os.path.join(self.imgs_folder, '*.npy.gz'))
             all_images.sort()
