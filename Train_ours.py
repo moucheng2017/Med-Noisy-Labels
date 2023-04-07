@@ -202,11 +202,9 @@ def trainSingleModel(model_seg,
 
     if model_seg_stepwise == True:
 
-        path_load_model = "./pretrained/GCM_model.pt"
-
         from collections import OrderedDict
 
-        path_load_model = "./pretrained/GCM_model.pt"
+        path_load_model = "./pretrained/Skin_model.pt"
         def map_keys(loaded_state_dict):
             new_state_dict = OrderedDict()
             for k, v in loaded_state_dict.items():
