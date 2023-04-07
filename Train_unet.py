@@ -70,7 +70,7 @@ def trainUnet(dataset_tag,
                    width=width,
                    depth=depth,
                    class_no=class_no,
-                   norm='bn',
+                   norm='in',
                    dropout=True,
                    apply_last_layer=True)
         #
