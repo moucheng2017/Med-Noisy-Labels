@@ -47,9 +47,6 @@ class CustomDataset(torch.utils.data.Dataset):
 
             label = np.load(gzip.open(all_labels[index]))
             image = np.load(gzip.open(all_images[index]))
-
-            print(label.shape)
-            print(image.shape)
         
         else:
             all_images = glob.glob(os.path.join(self.imgs_folder, '*.tif'))
