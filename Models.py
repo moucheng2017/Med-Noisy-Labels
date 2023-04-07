@@ -28,6 +28,7 @@ class UNet_CMs(nn.Module):
         self.noisy_labels_no = 3
         print("Noisy labels: ", self.noisy_labels_no)
         self.lowrank = low_rank
+        self.dropout = True
         #
         if class_no > 2:
             #
@@ -41,7 +42,15 @@ class UNet_CMs(nn.Module):
         self.decoders_noisy_layers = nn.ModuleList()
         #
 
+        if self.dropout is True:
+
+            self.dropout_layers = nn.ModuleList()
+
         for i in range(self.depth):
+
+            if self.dropout is True:
+
+                self.dropout_layers.append(nn.Dropout2d(0.4))
 
             if i == 0:
                 #
@@ -95,7 +104,13 @@ class UNet_CMs(nn.Module):
             y = torch.cat([y_e, y], dim=1)
             #
             y = self.decoders[-(i+1)](y)
+            #
+            if self.dropout is True:
+                #
+                y = self.dropout_layers[i](y)
         #
+
+
         for i in range(self.noisy_labels_no):
             #
             y_noisy_label = self.decoders_noisy_layers[i](y)
