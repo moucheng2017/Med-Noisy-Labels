@@ -29,7 +29,12 @@ class UNet_CMs(nn.Module):
         print("Noisy labels: ", self.noisy_labels_no)
         self.lowrank = low_rank
         #
-        self.final_in = class_no
+        if class_no > 2:
+            #
+            self.final_in = class_no
+        else:
+            #
+            self.final_in = 1
         #
         self.decoders = nn.ModuleList()
         self.encoders = nn.ModuleList()
