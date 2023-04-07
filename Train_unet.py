@@ -240,7 +240,7 @@ def trainSingleModel(model,
 
             outputs_logits = model(images)
             print(outputs_logits.shape)
-            print(torch.sigmoid(outputs_logits.shape))
+            print(torch.sigmoid(outputs_logits).size())
             #
             if class_no == 2:
                 #
