@@ -33,7 +33,7 @@ if __name__ == '__main__':
     # ==========================================
     # for training with our model
     # ==========================================
-    trainModels(input_dim=3,
+    trainModels(input_dim=1,
                 class_no=2,
                 repeat=1,
                 train_batchsize=2,
