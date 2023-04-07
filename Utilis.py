@@ -47,9 +47,6 @@ class CustomDataset(torch.utils.data.Dataset):
 
             label = np.load(gzip.open(all_labels[index]))
             image = np.load(gzip.open(all_images[index]))
-
-            print("label: ", label.shape)
-            print("image: ", image.shape)
         
         else:
             all_images = glob.glob(os.path.join(self.imgs_folder, '*.tif'))
@@ -63,9 +60,6 @@ class CustomDataset(torch.utils.data.Dataset):
 
             label = np.array(label, dtype='float32')
             image = np.array(image, dtype='float32')
-
-            print("label: ", label.shape)
-            print("image: ", image.shape)
 
         #
         # # label = Image.open(all_labels[index])
