@@ -129,7 +129,7 @@ if __name__ == '__main__':
     # ============================================
     trainUnet(dataset_tag = 'skin',
                 dataset_name = 'skin',
-                data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin_np/',
+                data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin/',
                 input_dim = 3,
                 class_no = 2,
                 repeat = 1,
