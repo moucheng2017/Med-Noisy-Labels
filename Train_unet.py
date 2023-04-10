@@ -13,7 +13,7 @@ from sklearn.metrics.pairwise import cosine_distances
 from scipy import spatial
 from sklearn.metrics import mean_squared_error
 from torch.optim import lr_scheduler
-from Loss import dice_loss, ce
+from Loss import dice_loss, ce_loss
 from Utilis import segmentation_scores
 from Utilis import CustomDataset, evaluate, test
 from tensorboardX import SummaryWriter
