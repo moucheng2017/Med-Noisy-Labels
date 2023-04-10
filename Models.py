@@ -68,7 +68,7 @@ class UNet_CMs(nn.Module):
                 self.decoders.append(double_conv(in_channels=width*(2**i), out_channels=width*(2**(i - 1)), step=1, norm=norm))
                 #
         self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
-        self.conv_last = nn.Conv2d(width, self.final_in, 3, bias=True)
+        self.conv_last = nn.Conv2d(width, self.final_in, 2, bias=True)
         #
         for i in range(self.noisy_labels_no):
             #
