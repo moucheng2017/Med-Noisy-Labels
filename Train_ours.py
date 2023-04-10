@@ -432,6 +432,8 @@ def trainSingleModel(model_seg,
             for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(trainloader):
                 #
                 b, c, h, w = images.size()
+                print(b, c, h, w)
+                break
                 #
                 #
                 optimizer1.zero_grad()
