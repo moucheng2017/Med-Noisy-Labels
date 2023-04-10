@@ -147,6 +147,9 @@ def dice_loss(input, target):
     """
     smooth = 1
 
+    print("equality check 0: ", torch.eq(input[0], input[1]))
+    print("equality check 1: ", torch.eq(input[:, 0], input[:, 1]))
+
     b, c, h, w = input.size()
     pred_norm = torch.sigmoid(input)
     pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
@@ -215,36 +218,3 @@ def cm_loss(y_init, cms, labels, alpha = 0.0):
 
     return loss, main_loss, regularisation
 
-def ce_loss(pred, label):
-
-    """ This function defines the proposed trace regularised loss function, suitable for either binary
-    or multi-class segmentation task. Essentially, each pixel has a confusion matrix.
-
-    Args:
-        pred (torch.tensor): output tensor of the last layer of the segmentation network without Sigmoid or Softmax
-        label (torch.tensor): labels
-
-    Returns:
-        loss (double): total loss value, sum between main_loss and regularisation
-
-    """
-    main_loss = 0.0
-    b, c, h, w = pred.size()
-    # print("pred: ", pred.size())
-    # normalise the segmentation output tensor along dimension 1
-    pred_norm = nn.Softmax(dim=1)(pred)
-    # print("pred_norm: ", pred_norm.size())
-    # b x c x h x w ---> b*h*w x c x 1
-    pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
-    # print("pred_norm_f: ", pred_norm.size())
-
-    # print("label: ", label.size())
-    # print("label_long: ", label.view(b, h, w).long().size())
-    
-    # pred_f = torch.bmm(cm, pred_norm).view(b*h*w, c)
-    pred_f = pred_norm.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
-
-    loss = nn.CrossEntropyLoss(reduction='mean')(pred_f, label.view(b, h, w).long())
-    main_loss += loss
-
-    return main_loss

@@ -140,7 +140,7 @@ if __name__ == '__main__':
                 width = 32,
                 depth = 3,
                 augmentation='all_flip',
-                loss_f='ce',
+                loss_f='dice',
                 path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/skin/' + time.strftime("%Y%m%d-%H%M%S"),
                 labels_mode = 'skin')
     # # #
