@@ -36,6 +36,7 @@ class UNet_CMs(nn.Module):
         else:
             #
             self.final_in = 1
+        self.final_in = 2
         #
         self.decoders = nn.ModuleList()
         self.encoders = nn.ModuleList()
