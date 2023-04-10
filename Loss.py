@@ -45,6 +45,8 @@ def noisy_label_loss(pred, cms, labels, alpha=0.1):
         # pred_noisy: b*h*w x c x 1
         print("cm: ", cm.size())
         print("pred_norm: ", pred_norm.size())
+        print(torch.isnan(cm))
+        print(torch.isnan(pred_norm))
         pred_noisy = torch.bmm(cm, pred_norm).view(b*h*w, c)
 
         pred_noisy = pred_noisy.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)

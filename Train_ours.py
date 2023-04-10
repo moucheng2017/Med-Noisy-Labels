@@ -212,7 +212,7 @@ def trainSingleModel(model_seg,
                 new_state_dict[new_key] = v
             return new_state_dict
 
-        loaded_state_dict = torch.load(path_load_model, map_location=torch.device('cpu'))
+        loaded_state_dict = torch.load(path_load_model)#, map_location=torch.device('cpu'))
         modified_state_dict = map_keys(loaded_state_dict)
         model_seg.load_state_dict(modified_state_dict, strict=False)
         model_seg.eval()
