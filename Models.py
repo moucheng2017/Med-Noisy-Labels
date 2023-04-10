@@ -26,16 +26,9 @@ class UNet_CMs(nn.Module):
         #
         self.depth = depth
         self.noisy_labels_no = 3
-        print("Noisy labels: ", self.noisy_labels_no)
         self.lowrank = low_rank
-        self.dropout = False
+        self.dropout = True
         #
-        if class_no > 2:
-            #
-            self.final_in = class_no
-        else:
-            #
-            self.final_in = 1
         self.final_in = 2
         #
         self.decoders = nn.ModuleList()
