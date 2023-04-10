@@ -143,11 +143,16 @@ def dice_loss(input, target):
 
     """
     smooth = 1
+
+    b, c, h, w = input.size()
+    pred_norm = torch.sigmoid(input)
+    pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
+
     # input = F.softmax(input, dim=1)
     # input = torch.sigmoid(input) #for binary
-    print("Input: ", input.size())
+    print("Input: ", pred_norm.size())
     print("Target: ", target.size())
-    iflat = input.view(-1)
+    iflat = pred_norm.view(-1)
     tflat = target.view(-1)
     intersection = (iflat * tflat).sum()
     union = iflat.sum() + tflat.sum()

@@ -241,7 +241,7 @@ def trainSingleModel(model,
                 #
                 if losstag == 'dice':
                     #
-                    loss = dice_loss(torch.sigmoid(outputs_logits), labels)
+                    loss = dice_loss(outputs_logits, labels)
                     #
                 elif losstag == 'ce':
                     #
