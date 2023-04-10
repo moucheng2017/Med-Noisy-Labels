@@ -152,7 +152,7 @@ def dice_loss(input, target):
     input_soft = nn.Softmax(dim=1)(input)
     target = target.squeeze(1)
 
-    iflat = input_soft[:, 1, :, :].contiguous().view(-1)
+    iflat = input_soft[:, 0, :, :].contiguous().view(-1)
     tflat = target.view(-1).float()
     intersection = (iflat * tflat).sum()
     union = iflat.sum() + tflat.sum()
