@@ -33,22 +33,22 @@ if __name__ == '__main__':
     # ==========================================
     # for training with our model
     # ==========================================
-    trainModels(input_dim=3,
-                class_no=2,
-                repeat=1,
-                train_batchsize=2,
-                validate_batchsize=1,
-                num_epochs=2,
-                learning_rate=1e-3,
-                alpha=0.1,
-                width=32,
-                depth=3,
-                data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
-                dataset_tag='oocytes_gent',
-                label_mode='multi',
-                save_probability_map=True,
-                low_rank_mode=False,
-                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+    # trainModels(input_dim=3,
+    #             class_no=2,
+    #             repeat=1,
+    #             train_batchsize=2,
+    #             validate_batchsize=1,
+    #             num_epochs=2,
+    #             learning_rate=1e-3,
+    #             alpha=0.1,
+    #             width=32,
+    #             depth=3,
+    #             data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
+    #             dataset_tag='oocytes_gent',
+    #             label_mode='multi',
+    #             save_probability_map=True,
+    #             low_rank_mode=False,
+    #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
 
     # ============================================
     # for baseline with global confusion  matrices
@@ -127,22 +127,22 @@ if __name__ == '__main__':
     # ============================================
     # for simple u-net for skin training
     # ============================================
-    # trainUnet(dataset_tag = 'skin',
-    #             dataset_name = 'skin',
-    #             data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin_np_192_256_3/',
-    #             input_dim = 3,
-    #             class_no = 2,
-    #             repeat = 1,
-    #             train_batchsize = 2,
-    #             validate_batchsize = 1,
-    #             num_epochs = 10,
-    #             learning_rate = 1e-3,
-    #             width = 32,
-    #             depth = 3,
-    #             augmentation='all_flip',
-    #             loss_f='dice',
-    #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/skin/' + time.strftime("%Y%m%d-%H%M%S"),
-    #             labels_mode = 'skin')
+    trainUnet(dataset_tag = 'skin',
+                dataset_name = 'skin',
+                data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin_np_192_256_3/',
+                input_dim = 3,
+                class_no = 2,
+                repeat = 1,
+                train_batchsize = 2,
+                validate_batchsize = 1,
+                num_epochs = 2,
+                learning_rate = 1e-3,
+                width = 32,
+                depth = 3,
+                augmentation='all_flip',
+                loss_f='dice',
+                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/skin/' + time.strftime("%Y%m%d-%H%M%S"),
+                labels_mode = 'skin')
     # # #
     #
     # ============================================

@@ -150,6 +150,7 @@ def dice_loss(input, target):
     b, c, h, w = input.size()
     pred_norm = torch.sigmoid(input)
     pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
+    pred_norm = pred_norm.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
 
     label = target.view(b, h, w).long()
     # input = F.softmax(input, dim=1)
