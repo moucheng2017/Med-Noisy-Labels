@@ -50,8 +50,9 @@ def noisy_label_loss(pred, cms, labels, alpha=0.1):
         # print("cm nan: ", torch.isnan(cm.view(-1)).any())
         # print("pred_norm nan: ", torch.isnan(pred_norm.view(-1)).any())
         pred_noisy = torch.bmm(cm, pred_norm).view(b*h*w, c)
-
+        print("pred_noisy_bmm: ", pred_noisy.size())
         pred_noisy = pred_noisy.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+        print("pred_noisy_f: ", pred_noisy.size())
         loss_current = nn.CrossEntropyLoss(reduction='mean')(pred_noisy, label_noisy.view(b, h, w).long())
         main_loss += loss_current
         regularisation += torch.trace(torch.transpose(torch.sum(cm, dim=0), 0, 1)).sum() / (b * h * w)
