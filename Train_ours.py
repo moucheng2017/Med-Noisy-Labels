@@ -198,7 +198,7 @@ def trainSingleModel(model_seg,
     #
     writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
-    model_seg_stepwise = False
+    model_seg_stepwise = True
 
     if model_seg_stepwise == True:
 
@@ -218,7 +218,7 @@ def trainSingleModel(model_seg,
         model_seg.eval()
         # model_seg.load_state_dict(torch.load(path_load_model, map_location = torch.device('cpu')), strict = False)
         # model_seg.eval()
-        print(model_seg)
+        #print(model_seg)
 
         for param in model_seg.parameters():
             param.requires_grad = False
@@ -433,8 +433,8 @@ def trainSingleModel(model_seg,
                 #
                 b, c, h, w = images.size()
                 print(b, c, h, w)
-                print("Images shape: ", images[0].cpu().detach().numpy().shape)
-                print("Labels shape: ", labels_AR[0].cpu().detach().numpy().shape)
+                # print("Images shape: ", images[0].cpu().detach().numpy().shape)
+                # print("Labels shape: ", labels_AR[0].cpu().detach().numpy().shape)
                 #
                 #
                 optimizer1.zero_grad()
@@ -454,7 +454,7 @@ def trainSingleModel(model_seg,
                 #labels_all.append(labels_avrg)
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
-                print("Output shape: ", outputs_logits.cpu().detach().numpy().shape)
+                # print("Output shape: ", outputs_logits.cpu().detach().numpy().shape)
                 #
                 if low_rank_mode is False:
                     #
