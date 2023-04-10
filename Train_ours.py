@@ -433,7 +433,6 @@ def trainSingleModel(model_seg,
                 #
                 b, c, h, w = images.size()
                 print(b, c, h, w)
-                break
                 #
                 #
                 optimizer1.zero_grad()
