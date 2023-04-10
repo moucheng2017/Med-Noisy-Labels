@@ -198,7 +198,7 @@ def trainSingleModel(model_seg,
     #
     writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
-    model_seg_stepwise = True
+    model_seg_stepwise = False
 
     if model_seg_stepwise == True:
 
@@ -433,6 +433,8 @@ def trainSingleModel(model_seg,
                 #
                 b, c, h, w = images.size()
                 print(b, c, h, w)
+                print("Images shape: ", images[0].cpu().detach().numpy().shape)
+                print("Labels shape: ", labels_AR[0].cpu().detach().numpy().shape)
                 #
                 #
                 optimizer1.zero_grad()
