@@ -205,7 +205,7 @@ def trainSingleModel(model,
     writer = SummaryWriter(path_name + '/Log_' + datasettag + '/' + save_model_name)
 
     print(model)
-    
+
     model.to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.999), eps=1e-8, weight_decay=1e-5)
@@ -223,9 +223,9 @@ def trainSingleModel(model,
             # unique, counts = np.unique(labels, return_counts=True)
             # print(np.asarray((unique, counts)).T)
             #
-            # print(imagename)
-            # print("Images shape: ", images[0].cpu().detach().numpy().shape)
-            # print("Labels shape: ", labels[0].cpu().detach().numpy().shape)
+            print(imagename)
+            print("Images shape: ", images[0].cpu().detach().numpy().shape)
+            print("Labels shape: ", labels[0].cpu().detach().numpy().shape)
             # print(img_.max())            
             #
             optimizer.zero_grad()
