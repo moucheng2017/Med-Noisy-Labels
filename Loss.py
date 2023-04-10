@@ -148,26 +148,17 @@ def dice_loss(input, target):
     smooth = 1
 
     b, c, h, w = input.size()
-    #pred_norm = torch.sigmoid(input)
-    pred_norm = nn.Softmax(dim=1)(input)
-    pred_norm = torch.argmax(pred_norm, dim = 1)
+    
+    input_soft = nn.Softmax(dim=1)(input)
+    target = target.squeeze(1)
 
-    target = torch.squeeze(target, dim = 1)
-    # pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
-    # pred_norm = pred_norm.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
-
-    # label = target.view(b, h, w).long()
-    # input = F.softmax(input, dim=1)
-    # input = torch.sigmoid(input) #for binary
-    # print("Input: ", pred_norm.size())
-    # print("Target: ", target.size())
-    iflat = pred_norm.view(-1)
-    tflat = target.view(-1)
+    iflat = input_soft[:, 1, :, :].contiguous().view(-1)
+    tflat = target.view(-1).float()
     intersection = (iflat * tflat).sum()
     union = iflat.sum() + tflat.sum()
-    dice_score = (2.*intersection + smooth)/(union + smooth)
-    return 1-dice_score
+    dice_score = (2. * intersection + smooth) / (union + smooth)
 
+    return 1 - dice_score
 
 def cm_loss(y_init, cms, labels, alpha = 0.0):
 
