@@ -223,9 +223,9 @@ def trainSingleModel(model,
             # unique, counts = np.unique(labels, return_counts=True)
             # print(np.asarray((unique, counts)).T)
             #
-            print(imagename)
-            print("Images shape: ", images[0].cpu().detach().numpy().shape)
-            print("Labels shape: ", labels[0].cpu().detach().numpy().shape)
+            # print(imagename)
+            # print("Images shape: ", images[0].cpu().detach().numpy().shape)
+            # print("Labels shape: ", labels[0].cpu().detach().numpy().shape)
             # print(img_.max())            
             #
             optimizer.zero_grad()
@@ -235,7 +235,7 @@ def trainSingleModel(model,
             labels = labels.to(device=device, dtype=torch.float32)
 
             outputs_logits = model(images)
-            print("Output shape: ", outputs_logits.cpu().detach().numpy().shape)
+            # print("Output shape: ", outputs_logits.cpu().detach().numpy().shape)
             #
             if class_no == 2:
                 #
