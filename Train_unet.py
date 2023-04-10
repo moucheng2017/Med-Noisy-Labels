@@ -232,15 +232,10 @@ def trainSingleModel(model,
             #
             images = images.to(device=device, dtype=torch.float32)
 
-            if class_no == 2:
-
-                labels = labels.to(device=device, dtype=torch.float32)
-
-            else:
-
-                labels = labels.to(device=device, dtype=torch.long)
+            labels = labels.to(device=device, dtype=torch.float32)
 
             outputs_logits = model(images)
+            print("Output shape: ", outputs_logits.cpu().detach().numpy().shape)
             #
             if class_no == 2:
                 #

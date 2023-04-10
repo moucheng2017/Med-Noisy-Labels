@@ -454,6 +454,7 @@ def trainSingleModel(model_seg,
                 #labels_all.append(labels_avrg)
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
+                print("Output shape: ", outputs_logits.cpu().detach().numpy().shape)
                 #
                 if low_rank_mode is False:
                     #
