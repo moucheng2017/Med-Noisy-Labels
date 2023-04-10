@@ -43,10 +43,10 @@ def noisy_label_loss(pred, cms, labels, alpha=0.1):
         # matrix multiplication to calculate the predicted noisy segmentation:
         # cm: b*h*w x c x c
         # pred_noisy: b*h*w x c x 1
-        print("cm: ", cm.size())
-        print("pred_norm: ", pred_norm.size())
-        print("cm nan: ", torch.isnan(cm.view(-1)).any())
-        print("pred_norm nan: ", torch.isnan(pred_norm.view(-1)).any())
+        # print("cm: ", cm.size())
+        # print("pred_norm: ", pred_norm.size())
+        # print("cm nan: ", torch.isnan(cm.view(-1)).any())
+        # print("pred_norm nan: ", torch.isnan(pred_norm.view(-1)).any())
         pred_noisy = torch.bmm(cm, pred_norm).view(b*h*w, c)
 
         pred_noisy = pred_noisy.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
