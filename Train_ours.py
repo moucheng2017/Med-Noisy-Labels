@@ -220,8 +220,8 @@ def trainSingleModel(model_seg,
         # model_seg.eval()
         #print(model_seg)
 
-        for param in model_seg.parameters():
-            param.requires_grad = False
+        # for param in model_seg.parameters():
+        #     param.requires_grad = False
 
         # for layer in model_seg.decoders:
         #     layer.requires_grad = False
@@ -432,7 +432,7 @@ def trainSingleModel(model_seg,
             for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(trainloader):
                 #
                 b, c, h, w = images.size()
-                
+
                 # print("Images shape: ", images[0].cpu().detach().numpy().shape)
                 # print("Labels shape: ", labels_AR[0].cpu().detach().numpy().shape)
                 #
