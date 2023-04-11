@@ -58,10 +58,10 @@ class CustomDataset(torch.utils.data.Dataset):
             label = tiff.imread(all_labels[index])
             image = tiff.imread(all_images[index])
 
-            label = np.array(label, dtype='float32')
-            image = np.array(image, dtype='float32')
-        print(image.max())
-        print(label.max())
+            label = np.array(label, dtype='float32') / 255.
+            image = np.array(image, dtype='float32') / 255.
+        # print(image.max())
+        # print(label.max())
         #
         # # label = Image.open(all_labels[index])
         # # label = tiff.imread(all_labels[index])
