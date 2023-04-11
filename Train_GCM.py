@@ -224,30 +224,26 @@ def trainSingleModel(model_seg,
         ### ===================== ###
 
         ### Encoders - GRAD ###
-        # for layer in model_seg.encoders:
-        #     layer.requires_grad = False
-        ### ===================== ###
+        for layer in model_seg.encoders.parameters():
+            layer.requires_grad = True
+        ### =============== ###
+
+        ### Decoders - GRAD ###
+        for param in model_seg.decoders.parameters():
+            param.requires_grad = True
+        ### =============== ###
 
         ### Decoders CMs - GRAD ###
         for param in model_seg.decoders_noisy_layers.parameters():
-            param.requires_grad = True
+            param.requires_grad = False
         ### =================== ###
 
-        # for param in model_seg.decoders[0].parameters():
-        #     param.requires_grad = True
-
         ### Last Conv - GRAD ###
-        # for param in model_seg.conv_last.parameters():
-        #     param.requires_grad = True
+        for param in model_seg.conv_last.parameters():
+            param.requires_grad = True
         ### ================ ###
 
-        ### Decoders - GRAD ###
-        # for param in model_seg.decoders[1].parameters():
-        #     param.requires_grad = True
-
-        # for param in model_seg.decoders[2].parameters():
-        #     param.requires_grad = True
-        ### =============== ###
+       
 
     total_params = sum(p.numel() for p in model_seg.parameters())
     print("Total number of params: ", total_params)
