@@ -204,45 +204,46 @@ def trainSingleModel(model_seg,
 
         from collections import OrderedDict
 
-        path_load_model = "./pretrained/Skin_model.pt"
+        path_load_model = "./pretrained/COC_model_d5.pt"
         def map_keys(loaded_state_dict):
             new_state_dict = OrderedDict()
             for k, v in loaded_state_dict.items():
-                new_key = k  # Modify the key here based on the mismatch pattern
+                new_key = k                                 # Modify the key here based on the mismatch pattern
                 new_state_dict[new_key] = v
             return new_state_dict
 
-        loaded_state_dict = torch.load(path_load_model)#, map_location=torch.device('cpu'))
+        loaded_state_dict = torch.load(path_load_model)
         modified_state_dict = map_keys(loaded_state_dict)
-        model_seg.load_state_dict(modified_state_dict, strict=False)
+        model_seg.load_state_dict(modified_state_dict, strict = False)
         model_seg.eval()
-        # model_seg.load_state_dict(torch.load(path_load_model, map_location = torch.device('cpu')), strict = False)
-        # model_seg.eval()
-        #print(model_seg)
 
-        # for param in model_seg.parameters():
-        #     param.requires_grad = False
-
-        # for layer in model_seg.decoders:
-        #     layer.requires_grad = False
-        # for layer in model_seg.encoders:
-        #     layer.requires_grad = False
-
-        for param in model_seg.decoders_noisy_layers.parameters():
+        ### All parameters - GRAD ###
+        for param in model_seg.parameters():
             param.requires_grad = True
+        ### ===================== ###
 
-        # for param in model_seg.decoders[0].parameters():
-        #     param.requires_grad = True
+        ### Encoders - GRAD ###
+        for layer in model_seg.encoders.parameters():
+            layer.requires_grad = True
+        ### =============== ###
 
+        ### Decoders - GRAD ###
+        for param in model_seg.decoders.parameters():
+            param.requires_grad = True
+        ### =============== ###
+
+        ### Last Conv - GRAD ###
         for param in model_seg.conv_last.parameters():
             param.requires_grad = True
+        ### ================ ###
 
-        # for param in model_seg.decoders[1].parameters():
-        #     param.requires_grad = True
+        ### Decoders CMs - GRAD ###
+        for param in model_seg.decoders_noisy_layers.parameters():
+            param.requires_grad = True
+        ### =================== ###
 
-        # for param in model_seg.decoders[2].parameters():
-        #     param.requires_grad = True
-        
+       
+
     total_params = sum(p.numel() for p in model_seg.parameters())
     print("Total number of params: ", total_params)
     total_params_grad  = sum(p.numel() for p in model_seg.parameters() if p.requires_grad)
