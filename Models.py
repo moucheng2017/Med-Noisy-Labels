@@ -199,6 +199,10 @@ class UNet_GlobalCMs(nn.Module):
             #
             y = self.decoders[-(i+1)](y)
 
+        if self.dropout is True:
+                #
+                y = self.dropout_layers[i](y)
+
         # Return the confusion matrices:
         for i in range(self.noisy_labels_no):
             # Copy the confusion matrix over the batch: (1, c, c, h , w) => (b, c, c, h, w)
