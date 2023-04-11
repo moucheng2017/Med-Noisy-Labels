@@ -199,6 +199,61 @@ def trainSingleModel(model_seg,
     #
     writer = SummaryWriter(path_name + '/Log/Log_' + model_name)
 
+    model_seg_stepwise = True
+
+    if model_seg_stepwise == True:
+
+        from collections import OrderedDict
+
+        path_load_model = "./pretrained/Skin_model.pt"
+        def map_keys(loaded_state_dict):
+            new_state_dict = OrderedDict()
+            for k, v in loaded_state_dict.items():
+                new_key = k                                 # Modify the key here based on the mismatch pattern
+                new_state_dict[new_key] = v
+            return new_state_dict
+
+        loaded_state_dict = torch.load(path_load_model)
+        modified_state_dict = map_keys(loaded_state_dict)
+        model_seg.load_state_dict(modified_state_dict, strict = False)
+        model_seg.eval()
+
+        ### All parameters - GRAD ###
+        # for param in model_seg.parameters():
+        #     param.requires_grad = False
+        ### ===================== ###
+
+        ### Encoders - GRAD ###
+        # for layer in model_seg.encoders:
+        #     layer.requires_grad = False
+        ### ===================== ###
+
+        ### Decoders CMs - GRAD ###
+        # for param in model_seg.decoders_noisy_layers.parameters():
+        #     param.requires_grad = True
+        ### =================== ###
+
+        # for param in model_seg.decoders[0].parameters():
+        #     param.requires_grad = True
+
+        ### Last Conv - GRAD ###
+        # for param in model_seg.conv_last.parameters():
+        #     param.requires_grad = True
+        ### ================ ###
+
+        ### Decoders - GRAD ###
+        # for param in model_seg.decoders[1].parameters():
+        #     param.requires_grad = True
+
+        # for param in model_seg.decoders[2].parameters():
+        #     param.requires_grad = True
+        ### =============== ###
+
+    total_params = sum(p.numel() for p in model_seg.parameters())
+    print("Total number of params: ", total_params)
+    total_params_grad  = sum(p.numel() for p in model_seg.parameters() if p.requires_grad)
+    print("Total number of params with grad: ", total_params_grad)
+
     model_seg.to(device)
     # model_cm.to(device)
 
@@ -397,16 +452,13 @@ def trainSingleModel(model_seg,
                 #labels_all.append(labels_avrg)
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
-                print("CMs number: ", len(outputs_logits_noisy))
-                print("CM type: ", type(outputs_logits_noisy[0]))
-                print("CM shape: ", outputs_logits_noisy[0].shape)
-                print("Annot 1: ", outputs_logits_noisy)
+
                 np.save('./cms1.npy', outputs_logits_noisy[0].cpu().detach().numpy())
                 np.save('./cms2.npy', outputs_logits_noisy[1].cpu().detach().numpy())
                 np.save('./cms3.npy', outputs_logits_noisy[2].cpu().detach().numpy())
                 #
                 loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
-                break
+                
                 # if low_rank_mode is False:
                 #     #
                 #     loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
@@ -417,34 +469,21 @@ def trainSingleModel(model_seg,
                     #
                 loss.backward()
                 optimizer1.step()
-                # optimizer2.step()
                 #
                 _, train_output = torch.max(outputs_logits, dim=1)
                 #
                 train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
                 #
-                # print(train_iou)
-                # train_iou = segmentation_scores(labels_true.cpu().detach().numpy(), torch.sigmoid(outputs_logits[:, 0, :, :]).cpu().detach().numpy(), class_no)
                 running_loss += loss
                 running_loss_ce += loss_ce
                 running_loss_trace += loss_trace
                 running_iou += train_iou
                 #
-                # if (j + 1) % iteration_amount == 0:
                 if (j + 1) == 1:
                     #
                     v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
                                                            model1=model_seg,
                                                            class_no=class_no)
-                    
-                    # if low_rank_mode is False:
-                    #     v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
-                    #                                            model1=model_seg,
-                    #                                            class_no=class_no)
-                    # else:
-                    #     v_dice, v_ged = evaluate_noisy_label_6(data=validateloader,
-                    #                                            model1=model_seg,
-                    #                                            class_no=class_no)
                     #
                     print(
                         'Step [{}/{}], '
@@ -467,10 +506,7 @@ def trainSingleModel(model_seg,
                                                    'train main loss': running_loss_ce / (j + 1),
                                                    'train regularisation loss': running_loss_trace / (j + 1)}, epoch + 1)
                 #
-
-        # for param_group in optimizer.param_groups:
-        #     param_group['lr'] = learning_rate*((1 - epoch / num_epochs)**0.999)
-        #
+    #
     model_seg.eval()
     # model_cm.eval()
     save_path = path_name + '/Exp_Results_Noisy_labels'
