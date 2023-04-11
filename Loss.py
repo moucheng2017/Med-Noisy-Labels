@@ -24,13 +24,19 @@ def noisy_label_loss(pred, cms, labels, alpha=0.1):
     main_loss = 0.0
     regularisation = 0.0
     b, c, h, w = pred.size()
-    #print("pred: ", pred.size())
+
+    # if 2 classes
+    binary = True
+
     # normalise the segmentation output tensor along dimension 1
-    pred_norm = nn.Softmax(dim=1)(pred)
-    #print("pred_norm: ", pred_norm.size())
+    if binary:
+        pred_norm = torch.sigmoid(pred)
+    else:
+        pred_norm = nn.Softmax(dim=1)(pred)
+
     # b x c x h x w ---> b*h*w x c x 1
     pred_norm = pred_norm.view(b, c, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c, 1)
-    #print("pred_norm_f: ", pred_norm.size())
+
     for cm, label_noisy in zip(cms, labels):
         # cm: learnt confusion matrix for each noisy label, b x c**2 x h x w
         # label_noisy: noisy label, b x h x w
@@ -40,19 +46,15 @@ def noisy_label_loss(pred, cms, labels, alpha=0.1):
 
         # normalisation along the rows:
         cm = cm / cm.sum(1, keepdim=True)
+
         # matrix multiplication to calculate the predicted noisy segmentation:
         # cm: b*h*w x c x c
         # pred_noisy: b*h*w x c x 1
-        # print("cm: ", cm.size())
-        # print("label: ", label_noisy.size())
-        # print("label_long: ", label_noisy.view(b, h, w).long().size())
         
-        # print("cm nan: ", torch.isnan(cm.view(-1)).any())
-        # print("pred_norm nan: ", torch.isnan(pred_norm.view(-1)).any())
         pred_noisy = torch.bmm(cm, pred_norm).view(b*h*w, c)
-        #print("pred_noisy_bmm: ", pred_noisy.size())
+
         pred_noisy = pred_noisy.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
-        #print("pred_noisy_f: ", pred_noisy.size())
+
         loss_current = nn.CrossEntropyLoss(reduction='mean')(pred_noisy, label_noisy.view(b, h, w).long())
         main_loss += loss_current
         regularisation += torch.trace(torch.transpose(torch.sum(cm, dim=0), 0, 1)).sum() / (b * h * w)
