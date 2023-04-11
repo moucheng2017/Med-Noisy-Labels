@@ -1011,6 +1011,9 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 image = tiff.imread(all_images[index])
                 image = np.array(image, dtype='float32') / 255.
 
+                print(image.max())
+                print(label_AR.max())
+
                 label_AR[label_AR == 4.0] = 3.0
                 label_SG[label_SG == 4.0] = 3.0
                 label_avrg[label_avrg == 4.0] = 3.0
