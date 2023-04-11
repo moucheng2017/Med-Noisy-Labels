@@ -239,7 +239,7 @@ def trainSingleModel(model_seg,
 
         ### Decoders CMs - GRAD ###
         for param in model_seg.decoders_noisy_layers.parameters():
-            param.requires_grad = True
+            param.requires_grad = False
         ### =================== ###
 
        
