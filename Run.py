@@ -64,7 +64,7 @@ if __name__ == '__main__':
                    input_width=256,
                    alpha=0.01,
                    width=32,
-                   depth=3,
+                   depth=5,
                    data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
                    dataset_tag='oocytes_gent',
                    label_mode='multi',

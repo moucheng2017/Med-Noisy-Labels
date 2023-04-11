@@ -205,7 +205,7 @@ def trainSingleModel(model_seg,
 
         from collections import OrderedDict
 
-        path_load_model = "./pretrained/Skin_model.pt"
+        path_load_model = "./pretrained/COC_model_d5.pt"
         def map_keys(loaded_state_dict):
             new_state_dict = OrderedDict()
             for k, v in loaded_state_dict.items():
