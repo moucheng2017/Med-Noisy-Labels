@@ -134,13 +134,14 @@ class UNet_GlobalCMs(nn.Module):
         #
         self.depth = depth
         self.final_in = class_no
-        print(dataset_tag)
+        # print(dataset_tag)
         if dataset_tag == 'oocytes_gent':
             self.annotators = 3
         else:
             self.annotators = annotators
         self.noisy_labels_no = self.annotators
-        print(self.noisy_labels_no)
+        # print(self.noisy_labels_no)
+        self.dropout = True
         #
         self.decoders = nn.ModuleList()
         self.encoders = nn.ModuleList()
