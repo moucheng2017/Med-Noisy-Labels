@@ -204,13 +204,13 @@ def trainSingleModel(model,
     #
     writer = SummaryWriter(path_name + '/Log_' + datasettag + '/' + save_model_name)
 
-    model_tl = False
+    model_tl = True
 
     if model_tl:
 
         from collections import OrderedDict
 
-        path_load_model = "./pretrained/Skin_model.pt"
+        path_load_model = "./pretrained/Skin_model_d5.pt"
         def map_keys(loaded_state_dict):
             new_state_dict = OrderedDict()
             for k, v in loaded_state_dict.items():
