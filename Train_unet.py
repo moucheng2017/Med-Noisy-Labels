@@ -204,7 +204,34 @@ def trainSingleModel(model,
     #
     writer = SummaryWriter(path_name + '/Log_' + datasettag + '/' + save_model_name)
 
-    print(model)
+    model_tl = True
+
+    if model_tl:
+
+        from collections import OrderedDict
+
+        path_load_model = "./pretrained/Skin_model.pt"
+        def map_keys(loaded_state_dict):
+            new_state_dict = OrderedDict()
+            for k, v in loaded_state_dict.items():
+                new_key = k                                 # Modify the key here based on the mismatch pattern
+                new_state_dict[new_key] = v
+            return new_state_dict
+
+        loaded_state_dict = torch.load(path_load_model)
+        modified_state_dict = map_keys(loaded_state_dict)
+        model.load_state_dict(modified_state_dict, strict = False)
+        model.eval()
+
+        ### All parameters - GRAD ###
+        for param in model.parameters():
+            param.requires_grad = True
+        ### ===================== ###
+
+    total_params = sum(p.numel() for p in model.parameters())
+    print("Total number of params: ", total_params)
+    total_params_grad  = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print("Total number of params with grad: ", total_params_grad)
 
     model.to(device)
 
