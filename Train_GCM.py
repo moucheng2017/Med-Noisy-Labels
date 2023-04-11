@@ -220,7 +220,7 @@ def trainSingleModel(model_seg,
 
         ### All parameters - GRAD ###
         for param in model_seg.parameters():
-            param.requires_grad = False
+            param.requires_grad = True
         ### ===================== ###
 
         ### Encoders - GRAD ###
