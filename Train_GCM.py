@@ -898,6 +898,10 @@ def trainSingleModel(model_seg,
             v_images = v_images.to(device=device, dtype=torch.float32)
             #
             v_outputs_logits_original, v_outputs_logits_noisy = model_seg(v_images)
+
+            np.save('./cms1_test.npy', v_outputs_logits_noisy[0].cpu().detach().numpy())
+            np.save('./cms2_test.npy', v_outputs_logits_noisy[1].cpu().detach().numpy())
+            np.save('./cms3_test.npy', v_outputs_logits_noisy[2].cpu().detach().numpy())
             #
             b, c, h, w = v_outputs_logits_original.size()
             #
