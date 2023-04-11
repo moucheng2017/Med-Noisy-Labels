@@ -997,19 +997,19 @@ class CustomDataset_punet(torch.utils.data.Dataset):
                 all_images.sort()
                 #
                 label_AR = tiff.imread(all_labels_AR[index])
-                label_AR = np.array(label_AR, dtype='float32')
+                label_AR = np.array(label_AR, dtype='float32') / 255.
                 #
                 label_HS = tiff.imread(all_labels_HS[index])
-                label_HS = np.array(label_HS, dtype='float32')
+                label_HS = np.array(label_HS, dtype='float32') / 255.
                 #
                 label_SG = tiff.imread(all_labels_SG[index])
-                label_SG = np.array(label_SG, dtype='float32')
+                label_SG = np.array(label_SG, dtype='float32') / 255.
                 #
                 label_avrg = tiff.imread(all_labels_avrg[index])
-                label_avrg = np.array(label_avrg, dtype='float32')
+                label_avrg = np.array(label_avrg, dtype='float32') / 255.
                 #
                 image = tiff.imread(all_images[index])
-                image = np.array(image, dtype='float32')
+                image = np.array(image, dtype='float32') / 255.
 
                 label_AR[label_AR == 4.0] = 3.0
                 label_SG[label_SG == 4.0] = 3.0
