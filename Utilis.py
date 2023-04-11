@@ -1632,7 +1632,11 @@ def evaluate_noisy_label_4(data, model1, class_no):
         #v_images = v_images.to(device='cpu', dtype=torch.float32)
         v_outputs_logits, cms = model1(v_images)
         b, c, h, w = v_outputs_logits.size()
-        v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
+        
+        if class_no == 2:
+            v_outputs_logits = torch.sigmoid(v_outputs_logits)
+        else:
+            v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
         # cms = model2(v_images)
         #
         
