@@ -224,8 +224,8 @@ def trainSingleModel(model_seg,
         ### ===================== ###
 
         ### Encoders - GRAD ###
-        # for layer in model_seg.encoders:
-        #     layer.requires_grad = False
+        for layer in model_seg.encoders:
+            layer.requires_grad = False
         ### ===================== ###
 
         ### Decoders CMs - GRAD ###
