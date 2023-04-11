@@ -220,7 +220,7 @@ def trainSingleModel(model_seg,
 
         ### All parameters - GRAD ###
         for param in model_seg.parameters():
-            param.requires_grad = True
+            param.requires_grad = False
         ### ===================== ###
 
         ### Encoders - GRAD ###
@@ -230,7 +230,7 @@ def trainSingleModel(model_seg,
 
         ### Decoders CMs - GRAD ###
         for param in model_seg.decoders_noisy_layers.parameters():
-            param.requires_grad = False
+            param.requires_grad = True
         ### =================== ###
 
         # for param in model_seg.decoders[0].parameters():
