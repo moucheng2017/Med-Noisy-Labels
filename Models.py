@@ -146,7 +146,15 @@ class UNet_GlobalCMs(nn.Module):
         self.decoders = nn.ModuleList()
         self.encoders = nn.ModuleList()
 
+        if self.dropout is True:
+
+            self.dropout_layers = nn.ModuleList()
+
         for i in range(self.depth):
+
+            if self.dropout is True:
+
+                self.dropout_layers.append(nn.Dropout2d(0.4))
 
             if i == 0:
                 #
