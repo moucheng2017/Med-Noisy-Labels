@@ -15,7 +15,7 @@ from tensorboardX import SummaryWriter
 from torch.autograd import Variable
 
 from Utilis import CustomDataset_punet, calculate_cm, plot_curves
-from Loss import noisy_label_loss_low_rank, noisy_label_loss
+from Loss import noisy_label_loss_low_rank, noisy_label_loss, dice_loss
 from Models import UNet_CMs, UNet_GlobalCMs
 
 from Utilis import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_noisy_label_6
@@ -465,6 +465,9 @@ def trainSingleModel(model_seg,
                     #
                     loss, loss_ce, loss_trace = noisy_label_loss_low_rank(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                     #
+                #
+                loss = dice_loss(outputs_logits, labels_avrg)
+                #
                 loss.backward()
                 optimizer1.step()
                 # optimizer2.step()
