@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import torch.functional as F
 from torch.utils import data
 
-from Utilis import segmentation_scores, generalized_energy_distance
+from Utilis import segmentation_scores, generalized_energy_distance, evaluate
 from tensorboardX import SummaryWriter
 from torch.autograd import Variable
 
@@ -465,9 +465,9 @@ def trainSingleModel(model_seg,
                     #
                     loss, loss_ce, loss_trace = noisy_label_loss_low_rank(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                     #
-                #
+                # DELETE LATER
                 loss = dice_loss(outputs_logits, labels_avrg)
-                #
+                #-------------
                 loss.backward()
                 optimizer1.step()
                 # optimizer2.step()
@@ -495,6 +495,10 @@ def trainSingleModel(model_seg,
                         v_dice, v_ged = evaluate_noisy_label_6(data=validateloader,
                                                                model1=model_seg,
                                                                class_no=class_no)
+                    # DELETE LATER
+                    v_dice = evaluate(validateloader, model_seg, device, class_no=class_no)
+                    v_ged = 0.
+                    #-------------
                     #
                     total_train_loss.append((running_loss / (j + 1)).cpu().detach().numpy())
                     total_ce_loss.append((running_loss_ce / (j + 1)).cpu().detach().numpy())
