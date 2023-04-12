@@ -487,14 +487,15 @@ def trainSingleModel(model_seg,
                 # if (j + 1) % iteration_amount == 0:
                 if (j + 1) == 1:
                     #
-                    if low_rank_mode is False:
-                        v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
-                                                               model1=model_seg,
-                                                               class_no=class_no)
-                    else:
-                        v_dice, v_ged = evaluate_noisy_label_6(data=validateloader,
-                                                               model1=model_seg,
-                                                               class_no=class_no)
+                    # UNCOMMENT LATER
+                    # if low_rank_mode is False:
+                    #     v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
+                    #                                            model1=model_seg,
+                    #                                            class_no=class_no)
+                    # else:
+                    #     v_dice, v_ged = evaluate_noisy_label_6(data=validateloader,
+                    #                                            model1=model_seg,
+                    #                                            class_no=class_no)
                     # DELETE LATER
                     v_dice = evaluate(validateloader, model_seg, device, class_no=class_no)
                     v_ged = 0.
