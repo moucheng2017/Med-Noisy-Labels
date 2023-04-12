@@ -219,17 +219,17 @@ def trainSingleModel(model_seg,
 
         ### All parameters - GRAD ###
         for param in model_seg.parameters():
-            param.requires_grad = False
+            param.requires_grad = True
         ### ===================== ###
 
         ### Encoders - GRAD ###
         for layer in model_seg.encoders.parameters():
-            layer.requires_grad = False
+            layer.requires_grad = True
         ### =============== ###
 
         ### Decoders - GRAD ###
         for param in model_seg.decoders.parameters():
-            param.requires_grad = False
+            param.requires_grad = True
         ### =============== ###
 
         ### Last Conv - GRAD ###
