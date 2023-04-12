@@ -498,8 +498,10 @@ def trainSingleModel(model_seg,
                                                                class_no=class_no)
                     #
                     total_train_loss.append((running_loss / (j + 1)).cpu().detach().numpy())
-                    total_ce_loss.append((running_loss_ce / (j + 1)).cpu().detach().numpy())
-                    total_trace_loss.append((running_loss_trace / (j + 1)).cpu().detach().numpy())
+                    #total_ce_loss.append((running_loss_ce / (j + 1)).cpu().detach().numpy())
+                    #total_trace_loss.append((running_loss_trace / (j + 1)).cpu().detach().numpy())
+                    total_ce_loss.append(0.0)
+                    total_trace_loss.append(0.0)
 
                     train_dice.append(running_iou / (j + 1))
                     valid_dice.append(v_dice)
