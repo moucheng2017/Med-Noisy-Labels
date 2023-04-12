@@ -1653,14 +1653,15 @@ def evaluate_noisy_label_4(data, model1, class_no):
         v_outputs_logits = v_outputs_logits.permute(0, 2, 1).contiguous().view(b*h*w, c)
         v_outputs_logits = v_outputs_logits.view(b * h * w, c, 1)
         #
-        for cm in cms:
-            #
-            cm = cm.reshape(b, c**2, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c*c).view(b*h*w, c, c)
-            cm = cm / cm.sum(1, keepdim=True)
-            v_noisy_output = torch.bmm(cm, v_outputs_logits).view(b*h*w, c)
-            v_noisy_output = v_noisy_output.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
-            _, v_noisy_output = torch.max(v_noisy_output, dim=1)
-            v_outputs_noisy.append(v_noisy_output.cpu().detach().numpy())
+        # UNCOMMENT LATER
+        # for cm in cms:
+        #     #
+        #     cm = cm.reshape(b, c**2, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c*c).view(b*h*w, c, c)
+        #     cm = cm / cm.sum(1, keepdim=True)
+        #     v_noisy_output = torch.bmm(cm, v_outputs_logits).view(b*h*w, c)
+        #     v_noisy_output = v_noisy_output.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+        #     _, v_noisy_output = torch.max(v_noisy_output, dim=1)
+        #     v_outputs_noisy.append(v_noisy_output.cpu().detach().numpy())
         #
         v_dice_ = segmentation_scores(v_labels_avrg, v_output.cpu().detach().numpy(), class_no)
         #v_dice_ = segmentation_scores(v_labels_AR, v_output.cpu().detach().numpy(), class_no)
