@@ -260,6 +260,10 @@ def trainSingleModel(model_seg,
 
     for epoch in range(num_epochs):
         #
+        import torchmetrics
+        print(torchmetrics.__version__)
+        print(torchmetrics.Dice)
+        break
         model_seg.train()
         # model_cm.train()
         running_loss = 0
