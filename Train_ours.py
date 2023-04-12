@@ -219,22 +219,22 @@ def trainSingleModel(model_seg,
 
         ### All parameters - GRAD ###
         for param in model_seg.parameters():
-            param.requires_grad = True
+            param.requires_grad = False
         ### ===================== ###
 
         ### Encoders - GRAD ###
         for layer in model_seg.encoders.parameters():
-            layer.requires_grad = True
+            layer.requires_grad = False
         ### =============== ###
 
         ### Decoders - GRAD ###
         for param in model_seg.decoders.parameters():
-            param.requires_grad = True
+            param.requires_grad = False
         ### =============== ###
 
         ### Last Conv - GRAD ###
         for param in model_seg.conv_last.parameters():
-            param.requires_grad = True
+            param.requires_grad = False
         ### ================ ###
 
         ### Decoders CMs - GRAD ###
@@ -465,8 +465,6 @@ def trainSingleModel(model_seg,
                     #
                     loss, loss_ce, loss_trace = noisy_label_loss_low_rank(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                     #
-                # DELETE LATER
-                loss = dice_loss(outputs_logits, labels_avrg)
                 #-------------
                 loss.backward()
                 optimizer1.step()
@@ -478,7 +476,6 @@ def trainSingleModel(model_seg,
                 train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
                 #
                 # print(train_iou)
-                # train_iou = segmentation_scores(labels_true.cpu().detach().numpy(), torch.sigmoid(outputs_logits[:, 0, :, :]).cpu().detach().numpy(), class_no)
                 running_loss += loss
                 running_loss_ce += loss_ce
                 running_loss_trace += loss_trace
@@ -487,7 +484,6 @@ def trainSingleModel(model_seg,
                 # if (j + 1) % iteration_amount == 0:
                 if (j + 1) == 1:
                     #
-                    # UNCOMMENT LATER
                     if low_rank_mode is False:
                         v_dice, v_ged = evaluate_noisy_label_4(data=validateloader,
                                                                model1=model_seg,
@@ -498,10 +494,8 @@ def trainSingleModel(model_seg,
                                                                class_no=class_no)
                     #
                     total_train_loss.append((running_loss / (j + 1)).cpu().detach().numpy())
-                    #total_ce_loss.append((running_loss_ce / (j + 1)).cpu().detach().numpy())
-                    #total_trace_loss.append((running_loss_trace / (j + 1)).cpu().detach().numpy())
-                    total_ce_loss.append(0.0)
-                    total_trace_loss.append(0.0)
+                    total_ce_loss.append((running_loss_ce / (j + 1)).cpu().detach().numpy())
+                    total_trace_loss.append((running_loss_trace / (j + 1)).cpu().detach().numpy())
 
                     train_dice.append(running_iou / (j + 1))
                     valid_dice.append(v_dice)
