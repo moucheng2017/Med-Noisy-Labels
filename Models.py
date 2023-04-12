@@ -25,7 +25,7 @@ class UNet_CMs(nn.Module):
         super(UNet_CMs, self).__init__()
         #
         self.depth = depth
-        self.noisy_labels_no = 3
+        self.noisy_labels_no = 0
         self.lowrank = low_rank
         self.dropout = True
         #
