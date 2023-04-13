@@ -1752,24 +1752,23 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
 
     ### Sanity Check ###
     ### 1. Perfect P ###
-    probs = torch.tensor([[[[1, 0],
-                            [0, 1]],
-                           [[0, 1],
-                            [1, 0]]],
-                          [[[1, 0],
-                            [0, 1]],
-                           [[0, 1],
-                            [1, 0]]]], dtype = torch.float32, device = device)
-    targets_int = torch.tensor([[[[0, 1],
-                                  [1, 0]]],
-                                [[[0, 1],
-                                  [1, 0]]]], dtype = torch.long, device = device)
+    # probs = torch.tensor([[[[1, 0],
+    #                         [0, 1]],
+    #                        [[0, 1],
+    #                         [1, 0]]],
+    #                       [[[1, 0],
+    #                         [0, 1]],
+    #                        [[0, 1],
+    #                         [1, 0]]]], dtype = torch.float32, device = device)
+    # targets_int = torch.tensor([[[[0, 1],
+    #                               [1, 0]]],
+    #                             [[[0, 1],
+    #                               [1, 0]]]], dtype = torch.long, device = device)
  
-    print("Probs size: ", probs.size())
-    print("Targets_int size: ", targets_int.size())
-    #probs = probs.unsqueeze(1)
+    # print("Probs size: ", probs.size())
+    # print("Targets_int size: ", targets_int.size())
     ### 2. Worst Pre ###
-
+    # pass
     ### ------------ ###
 
     dice = dice_score(probs, targets_int)
@@ -1782,26 +1781,25 @@ def dice_coef_custom(preds, targets, class_no, device):
 
     ### Sanity Check ###
     ### 1. Perfect P ###
-    preds = torch.tensor([[[[1, 0],
-                            [0, 1]],
-                           [[0, 1],
-                            [1, 0]]],
-                          [[[1, 0],
-                            [0, 1]],
-                           [[0, 1],
-                            [1, 0]]]], dtype = torch.float32, device = device)
-    targets = torch.tensor([[[[0, 1],
-                                  [1, 0]]],
-                                [[[0, 1],
-                                  [1, 0]]]], dtype = torch.long, device = device)
+    # preds = torch.tensor([[[[1, 0],
+    #                         [0, 1]],
+    #                        [[0, 1],
+    #                         [1, 0]]],
+    #                       [[[1, 0],
+    #                         [0, 1]],
+    #                        [[0, 1],
+    #                         [1, 0]]]], dtype = torch.float32, device = device)
+    # targets = torch.tensor([[[[0, 1],
+    #                               [1, 0]]],
+    #                             [[[0, 1],
+    #                               [1, 0]]]], dtype = torch.long, device = device)
  
-    print("Probs size: ", preds.size())
-    print("Targets_int size: ", targets.size())
+    # print("Probs size: ", preds.size())
+    # print("Targets_int size: ", targets.size())
     #probs = probs.unsqueeze(1)
     ### 2. Worst Pre ###
-
+    # pass
     ### ------------ ###
-
 
     batch_size, _, h, w = targets.size()
 
@@ -1819,7 +1817,7 @@ def dice_coef_custom(preds, targets, class_no, device):
 
     print("Dice score (custom) = ", dice.mean().item())
 
-    return dice.mean()
+    return dice.mean().item()
 
 def evaluate_noisy_label_4(data, model1, class_no):
     """
