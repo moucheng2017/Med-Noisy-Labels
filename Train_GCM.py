@@ -472,10 +472,11 @@ def trainSingleModel(model_seg,
                 print("Batch " + str(j))
                 dice = dice_coef_torchmetrics(outputs_logits, labels_avrg, class_no, device)
                 dice = dice_coef_custom(outputs_logits, labels_avrg, class_no, device)
-                break
                 #
                 train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
                 #
+                print("IoU = ", train_iou)
+                break
                 running_loss += loss
                 running_loss_ce += loss_ce
                 running_loss_trace += loss_trace
