@@ -1759,11 +1759,11 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
                           [[[0, 1],
                             [1, 0]],
                            [[1, 0],
-                            [0, 1]]]], dtype = torch.long, device = device)
+                            [0, 1]]]], dtype = torch.float32, device = device)
     targets_int = torch.tensor([[[[0, 1],
                                   [1, 0]]],
                                 [[[0, 1],
-                                  [1, 0]]]], dtype = torch.float32, device = device)
+                                  [1, 0]]]], dtype = torch.long, device = device)
  
     print("Probs size: ", probs.size())
     print("Targets_int size: ", targets_int.size())
