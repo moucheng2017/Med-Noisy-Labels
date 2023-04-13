@@ -1742,7 +1742,7 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
     print("Preds size: ", preds.size())
     print("Targets size: ", targets.size())
 
-    dice_score = torchmetrics.Dice(num_classes = class_no).to(device)
+    dice_score = torchmetrics.Dice(num_classes = 1).to(device)
 
     probs = torch.sigmoid(preds)
     targets_int = (targets > 0.5).long()
