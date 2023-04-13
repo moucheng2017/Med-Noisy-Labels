@@ -1745,7 +1745,7 @@ def dice_coef_torchmetrics(preds, targets):
     dice_score = torchmetrics.Dice(num_classes = 2)
 
     probs = torch.sigmoid(preds)
-    targets_int = (targets > 0.5).float()
+    targets_int = (targets > 0.5).long()
 
     dice = dice_score(probs, targets_int)
 
