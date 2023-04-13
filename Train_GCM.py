@@ -469,7 +469,7 @@ def trainSingleModel(model_seg,
                 #
                 _, train_output = torch.max(outputs_logits, dim=1)
                 #
-                dice = dice_coef_torchmetrics(outputs_logits, labels_avrg)
+                dice = dice_coef_torchmetrics(outputs_logits, labels_avrg, class_no, device)
                 break
                 #
                 train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)

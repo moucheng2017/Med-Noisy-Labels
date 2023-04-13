@@ -1735,14 +1735,14 @@ def calculate_cm(preds, targets):
 # ================================
 # Evaluation
 # ================================
-def dice_coef_torchmetrics(preds, targets):
+def dice_coef_torchmetrics(preds, targets, class_no, device):
 
     dice = 0
 
     print("Preds size: ", preds.size())
     print("Targets size: ", targets.size())
 
-    dice_score = torchmetrics.Dice(num_classes = 2)
+    dice_score = torchmetrics.Dice(num_classes = class_no).to(device)
 
     probs = torch.sigmoid(preds)
     targets_int = (targets > 0.5).long()
