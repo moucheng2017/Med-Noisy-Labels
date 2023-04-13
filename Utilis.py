@@ -1742,23 +1742,29 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
     print("Preds size: ", preds.size())
     print("Targets size: ", targets.size())
 
-    dice_score = torchmetrics.Dice(num_classes = class_no).to(device)
+    dice_score = torchmetrics.Dice(zero_division = 1e-6,
+                                   num_classes = class_no,
+                                   threshold = 0.5,
+                                   average = 'micro').to(device)
 
     probs = torch.sigmoid(preds)
     targets_int = (targets > 0.5).long()
 
     ### Sanity Check ###
     ### 1. Perfect P ###
-    targets_int = torch.tensor([[[1, 0], 
-                                 [0, 1]],
-                                [[1, 0], 
-                                 [0, 1]]], dtype = torch.long, device = device)
-    probs = torch.tensor([[[0, 1], 
-                           [1, 0]],
-                          [[0, 1], 
-                           [1, 0]]], dtype = torch.float32, device = device)
-    targets_int = targets_int.unsqueeze(1)
-    probs = probs.unsqueeze(0)
+    targets_int = torch.tensor([[[[0, 1],
+                                  [1, 0]],
+                                 [[1, 0],
+                                  [0, 1]]],
+                                [[[0, 1],
+                                  [1, 0]],
+                                 [[1, 0],
+                                  [0, 1]]]], dtype = torch.long, device = device)
+    probs = torch.tensor([[[[0, 1],
+                            [1, 0]]],
+                          [[[0, 1],
+                            [1, 0]]]], dtype = torch.float32, device = device)
+ 
     print("Probs size: ", probs.size())
     print("Targets_int size: ", targets_int.size())
     #probs = probs.unsqueeze(1)
