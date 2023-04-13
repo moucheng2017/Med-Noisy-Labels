@@ -1745,7 +1745,7 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
     dice_score = torchmetrics.Dice(zero_division = 1e-6,
                                    num_classes = class_no,
                                    threshold = 0.5,
-                                   average = 'micro').to(device)
+                                   average = 'none').to(device)
 
     probs = torch.sigmoid(preds)
     targets_int = (targets > 0.5).long()
