@@ -1749,8 +1749,10 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
 
     ### Sanity Check ###
     ### 1. Perfect P ###
-    targets_int = torch.tensor([[[1, 0], [0, 1]]], dtype = torch.long, device = device)
-    probs = torch.tensor([[[0, 1], [1, 0]]], dtype = torch.float32, device = device)
+    targets_int = torch.tensor([[[1, 0], 
+                                 [0, 1]]], dtype = torch.float32, device = device)
+    probs = torch.tensor([[[0, 1], 
+                           [1, 0]]], dtype = torch.float32, device = device)
     targets_int = targets_int.unsqueeze(0)
     probs = probs.unsqueeze(0)
     print("Probs size: ", probs.size())
