@@ -19,6 +19,7 @@ from Loss import noisy_label_loss_low_rank, noisy_label_loss
 from Models import UNet_GlobalCMs
 
 from Utilis import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_noisy_label_6
+from Utilis import dice_coef_torchmetrics
 
 
 def trainGCMModels(input_dim,
@@ -259,11 +260,7 @@ def trainSingleModel(model_seg,
     start = timeit.default_timer()
 
     for epoch in range(num_epochs):
-        #
-        import torchmetrics
-        print(torchmetrics.__version__)
-        print(torchmetrics.Dice)
-        break
+        #    
         model_seg.train()
         # model_cm.train()
         running_loss = 0
@@ -471,6 +468,9 @@ def trainSingleModel(model_seg,
                 optimizer1.step()
                 #
                 _, train_output = torch.max(outputs_logits, dim=1)
+                #
+                dice = dice_coef_torchmetrics(outputs_logits, labels_avrg)
+                break
                 #
                 train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
                 #
