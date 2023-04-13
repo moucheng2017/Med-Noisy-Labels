@@ -1774,9 +1774,52 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
 
     dice = dice_score(probs, targets_int)
 
-    print("Dice score = ", dice)
+    print("Dice score = ", dice.item())
 
-    return dice
+    return dice.item()
+
+def dice_coef_custom(preds, targets, class_no, device):
+
+    ### Sanity Check ###
+    ### 1. Perfect P ###
+    preds = torch.tensor([[[[1, 0],
+                            [0, 1]],
+                           [[0, 1],
+                            [1, 0]]],
+                          [[[1, 0],
+                            [0, 1]],
+                           [[0, 1],
+                            [1, 0]]]], dtype = torch.float32, device = device)
+    targets = torch.tensor([[[[0, 1],
+                                  [1, 0]]],
+                                [[[0, 1],
+                                  [1, 0]]]], dtype = torch.long, device = device)
+ 
+    print("Probs size: ", preds.size())
+    print("Targets_int size: ", targets.size())
+    #probs = probs.unsqueeze(1)
+    ### 2. Worst Pre ###
+
+    ### ------------ ###
+
+
+    batch_size, _, h, w = targets.size()
+
+    _, preds = torch.max(preds, dim = 1, keepdim = True)
+
+    preds_flat = preds.view(batch_size, -1)
+    targets_flat = targets.view(batch_size, -1)
+
+    intersection = (preds_flat * targets_flat).sum(dim = 1)
+
+    preds_count = preds_flat.sum(dim = 1)
+    targets_count = targets_flat.sum(dim = 1)
+
+    dice = (2 * intersection + 1e-6) / (preds_count + targets_count + 1e-6)
+
+    print("Dice score = ", dice.mean())
+
+    return dice.mean()
 
 def evaluate_noisy_label_4(data, model1, class_no):
     """
