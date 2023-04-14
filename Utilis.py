@@ -1921,8 +1921,8 @@ def evaluate_noisy_label_4(data, model1, class_no):
             _, v_noisy_output = torch.max(v_noisy_output, dim=1)
             v_outputs_noisy.append(v_noisy_output.cpu().detach().numpy())
         #
-        print("labels: ", v_labels_avrg.size())
-        print("preds: ", v_output.size())
+        # print("labels: ", v_labels_avrg.size())
+        # print("preds: ", v_output.size())
         #v_dice_ = segmentation_scores(v_labels_avrg, v_output.cpu().detach().numpy(), class_no)
         v_dice_ = dice_coef_default(v_output.unsqueeze(0).repeat(1, 2, 1, 1).to(device = 'cuda'), v_labels_avrg.to(device = 'cuda'))
         #v_dice_ = segmentation_scores(v_labels_AR, v_output.cpu().detach().numpy(), class_no)
