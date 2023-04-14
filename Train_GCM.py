@@ -432,7 +432,7 @@ def trainSingleModel(model_seg,
                 model_seg.eval()
                 zero_dice = 0
                 zero_dice_all = []
-                for k, (t_images, t_labels_AR, t_labels_HS, t_labels_SG, t_labels_avrg, t_imagename) in enumerate(validateloader):
+                for k, (t_images, t_labels_AR, t_labels_HS, t_labels_SG, t_labels_avrg, t_imagename) in enumerate(testdata):
 
                     t_images = t_images.to(device = device, dtype = torch.float32)
 
