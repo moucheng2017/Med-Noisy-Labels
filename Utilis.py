@@ -1726,7 +1726,7 @@ def preprocessing_accuracy(label_true, label_pred, n_class):
     return label_true, label_pred
 
 
-def calculate_cm(preds, targets):
+def calculate_cm(pred, true):
     #
     pred = pred.view(-1)
     true = true.view(-1)
