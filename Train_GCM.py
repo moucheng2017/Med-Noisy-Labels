@@ -244,8 +244,6 @@ def trainSingleModel(model_seg,
             param.requires_grad = True
         ### =================== ###
 
-       
-
     total_params = sum(p.numel() for p in model_seg.parameters())
     print("Total number of params: ", total_params)
     total_params_grad  = sum(p.numel() for p in model_seg.parameters() if p.requires_grad)
@@ -426,8 +424,50 @@ def trainSingleModel(model_seg,
                 # # # # ================================================================ #
 
         elif data_set == 'oocytes_gent':
+
+            zero_epoch = True
+
+            if zero_epoch:
+
+                model_seg.eval()
+                zero_dice = 0
+                zero_dice_all = []
+                for k, (t_images, t_labels_AR, t_labels_HS, t_labels_SG, t_labels_avrg, t_imagename) in enumerate(trainloader):
+
+                    t_images = t_images.to(device = device, dtype = torch.float32)
+
+                    t_outputs_logits, t_cms = model_seg(t_images)
+                    b, c, h, w = t_outputs_logits.size()
+
+                    if class_no == 2:
+                        t_outputs_logits_sig = torch.sigmoid(t_outputs_logits)
+
+                    _, t_output = torch.max(t_outputs_logits_sig, dim=1)
+
+                    t_outputs_noisy = []
+                    
+                    t_outputs_logits_f = t_outputs_logits_sig.view(b, c, h * w)
+                    t_outputs_logits_f = t_outputs_logits_f.permute(0, 2, 1).contiguous().view(b * h * w, c)
+                    t_outputs_logits_f = t_outputs_logits_f.view(b * h * w, c, 1)
+
+                    for cm in t_cms:
+            
+                        cm = cm.reshape(b, c**2, h*w).permute(0, 2, 1).contiguous().view(b*h*w, c*c).view(b*h*w, c, c)
+                        cm = cm / cm.sum(1, keepdim=True)
+                        t_noisy_output = torch.bmm(cm, t_outputs_logits_f).view(b*h*w, c)
+                        t_noisy_output = t_noisy_output.view(b, h*w, c).permute(0, 2, 1).contiguous().view(b, c, h, w)
+                        _, t_noisy_output = torch.max(t_noisy_output, dim=1)
+                        t_outputs_noisy.append(t_noisy_output.cpu().detach().numpy())
+
+                    t_dice_ = segmentation_scores(t_labels_avrg, t_output.cpu().detach().numpy(), class_no)
+
+                    zero_dice += t_dice_
+                    zero_dice_all.append(zero_dice)
+
+                print('step [{}/{}], ''dice: {:.4f},'.format('0', '0', zero_dice / (k + 1)))
+            break
             #
-            for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(trainloader):
+            for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(validateloader):
                 #
                 b, c, h, w = images.size()
                 #
