@@ -1785,7 +1785,7 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
 
     dice = dice_score(probs, targets_int)
 
-    print("Dice score (metrics) = ", dice.item())
+    # print("Dice score (metrics) = ", dice.item())
 
     return dice.item()
 
@@ -1837,7 +1837,7 @@ def dice_coef_custom(preds, targets):
 
     dice = (2 * intersection + 1e-6) / (preds_count + targets_count + 1e-6)
 
-    print("Dice score (custom) = ", dice.mean().item())
+    # print("Dice score (custom) = ", dice.mean().item())
 
     return dice.mean().item()
 
@@ -1866,7 +1866,7 @@ def dice_coef_default(input, target):
     union = iflat.sum() + tflat.sum()
     dice = (2. * intersection + smooth) / (union + smooth)
 
-    print("Dice score (default) = ", dice.item())
+    # print("Dice score (default) = ", dice.item())
 
     return dice
 
