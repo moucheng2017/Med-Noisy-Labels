@@ -1924,7 +1924,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
         print("labels: ", v_labels_avrg.size())
         print("preds: ", v_output.size())
         #v_dice_ = segmentation_scores(v_labels_avrg, v_output.cpu().detach().numpy(), class_no)
-        v_dice_ = dice_coef_default(v_output, v_labels_avrg)
+        v_dice_ = dice_coef_default(v_output.unsqueeze(0), v_labels_avrg)
         #v_dice_ = segmentation_scores(v_labels_AR, v_output.cpu().detach().numpy(), class_no)
         #v_dice_ += segmentation_scores(v_labels_HS, v_output.cpu().detach().numpy(), class_no)
         #v_dice_ += segmentation_scores(v_labels_SG, v_output.cpu().detach().numpy(), class_no)
