@@ -1789,8 +1789,18 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
 
     return dice.item()
 
-def dice_coef_custom(preds, targets, class_no, device):
+def dice_coef_custom(preds, targets):
+    """ This is a normal dice coef function for binary segmentation.
+    1. Dice score for the each sample in the batch.
+    2. Logits directly.
 
+    Args:
+        preds: output of the segmentation network
+        targets: ground truth label
+
+    Returns:
+        dice
+    """
     ### Sanity Check ###
     ### 1. Perfect P ###
     # preds = torch.tensor([[[[1, 0],
@@ -1833,14 +1843,15 @@ def dice_coef_custom(preds, targets, class_no, device):
 
 def dice_coef_default(input, target):
     """ This is a normal dice coef function for binary segmentation.
+    1. Dice score for the entire batch.
+    2. Sigmoid of the logits.
 
     Args:
         input: output of the segmentation network
         target: ground truth label
 
     Returns:
-        dice score
-
+        dice
     """
     smooth = 1e-6
 
