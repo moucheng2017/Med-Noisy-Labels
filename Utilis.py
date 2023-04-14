@@ -1655,27 +1655,39 @@ def segmentation_scores(label_trues, label_preds, n_class):
     :param n_class:
     :return:
     '''
+    # Ensure ground truth and predicted labels have the same length
     assert len(label_trues) == len(label_preds)
 
+    # Threshold predictions if only two classes (binary segmentation)
     if n_class == 2:
         #
         output_zeros = np.zeros_like(label_preds)
         output_ones = np.ones_like(label_preds)
         label_preds = np.where((label_preds > 0.5), output_ones, output_zeros)
 
+    # Shift ground truth and predicted labels by 1 to exclude the background class from the calculations
     label_trues += 1
     label_preds += 1
 
+    # Convert ground truth and predicted labels to 'int8' numpy arrays
     label_preds = np.asarray(label_preds, dtype='int8').copy()
     label_trues = np.asarray(label_trues, dtype='int8').copy()
+
+    # Apply a boolean mask to only consider predictions where ground truth is not the background class (0)
     label_preds = label_preds * (label_trues > 0)
 
+    # Compute the element-wise intersection of ground truth and predicted labels
     intersection = label_preds * (label_preds == label_trues)
+
+    # Compute the number of true positives, false positives, and false negatives
     (area_intersection, _) = np.histogram(intersection, bins=n_class, range=(1, n_class))
     (area_pred, _) = np.histogram(label_preds, bins=n_class, range=(1, n_class))
     (area_lab, _) = np.histogram(label_trues, bins=n_class, range=(1, n_class))
+
+    # Calculate the area of the union by summing true positives, false positives, and false negatives
     area_union = area_pred + area_lab
-    #
+    
+    # Compute the Dice coefficient
     return ((2 * area_intersection + 1e-6) / (area_union + 1e-6)).mean()
 
 
@@ -1818,6 +1830,34 @@ def dice_coef_custom(preds, targets, class_no, device):
     print("Dice score (custom) = ", dice.mean().item())
 
     return dice.mean().item()
+
+def dice_coef_default(input, target):
+    """ This is a normal dice coef function for binary segmentation.
+
+    Args:
+        input: output of the segmentation network
+        target: ground truth label
+
+    Returns:
+        dice score
+
+    """
+    smooth = 1e-6
+
+    b, c, h, w = input.size()
+    
+    input_sig = torch.sigmoid(input)
+    target = target.squeeze(1)
+
+    iflat = input_sig[:, 1, :, :].contiguous().view(-1)
+    tflat = target.view(-1).float()
+    intersection = (iflat * tflat).sum()
+    union = iflat.sum() + tflat.sum()
+    dice = (2. * intersection + smooth) / (union + smooth)
+
+    print("Dice score (default) = ", dice.item())
+
+    return dice
 
 def evaluate_noisy_label_4(data, model1, class_no):
     """
