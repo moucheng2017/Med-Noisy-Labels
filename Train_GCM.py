@@ -465,7 +465,7 @@ def trainSingleModel(model_seg,
                     zero_dice_all.append(zero_dice)
 
                 print('step [{}/{}], ''dice: {:.4f},'.format('0', '0', zero_dice / (k + 1)))
-            break
+            
             #
             for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(validateloader):
                 #
@@ -507,15 +507,18 @@ def trainSingleModel(model_seg,
                 loss.backward()
                 optimizer1.step()
                 #
-                _, train_output = torch.max(outputs_logits, dim=1)
+                if class_no == 2:
+                    train_output = torch.sigmoid(outputs_logits)
+                else:
+                    _, train_output = torch.max(outputs_logits, dim = 1)
                 #
                 # dice1 = dice_coef_torchmetrics(outputs_logits, labels_avrg, class_no, device)
                 # dice2 = dice_coef_custom(outputs_logits, labels_avrg)
                 # dice3 = dice_coef_default(outputs_logits, labels_avrg)
                 #
-                # train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
+                train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
                 #
-                train_iou = dice_coef_default(outputs_logits, labels_avrg)
+                # train_iou = dice_coef_default(outputs_logits, labels_avrg)
                 
                 running_loss += loss
                 running_loss_ce += loss_ce
