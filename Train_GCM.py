@@ -425,7 +425,7 @@ def trainSingleModel(model_seg,
 
         elif data_set == 'oocytes_gent':
 
-            zero_epoch = True
+            zero_epoch = False
 
             if zero_epoch:
 
@@ -467,7 +467,7 @@ def trainSingleModel(model_seg,
                 print('step [{}/{}], ''dice: {:.4f},'.format('0', '0', zero_dice / (k + 1)))
             
             #
-            for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(validateloader):
+            for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(testdata):
                 #
                 b, c, h, w = images.size()
                 #
