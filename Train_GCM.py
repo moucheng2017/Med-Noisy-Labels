@@ -511,7 +511,6 @@ def trainSingleModel(model_seg,
                 #
                 if class_no == 2:
                     train_output = torch.sigmoid(outputs_logits)
-                    train_output = (train_output > 0.5).float()
                 else:
                     _, train_output = torch.max(outputs_logits, dim = 1)
                 #
@@ -519,9 +518,9 @@ def trainSingleModel(model_seg,
                 # dice2 = dice_coef_custom(outputs_logits, labels_avrg)
                 # dice3 = dice_coef_default(outputs_logits, labels_avrg)
                 #
-                train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
+                # train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
                 #
-                # train_iou = dice_coef_default(outputs_logits, labels_avrg)
+                train_iou = dice_coef_default(outputs_logits, labels_avrg)
                 
                 running_loss += loss
                 running_loss_ce += loss_ce
