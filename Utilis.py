@@ -1656,8 +1656,8 @@ def segmentation_scores(label_trues, label_preds, n_class):
     :return:
     '''
     # Ensure ground truth and predicted labels have the same length
-    print("trues:", len(label_trues))
-    print("preds:", len(label_preds))
+    # print("trues:", len(label_trues))
+    # print("preds:", len(label_preds))
     assert len(label_trues) == len(label_preds)
 
     # Threshold predictions if only two classes (binary segmentation)
