@@ -1696,7 +1696,7 @@ def segmentation_scores(label_trues, label_preds, n_class):
     # Threshold predictions if only two classes (binary segmentation)
     if n_class == 2:
         #
-        label_preds = label_preds[:, 1, :, :]
+        #label_preds = label_preds[:, 1, :, :]
         output_zeros = np.zeros_like(label_preds)
         output_ones = np.ones_like(label_preds)
         label_preds = np.where((label_preds > 0.5), output_ones, output_zeros)
@@ -1706,8 +1706,8 @@ def segmentation_scores(label_trues, label_preds, n_class):
     label_preds += 1
 
     # Convert ground truth and predicted labels to 'int8' numpy arrays
-    label_preds = np.asarray(label_preds, dtype='int8').copy()
-    label_trues = np.asarray(label_trues, dtype='int8').copy()
+    label_preds = np.asarray(label_preds[:, 1, :, :], dtype='int8').copy()
+    label_trues = np.asarray(label_trues[:, 0, :, :], dtype='int8').copy()
 
     # Apply a boolean mask to only consider predictions where ground truth is not the background class (0)
     #label_preds = label_preds * (label_trues > 0)
