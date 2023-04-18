@@ -264,7 +264,11 @@ class gcm_layers(nn.Module):
 
         all_weights = self.global_weights.unsqueeze(0).repeat(x.size(0), 1, 1)
         all_weights = all_weights.unsqueeze(3).unsqueeze(4).repeat(1, 1, 1, self.input_height, self.input_width)
-        y = self.relu(all_weights)
+        
+        if self.class_no == 2:
+            nn.Functional.softmax(all_weights, dim = 1)
+        else:
+            y = self.relu(all_weights)
 
         return y
 
