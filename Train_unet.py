@@ -264,10 +264,6 @@ def trainSingleModel(model,
             outputs_logits = model(images)
             # print("Output shape: ", outputs_logits.cpu().detach().numpy().shape)
             #
-            if class_no == 2:
-                outputs_logits = torch.sigmoid(outputs_logits)
-            else:
-                outputs_logits = torch.softmax(outputs_logits, dim=1)
             #
             if class_no == 2:
                 #
@@ -289,6 +285,11 @@ def trainSingleModel(model,
                 #
             loss.backward()
             optimizer.step()
+            #
+            if class_no == 2:
+                outputs_logits = torch.sigmoid(outputs_logits)
+            else:
+                outputs_logits = torch.softmax(outputs_logits, dim=1)
             #
             train_iou = segmentation_scores(labels.cpu().detach().numpy(), outputs_logits.cpu().detach().numpy(), class_no)
             running_loss += loss

@@ -151,7 +151,7 @@ def dice_loss(input, target):
 
     b, c, h, w = input.size()
     
-    #input_sig = torch.sigmoid(input)
+    input_sig = torch.sigmoid(input)
     target = target.squeeze(1)
 
     iflat = input_sig[:, 1, :, :].contiguous().view(-1)
