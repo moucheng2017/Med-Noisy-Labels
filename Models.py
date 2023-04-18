@@ -136,7 +136,7 @@ class UNet_GlobalCMs(nn.Module):
         self.final_in = class_no
         # print(dataset_tag)
         if dataset_tag == 'oocytes_gent':
-            self.annotators = 0
+            self.annotators = 3
         else:
             self.annotators = annotators
         self.noisy_labels_no = self.annotators
