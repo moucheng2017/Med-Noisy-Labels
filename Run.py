@@ -69,7 +69,7 @@ if __name__ == '__main__':
                    dataset_tag='oocytes_gent',
                    label_mode='multi',
                    loss_f='noisy_label',
-                   save_probability_map=True,
+                   save_probability_map=False,
                    path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     # ============================================
     # for baseline without label merging:

@@ -969,25 +969,33 @@ def trainSingleModel(model_seg,
             #
             b, c, h, w = v_outputs_logits_original.size()
             #
-            v_outputs_logits_original = nn.Softmax(dim=1)(v_outputs_logits_original)
+            ### MODIFIED CODE ###
+            if class_no == 2:
+                v_outputs_logits_original = torch.sigmoid(v_outputs_logits_original)
+            else:
+                v_outputs_logits_original = nn.Softmax(dim=1)(v_outputs_logits_original)
             #
-            _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
+            v_outputs_logits = (v_outputs_logits_original > 0.5).float()
+            ### ENDS HERE ###
             #
-            save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_seg.png'
-            save_name_label = save_path + '/test_' + imagename[0] + '_' + str(i) + '_label.png'
+            # _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
+            #
+            save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_segmented_image.png'
+            save_name_label = save_path + '/test_' + imagename[0] + '_' + str(i) + '_ground_truth.png'
             #
             bb, cc, hh, ww = v_images.size()
             #
-            for ccc in range(cc):
-                #
-                save_name_slice = save_path + '/test_' + imagename[0] + '_' + str(i) + '_slice_' + str(ccc) + '.png'
-                plt.imsave(save_name_slice, v_images[:, ccc, :, :].reshape(h, w).cpu().detach().numpy(), cmap='gray')
-                #print("Slice:", save_name_slice)
-            #
+            ### COMMENTED OUT ###
+            # for ccc in range(cc):
+            #     #
+            #     save_name_slice = save_path + '/test_' + imagename[0] + '_' + str(i) + '_slice_' + str(ccc) + '.png'
+            #     plt.imsave(save_name_slice, v_images[:, ccc, :, :].reshape(h, w).cpu().detach().numpy(), cmap='gray')
+            #     #print("Slice:", save_name_slice)
+            ### TILL HERE ###
             if class_no == 2:
                 #
-                plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap='gray')
-                plt.imsave(save_name_label, labels_avrg.reshape(h, w).cpu().detach().numpy(), cmap='gray')
+                plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+                plt.imsave(save_name_label, labels_avrg.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
                 #print("Name:", save_name)
                 #print("Label:", save_name_label)
                 #
@@ -1106,14 +1114,14 @@ def trainSingleModel(model_seg,
                 # print(torch.sum(cm, dim=0) / (b * h * w))
                 nnn += 1
                 # print('\n')
-                save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_noisy_' + str(j) + '_seg.png'
+                save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_annotator_' + str(j) + '_segmented_image.png'
                 #
                 save_cm_name = save_path + '/' + imagename[0] + '_cm.npy'
                 np.save(save_cm_name, cm.cpu().detach().numpy())
                 #
                 if class_no == 2:
                     #
-                    plt.imsave(save_name, v_noisy_output.reshape(h, w).cpu().detach().numpy(), cmap='gray')
+                    plt.imsave(save_name, v_noisy_output.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
                     #
                 else:
                     #
