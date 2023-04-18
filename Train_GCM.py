@@ -496,7 +496,7 @@ def trainSingleModel(model_seg,
                 #
                 loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                 
-                #loss = dice_loss(outputs_logits, labels_avrg)
+                loss = dice_loss(outputs_logits, labels_avrg)
 
                 # if low_rank_mode is False:
                 #     #
