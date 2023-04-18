@@ -1905,7 +1905,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
             v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
         # cms = model2(v_images)
         #
-        #_, v_output = torch.max(v_outputs_logits, dim=1)
+        _, v_output = torch.max(v_outputs_logits, dim=1)
         ###_, v_output = torch.max(cms[0], dim=1)
 
         v_outputs_noisy = []
@@ -1925,7 +1925,8 @@ def evaluate_noisy_label_4(data, model1, class_no):
         #
         # print("labels: ", v_labels_avrg.size())
         # print("preds: ", v_output.size())
-        v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_outputs_logits.cpu().detach().numpy(), class_no)
+        # v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_outputs_logits.cpu().detach().numpy(), class_no)
+        v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy(), class_no)
         #v_dice_ = dice_coef_default(model1(v_images)[0].to(device = 'cuda'), v_labels_avrg.to(device = 'cuda'))
         #v_dice_ = dice_coef_default(v_output.unsqueeze(0).repeat(1, 2, 1, 1).to(device = 'cuda'), v_labels_avrg.to(device = 'cuda'))
         #v_dice_ = segmentation_scores(v_labels_AR, v_output.cpu().detach().numpy(), class_no)
