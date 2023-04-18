@@ -252,8 +252,9 @@ def trainSingleModel(model_seg,
     model_seg.to(device)
     # model_cm.to(device)
 
-    optimizer1 = AdamW(model_seg.parameters(), lr=learning_rate, betas=(0.9, 0.999), eps=1e-8, weight_decay=2e-5)
-    # optimizer2 = torch.optim.Adam(model_cm.parameters(), lr=learning_rate, betas=(0.9, 0.999), eps=1e-8, weight_decay=1e-5)
+    # optimizer1 = AdamW(model_seg.parameters(), lr=learning_rate, betas=(0.9, 0.999), eps=1e-8, weight_decay=2e-5)
+    optimizer2 = torch.optim.Adam(model_seg.parameters(), lr=learning_rate, betas=(0.9, 0.999), eps=1e-8, weight_decay=1e-5)
+    optimizer1 = optimizer2
 
     start = timeit.default_timer()
 
@@ -494,7 +495,7 @@ def trainSingleModel(model_seg,
                 # np.save('./cms2.npy', outputs_logits_noisy[1].cpu().detach().numpy())
                 # np.save('./cms3.npy', outputs_logits_noisy[2].cpu().detach().numpy())
                 #
-                loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                loss_, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                 
                 loss = dice_loss(outputs_logits, labels_avrg)
 
