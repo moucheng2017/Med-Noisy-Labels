@@ -1900,7 +1900,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
         
         if class_no == 2:
             v_outputs_logits = torch.sigmoid(v_outputs_logits)
-            v_outputs_logits = (v_outputs_logits > 0.5).float()
+            #v_outputs_logits = (v_outputs_logits > 0.5).float()
         else:
             v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
         # cms = model2(v_images)
