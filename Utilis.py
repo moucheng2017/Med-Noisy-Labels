@@ -1647,6 +1647,39 @@ def evaluate_punet(net, val_data, class_no, sampling_no):
         #
     return validate_iou / (no_eval), generalized_energy_distance_epoch / (no_eval)
 
+def segmentation_scores_v2(label_trues, label_preds, n_class):
+    # Ensure label_trues and label_preds have the same length
+    assert len(label_trues) == len(label_preds)
+
+    # If there are only two classes (binary segmentation), convert predictions to binary using a threshold of 0.5
+    if n_class == 2:
+        output_zeros = np.zeros_like(label_preds)
+        output_ones = np.ones_like(label_preds)
+        label_preds = np.where((label_preds > 0.5), output_ones, output_zeros)
+
+    # Convert labels to integer type
+    label_preds = np.asarray(label_preds, dtype='int8').copy()
+    label_trues = np.asarray(label_trues, dtype='int8').copy()
+
+    # Initialize arrays for storing the intersection and union values for each class
+    area_intersection = np.zeros(n_class - 1)
+    area_union = np.zeros(n_class - 1)
+
+    # Iterate over each class and calculate intersection and union
+    for i in range(1, n_class):
+        # Calculate the intersection: the count of pixels where both predicted and true labels are equal for the current class
+        intersection = np.logical_and(label_preds == i, label_trues == i).sum()
+
+        # Calculate the union: the count of pixels where either the predicted or true labels are equal to the current class
+        union = np.logical_or(label_preds == i, label_trues == i).sum()
+
+        # Store the intersection and union values for the current class
+        area_intersection[i - 1] = intersection
+        area_union[i - 1] = union
+
+    # Calculate the Dice coefficient for each class and return the mean value
+    return ((2 * area_intersection + 1e-6) / (area_union + 1e-6)).mean()
+
 
 def segmentation_scores(label_trues, label_preds, n_class):
     '''
@@ -1676,8 +1709,9 @@ def segmentation_scores(label_trues, label_preds, n_class):
     label_trues = np.asarray(label_trues, dtype='int8').copy()
 
     # Apply a boolean mask to only consider predictions where ground truth is not the background class (0)
-    label_preds = label_preds * (label_trues > 0)
-
+    #label_preds = label_preds * (label_trues > 0)
+    label_preds[label_trues == 0] = 0
+    
     # Compute the element-wise intersection of ground truth and predicted labels
     intersection = label_preds * (label_preds == label_trues)
 
@@ -1908,7 +1942,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
                 v_outputs_logits = nn.Softmax(dim=1)(v_outputs_logits)
             # cms = model2(v_images)
             #
-            _, v_output = torch.max(v_outputs_logits, dim=1)
+            #_, v_output = torch.max(v_outputs_logits, dim=1)
             v_output = (v_outputs_logits > 0.5).float()
             ###_, v_output = torch.max(cms[0], dim=1)
 
