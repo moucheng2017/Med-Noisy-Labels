@@ -468,7 +468,7 @@ def trainSingleModel(model_seg,
                 print('step [{}/{}], ''dice: {:.4f},'.format('0', '0', zero_dice / (k + 1)))
             
             #
-            for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(testdata):
+            for j, (images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(trainloader):
                 #
                 b, c, h, w = images.size()
                 #
