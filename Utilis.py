@@ -1716,7 +1716,7 @@ def segmentation_scores(label_trues, label_preds, n_class):
     intersection = label_preds * (label_preds == label_trues)
     print("label_trues shape:", label_trues.shape)
     print("label_preds shape:", label_preds.shape)
-    intersection = 2 * label_trues[label_preds == label_trues]
+    intersection = 2 * label_trues[label_preds[:, 1, :, :] == label_trues[:, 0, :, :]]
 
     # Compute the number of true positives, false positives, and false negatives
     (area_intersection, _) = np.histogram(intersection, bins=n_class, range=(1, n_class))
