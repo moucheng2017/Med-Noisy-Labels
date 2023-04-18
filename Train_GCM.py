@@ -241,7 +241,7 @@ def trainSingleModel(model_seg,
 
         ### Decoders CMs - GRAD ###
         for param in model_seg.decoders_noisy_layers.parameters():
-            param.requires_grad = False
+            param.requires_grad = True
         ### =================== ###
 
     total_params = sum(p.numel() for p in model_seg.parameters())

@@ -62,7 +62,7 @@ if __name__ == '__main__':
                    learning_rate=1e-5,
                    input_height=192,
                    input_width=256,
-                   alpha=0.5,
+                   alpha=0.01,
                    width=32,
                    depth=5,
                    data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
