@@ -1753,8 +1753,8 @@ def dice_coef_torchmetrics(preds, targets, class_no, device):
 
     dice = 0
 
-    print("Preds size: ", preds.size())
-    print("Targets size: ", targets.size())
+    # print("Preds size: ", preds.size())
+    # print("Targets size: ", targets.size())
 
     dice_score = torchmetrics.Dice(zero_division = 1e-6,
                                    num_classes = class_no,
