@@ -19,7 +19,7 @@ from Loss import noisy_label_loss_low_rank, noisy_label_loss, dice_loss
 from Models import UNet_GlobalCMs
 
 from Utilis import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_noisy_label_6
-from Utilis import dice_coef_torchmetrics, dice_coef_custom, dice_coef_default
+from Utilis import dice_coef_torchmetrics, dice_coef_custom, dice_coef_default, plot_curves
 
 
 def trainGCMModels(input_dim,
@@ -226,7 +226,7 @@ def trainSingleModel(model_seg,
 
         ### Encoders - GRAD ###
         for layer in model_seg.encoders.parameters():
-            layer.requires_grad = False
+            layer.requires_grad = True
         ### =============== ###
 
         ### Decoders - GRAD ###
@@ -257,6 +257,12 @@ def trainSingleModel(model_seg,
     optimizer1 = optimizer2
 
     start = timeit.default_timer()
+
+    total_train_loss = []
+    total_ce_loss = []
+    total_trace_loss = []
+    train_dice = []
+    valid_dice = []
 
     for epoch in range(num_epochs):
         #    
@@ -534,6 +540,13 @@ def trainSingleModel(model_seg,
                                                            model1=model_seg,
                                                            class_no=class_no)
                     #
+                    total_train_loss.append((running_loss / (j + 1)).cpu().detach().numpy())
+                    total_ce_loss.append((running_loss_ce / (j + 1)).cpu().detach().numpy())
+                    total_trace_loss.append((running_loss_trace / (j + 1)).cpu().detach().numpy())
+
+                    train_dice.append(running_iou / (j + 1))
+                    valid_dice.append(v_dice)
+                    #
                     print(
                         'Step [{}/{}], '
                         'Train loss: {:.4f}, '
@@ -559,6 +572,8 @@ def trainSingleModel(model_seg,
     model_seg.eval()
     # model_cm.eval()
     save_path = path_name + '/Exp_Results_Noisy_labels'
+    plot_curves(path_name, total_train_loss, total_ce_loss, total_trace_loss, train_dice, valid_dice)
+    print('Plots were generated succescully.')
     #
     try:
         #
