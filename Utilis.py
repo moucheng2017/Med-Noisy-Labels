@@ -1714,6 +1714,7 @@ def segmentation_scores(label_trues, label_preds, n_class):
 
     # Compute the element-wise intersection of ground truth and predicted labels
     intersection = label_preds * (label_preds == label_trues)
+    intersection = 2 * label_trues[label_preds == label_trues]
 
     # Compute the number of true positives, false positives, and false negatives
     (area_intersection, _) = np.histogram(intersection, bins=n_class, range=(1, n_class))
