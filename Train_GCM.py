@@ -981,6 +981,7 @@ def trainSingleModel(model_seg,
             #
             # _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
             #
+            print(imagename)
             save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_segmented_image.png'
             save_name_label = save_path + '/test_' + imagename[0] + '_' + str(i) + '_ground_truth.png'
             #
