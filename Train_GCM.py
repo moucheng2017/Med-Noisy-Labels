@@ -449,7 +449,7 @@ def trainSingleModel(model_seg,
                     if class_no == 2:
                         t_outputs_logits_sig = torch.sigmoid(t_outputs_logits)
 
-                    _, t_output = torch.max(t_outputs_logits_sig, dim=1)
+                    t_output = (t_outputs_logits_sig > 0.5).float()
 
                     t_outputs_noisy = []
                     
