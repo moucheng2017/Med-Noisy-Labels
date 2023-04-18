@@ -495,9 +495,9 @@ def trainSingleModel(model_seg,
                 # np.save('./cms2.npy', outputs_logits_noisy[1].cpu().detach().numpy())
                 # np.save('./cms3.npy', outputs_logits_noisy[2].cpu().detach().numpy())
                 #
-                loss_, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
+                loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                 
-                loss = dice_loss(outputs_logits, labels_avrg)
+                #loss = dice_loss(outputs_logits, labels_avrg)
 
                 # if low_rank_mode is False:
                 #     #
