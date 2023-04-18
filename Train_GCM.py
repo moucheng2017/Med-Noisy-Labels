@@ -511,6 +511,7 @@ def trainSingleModel(model_seg,
                 #
                 if class_no == 2:
                     train_output = torch.sigmoid(outputs_logits)
+                    train_output = (train_output > 0.5).float()
                 else:
                     _, train_output = torch.max(outputs_logits, dim = 1)
                 #
