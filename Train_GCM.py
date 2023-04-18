@@ -231,7 +231,7 @@ def trainSingleModel(model_seg,
 
         ### Decoders - GRAD ###
         for param in model_seg.decoders.parameters():
-            param.requires_grad = False
+            param.requires_grad = True
         ### =============== ###
 
         ### Last Conv - GRAD ###
