@@ -975,8 +975,8 @@ def trainSingleModel(model_seg,
             else:
                 v_outputs_logits_original = nn.Softmax(dim=1)(v_outputs_logits_original)
             #
-            v_outputs_logits = (v_outputs_logits_original > 0.5).float()
-            _, v_outputs_logits = torch.max(v_outputs_logits, dim=1)
+            # v_outputs_logits = (v_outputs_logits_original > 0.5).float()
+            _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
             ### ENDS HERE ###
             #
             # _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
@@ -1115,7 +1115,7 @@ def trainSingleModel(model_seg,
                 # print(torch.sum(cm, dim=0) / (b * h * w))
                 nnn += 1
                 # print('\n')
-                save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_annotator_' + str(j) + '_segmented_image.png'
+                save_name = save_path + '/test_' + imagename[0] + '_' + str(i) + '_annotator_' + str(j + 1) + '_segmented_image.png'
                 #
                 save_cm_name = save_path + '/' + imagename[0] + '_cm.npy'
                 np.save(save_cm_name, cm.cpu().detach().numpy())
