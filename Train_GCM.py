@@ -997,7 +997,6 @@ def trainSingleModel(model_seg,
                 #
                 plt.imsave(save_name, v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
                 plt.imsave(save_name_label, labels_avrg.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
-                plt.imsave('/' + imagename, v_images.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
                 #print("Name:", save_name)
                 #print("Label:", save_name_label)
                 #
