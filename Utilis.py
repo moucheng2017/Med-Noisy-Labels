@@ -1710,8 +1710,8 @@ def segmentation_scores(label_trues, label_preds, n_class):
 
     # Apply a boolean mask to only consider predictions where ground truth is not the background class (0)
     #label_preds = label_preds * (label_trues > 0)
-    label_preds[label_trues == 0] = 0
-    
+    label_preds = np.where(label_trues > 0, label_preds, 0)
+
     # Compute the element-wise intersection of ground truth and predicted labels
     intersection = label_preds * (label_preds == label_trues)
 
