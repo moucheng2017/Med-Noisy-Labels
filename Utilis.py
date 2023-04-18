@@ -1696,6 +1696,7 @@ def segmentation_scores(label_trues, label_preds, n_class):
     # Threshold predictions if only two classes (binary segmentation)
     if n_class == 2:
         #
+        label_preds = label_preds[:, 1, :, :]
         output_zeros = np.zeros_like(label_preds)
         output_ones = np.ones_like(label_preds)
         label_preds = np.where((label_preds > 0.5), output_ones, output_zeros)
