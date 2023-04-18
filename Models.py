@@ -120,7 +120,7 @@ class UNet_GlobalCMs(nn.Module):
 
     Each annotator is modelled through a class_no x class_no matrix, fixed for all images.
     """
-    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm='in', dataset_tag = 'mnist', annotators=4):
+    def __init__(self, in_ch, width, depth, class_no, input_height, input_width, norm='in', dataset_tag = 'mnist', annotators=3):
         # ===============================================================================
         # in_ch: dimension of input
         # class_no: number of output class
@@ -136,7 +136,7 @@ class UNet_GlobalCMs(nn.Module):
         self.final_in = class_no
         # print(dataset_tag)
         if dataset_tag == 'oocytes_gent':
-            self.annotators = 3
+            self.annotators = 0
         else:
             self.annotators = annotators
         self.noisy_labels_no = self.annotators
