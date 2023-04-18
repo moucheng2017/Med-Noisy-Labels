@@ -515,15 +515,13 @@ def trainSingleModel(model_seg,
                 else:
                     _, train_output = torch.max(outputs_logits, dim = 1)
                 #
-                # dice1 = dice_coef_torchmetrics(outputs_logits, labels_avrg, class_no, device)
-                # dice2 = dice_coef_custom(outputs_logits, labels_avrg)
-                # dice3 = dice_coef_default(outputs_logits, labels_avrg)
+                # dice #
                 #
-                # train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
+                train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
                 #
                 # train_iou = dice_coef_default(outputs_logits, labels_avrg)
                 # train_iou = dice_coef_custom(outputs_logits, labels_avrg)
-                train_iou = dice_coef_torchmetrics(outputs_logits, labels_avrg, class_no, device)
+                # train_iou = dice_coef_torchmetrics(outputs_logits, labels_avrg, class_no, device)
                 
                 running_loss += loss
                 running_loss_ce += loss_ce
