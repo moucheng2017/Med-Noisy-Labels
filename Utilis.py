@@ -1726,8 +1726,12 @@ def segmentation_scores(label_trues, label_preds, n_class):
     # Calculate the area of the union by summing true positives, false positives, and false negatives
     area_union = area_pred + area_lab
     
+    ## alternative ##
+    intersection = np.sum((label_preds == label_trues) * (label_trues > 0), axis=(2, 3))
+    union = np.sum((label_preds > 0) + (label_trues > 0), axis=(2, 3))
+    dice = (2 * intersection + 1e-6) / (union + 1e-6)
     # Compute the Dice coefficient
-    dice = ((2 * area_intersection + 1e-6) / (area_union + 1e-6))
+    # dice = ((2 * area_intersection + 1e-6) / (area_union + 1e-6))
     # print("dice: ", dice)
     return dice[1]
 
