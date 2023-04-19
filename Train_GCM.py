@@ -432,7 +432,7 @@ def trainSingleModel(model_seg,
 
         elif data_set == 'oocytes_gent':
 
-            zero_epoch = True
+            zero_epoch = False
 
             if zero_epoch:
 
