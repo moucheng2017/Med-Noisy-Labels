@@ -1993,8 +1993,8 @@ def evaluate_noisy_label_4(data, model1, class_no):
             # print("labels: ", v_labels_avrg.size())
             # print("preds: ", v_output.size())
             # v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_outputs_logits.cpu().detach().numpy(), class_no)
-            v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy(), class_no)
-            # v_dice_ = binary_dice_coefficient(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy())
+            # v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy(), class_no)
+            v_dice_ = binary_dice_coefficient(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy())
             #v_dice_ = dice_coef_default(model1(v_images)[0].to(device = 'cuda'), v_labels_avrg.to(device = 'cuda'))
             #v_dice_ = dice_coef_default(v_output.unsqueeze(0).repeat(1, 2, 1, 1).to(device = 'cuda'), v_labels_avrg.to(device = 'cuda'))
             #v_dice_ = segmentation_scores(v_labels_AR, v_output.cpu().detach().numpy(), class_no)
@@ -2178,10 +2178,3 @@ def plot_curves(path, train_losses, ce_losses, trace_losses, train_metric, val_m
     plt.savefig(path + '/' + f'{metric_name.lower()}_curves.png')  # Save the metric curves as an image
     #plt.show()
 
-def normalize_data(imgs, msks):
-
-    print("Type of images: ", type(imgs))
-    print("Type of masks: ", type(msks))
-
-    # Transform tensor to numpy
-    print("")
