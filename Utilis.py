@@ -1731,6 +1731,30 @@ def segmentation_scores(label_trues, label_preds, n_class):
     # print("dice: ", dice)
     return dice.mean()
 
+def binary_dice_coefficient(target, pred, threshold = 0.5):
+
+    dice = 0
+    smooth = 1e-6
+
+    # Select the positive class channel from the predicted probabilities
+    pred_positive_class = pred[:, 1, :, :]
+    
+    # Threshold the probabilities to create binary predictions
+    pred_binary = (pred_positive_class > threshold).astype(np.float32)
+    
+    # Remove the channel dimension from target array
+    target = np.squeeze(target, axis = 1)
+    
+    # Calculate intersection and union
+    intersection = np.sum(pred_binary * target)
+    union = np.sum(pred_binary) + np.sum(target)
+    
+    # Calculate Dice coefficient
+    dice = (2 * intersection + smooth) / (union + smooth)
+
+    return dice
+
+
 
 def generalized_energy_distance(all_gts, all_segs, class_no):
     '''
@@ -1970,6 +1994,7 @@ def evaluate_noisy_label_4(data, model1, class_no):
             # print("preds: ", v_output.size())
             # v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_outputs_logits.cpu().detach().numpy(), class_no)
             v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy(), class_no)
+            # v_dice_ = binary_dice_coefficient(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy())
             #v_dice_ = dice_coef_default(model1(v_images)[0].to(device = 'cuda'), v_labels_avrg.to(device = 'cuda'))
             #v_dice_ = dice_coef_default(v_output.unsqueeze(0).repeat(1, 2, 1, 1).to(device = 'cuda'), v_labels_avrg.to(device = 'cuda'))
             #v_dice_ = segmentation_scores(v_labels_AR, v_output.cpu().detach().numpy(), class_no)
