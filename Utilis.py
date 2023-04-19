@@ -2156,7 +2156,6 @@ def plot_curves(path, train_losses, ce_losses, trace_losses, train_metric, val_m
 
     # Plotting the training and validation loss
     plt.figure()
-    print("plot_curves finished")
     plt.plot(epochs, train_losses, label = 'Total loss')
     plt.plot(epochs, ce_losses, label = 'CE loss')
     plt.plot(epochs, trace_losses, label = 'Trace loss')
@@ -2177,7 +2176,6 @@ def plot_curves(path, train_losses, ce_losses, trace_losses, train_metric, val_m
     plt.title(f'Training and Validation {metric_name}')
     plt.savefig(path + '/' + f'{metric_name.lower()}_curves.png')  # Save the metric curves as an image
     #plt.show()
-    print("plot_curves finished")
 
 def normalize_data(imgs, msks):
 

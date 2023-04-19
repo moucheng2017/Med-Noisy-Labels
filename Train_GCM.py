@@ -530,7 +530,7 @@ def trainSingleModel(model_seg,
                 # train_iou = dice_coef_default(outputs_logits, labels_avrg)
                 # train_iou = dice_coef_custom(outputs_logits, labels_avrg)
                 # train_iou = dice_coef_torchmetrics(outputs_logits, labels_avrg, class_no, device)
-                
+    
                 running_loss += loss
                 running_loss_ce += loss_ce
                 running_loss_trace += loss_trace
@@ -949,7 +949,6 @@ def trainSingleModel(model_seg,
         #
         for i, (v_images, labels_AR, labels_HS, labels_SG, labels_avrg, imagename) in enumerate(testdata):
             #
-            print("batch: ", imagename)
             cm_all_true = []
             #
             cm_AR_true = calculate_cm(pred=labels_AR, true=labels_avrg)

@@ -57,7 +57,7 @@ if __name__ == '__main__':
                    class_no=2,
                    repeat=1,
                    train_batchsize=32,
-                   validate_batchsize=1,
+                   validate_batchsize=2,
                    num_epochs=1,
                    learning_rate=1e-5,
                    input_height=192,
