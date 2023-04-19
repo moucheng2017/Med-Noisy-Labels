@@ -1920,7 +1920,8 @@ def dice_coef_default(input, target):
         dice
     """
     smooth = 1e-6
-
+    print(torch.min(input))
+    print(torch.min(target))
     b, c, h, w = input.size()
     
     # input_sig = torch.sigmoid(input)
