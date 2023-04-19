@@ -1927,7 +1927,7 @@ def dice_coef_default(input, target):
     input_sig = input
     target = target.squeeze(1)
 
-    iflat = input_sig[:, 1, :, :].contiguous().view(-1)
+    iflat = input_sig[:, 1, :, :].contiguous().view(-1).float()
     tflat = target.view(-1).float()
     intersection = (iflat * tflat).sum()
     union = iflat.sum() + tflat.sum()
