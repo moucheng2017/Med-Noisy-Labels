@@ -520,7 +520,7 @@ def trainSingleModel(model_seg,
                     train_output = torch.sigmoid(outputs_logits)
                 else:
                     _, train_output = torch.max(outputs_logits, dim = 1)
-                train_output = (train_output > 0.5).float()
+                # train_output = (train_output > 0.5).float()
                 #
                 # dice #
                 #
