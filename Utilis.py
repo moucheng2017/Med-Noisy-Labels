@@ -644,6 +644,7 @@ def evaluate(evaluatedata, model, device, class_no):
                 _, testoutput = torch.max(testoutput, dim=1)
             #
             mean_iu_ = segmentation_scores(testlabel.cpu().detach().numpy(), testoutput.cpu().detach().numpy(), class_no)
+            mean_iu_ = dice_coef_default(testoutput, testlabel)
             test_iou += mean_iu_
         #
         return test_iou / (j+1)
