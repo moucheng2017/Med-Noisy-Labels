@@ -1928,6 +1928,8 @@ def dice_coef_default(input, target):
 
     iflat = input_sig[:, 1, :, :].contiguous().view(-1)
     tflat = target.view(-1).float()
+    print("iflat shape:", iflat.size())
+    print("tflat shape:", tflat.size())
     intersection = (iflat * tflat).sum()
     union = iflat.sum() + tflat.sum()
     dice = (2. * intersection + smooth) / (union + smooth)
