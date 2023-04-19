@@ -2174,6 +2174,7 @@ def plot_curves(path, train_losses, ce_losses, trace_losses, train_metric, val_m
     plt.ylabel(metric_name)
     plt.legend()
     plt.title(f'Training and Validation {metric_name}')
+    plt.ylim([0.0, 1.0])
     plt.savefig(path + '/' + f'{metric_name.lower()}_curves.png')  # Save the metric curves as an image
     #plt.show()
 
