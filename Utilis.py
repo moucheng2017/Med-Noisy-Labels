@@ -1726,14 +1726,10 @@ def segmentation_scores(label_trues, label_preds, n_class):
     # Calculate the area of the union by summing true positives, false positives, and false negatives
     area_union = area_pred + area_lab
     
-    ## alternative ##
-    intersection = np.sum((label_preds == label_trues) * (label_trues > 0), axis=(2, 3))
-    union = np.sum((label_preds > 0) + (label_trues > 0), axis=(2, 3))
-    dice = (2 * intersection + 1e-6) / (union + 1e-6)
     # Compute the Dice coefficient
-    # dice = ((2 * area_intersection + 1e-6) / (area_union + 1e-6))
-    print("dice: ", dice)
-    return dice
+    dice = ((2 * area_intersection + 1e-6) / (area_union + 1e-6))
+    # print("dice: ", dice)
+    return dice[1]
 
 
 def generalized_energy_distance(all_gts, all_segs, class_no):
@@ -1983,8 +1979,8 @@ def evaluate_noisy_label_4(data, model1, class_no):
             #
             #epoch_noisy_labels = [v_labels_over.cpu().detach().numpy(), v_labels_under.cpu().detach().numpy(), v_labels_wrong.cpu().detach().numpy(), v_labels_good.cpu().detach().numpy()]
             epoch_noisy_labels = [v_labels_AR.cpu().detach().numpy(), v_labels_HS.cpu().detach().numpy(), v_labels_SG.cpu().detach().numpy(), v_labels_avrg.cpu().detach().numpy()]
-            # v_ged = generalized_energy_distance(epoch_noisy_labels, v_outputs_noisy, class_no)
-            v_ged = 0.
+            v_ged = generalized_energy_distance(epoch_noisy_labels, v_outputs_noisy, class_no)
+            # v_ged = 0.
             test_dice += v_dice_
             test_dice_all.append(test_dice)
             #
