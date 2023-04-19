@@ -2149,7 +2149,9 @@ def evaluate_noisy_label_6(data, model1, class_no):
     return test_dice / (i + 1), v_ged
 
 def plot_curves(path, train_losses, ce_losses, trace_losses, train_metric, val_metric, metric_name = 'Dice Coef.'):
-   
+
+    print("plot_curves running")
+
     epochs = range(1, len(train_losses) + 1)
 
     # Plotting the training and validation loss
