@@ -1735,7 +1735,8 @@ def binary_dice_coefficient(target, pred, threshold = 0.5):
 
     dice = 0
     smooth = 1e-6
-
+    print("Target shape: ", target.shape)
+    print("Preds shape: ", pred.shape)
     # Select the positive class channel from the predicted probabilities
     pred_positive_class = pred[:, 1, :, :]
     
