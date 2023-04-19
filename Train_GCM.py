@@ -978,7 +978,7 @@ def trainSingleModel(model_seg,
                 v_outputs_logits_original = nn.Softmax(dim=1)(v_outputs_logits_original)
             #
             # v_outputs_logits = (v_outputs_logits_original > 0.5).float()
-            _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
+            # _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
             ### ENDS HERE ###
             #
             # _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
