@@ -1733,7 +1733,7 @@ def segmentation_scores(label_trues, label_preds, n_class):
     # Compute the Dice coefficient
     # dice = ((2 * area_intersection + 1e-6) / (area_union + 1e-6))
     # print("dice: ", dice)
-    return dice[1]
+    return dice
 
 
 def generalized_energy_distance(all_gts, all_segs, class_no):
