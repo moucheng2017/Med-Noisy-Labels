@@ -1718,13 +1718,17 @@ def segmentation_scores(label_trues, label_preds, n_class):
     # print("label_preds shape:", label_preds.shape)
     # intersection = 2 * label_trues * (label_preds == label_trues)    
 
+    area_intersection = area_intersection = np.sum(intersection, axis=(-1, -2))
+    print("intersection sum: ", area_intersection)
     # Compute the number of true positives, false positives, and false negatives
     (area_intersection, _) = np.histogram(intersection, bins=n_class, range=(1, n_class))
+    print("intersection histogram: ", area_intersection)
     (area_pred, _) = np.histogram(label_preds, bins=n_class, range=(1, n_class))
     (area_lab, _) = np.histogram(label_trues, bins=n_class, range=(1, n_class))
 
     # Calculate the area of the union by summing true positives, false positives, and false negatives
     area_union = area_pred + area_lab
+    print("union histogram: ", area_union)
     
     # Compute the Dice coefficient
     return ((2 * area_intersection + 1e-6) / (area_union + 1e-6)).mean()
