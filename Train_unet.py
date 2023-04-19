@@ -292,7 +292,7 @@ def trainSingleModel(model,
                 outputs_logits = torch.softmax(outputs_logits, dim=1)
             #
             train_iou = segmentation_scores(labels.cpu().detach().numpy(), outputs_logits.cpu().detach().numpy(), class_no)
-            train_iou = dice_coef_default(outputs_logits, labels)
+            train_iou = dice_coef_custom(outputs_logits, labels)
             running_loss += loss
             running_iou += train_iou
             #
