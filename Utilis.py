@@ -1738,7 +1738,7 @@ def binary_dice_coefficient(target, pred, threshold = 0.5):
     # print("Target shape: ", target.shape)
     # print("Preds shape: ", pred.shape)
     # Select the positive class channel from the predicted probabilities
-    pred_positive_class = pred[:, 0, :, :]
+    pred_positive_class = pred[:, 1, :, :]
     
     # Threshold the probabilities to create binary predictions
     pred_binary = (pred_positive_class > threshold).astype(np.float32)
@@ -1923,8 +1923,9 @@ def dice_coef_default(input, target):
 
     b, c, h, w = input.size()
     
-    input_sig = torch.sigmoid(input)
-    target = target.squeeze(1)
+    # input_sig = torch.sigmoid(input)
+    input_sig = input
+    target = target.squeeze(target, axis = 1)
 
     iflat = input_sig[:, 1, :, :].contiguous().view(-1)
     tflat = target.view(-1).float()
@@ -1995,7 +1996,8 @@ def evaluate_noisy_label_4(data, model1, class_no):
             # print("preds: ", v_output.size())
             # v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_outputs_logits.cpu().detach().numpy(), class_no)
             # v_dice_ = segmentation_scores(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy(), class_no)
-            v_dice_ = binary_dice_coefficient(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy())
+            # v_dice_ = binary_dice_coefficient(v_labels_avrg.cpu().detach().numpy(), v_output.cpu().detach().numpy())
+            v_dice_ = dice_coef_default(v_output.cpu().detach().numpy().to(device = 'cuda'), v_labels_avrg.cpu().detach().numpy().to(device = 'cuda'))
             #v_dice_ = dice_coef_default(model1(v_images)[0].to(device = 'cuda'), v_labels_avrg.to(device = 'cuda'))
             #v_dice_ = dice_coef_default(v_output.unsqueeze(0).repeat(1, 2, 1, 1).to(device = 'cuda'), v_labels_avrg.to(device = 'cuda'))
             #v_dice_ = segmentation_scores(v_labels_AR, v_output.cpu().detach().numpy(), class_no)
