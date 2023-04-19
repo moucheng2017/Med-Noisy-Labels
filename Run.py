@@ -56,7 +56,7 @@ if __name__ == '__main__':
     trainGCMModels(input_dim=3,
                    class_no=2,
                    repeat=1,
-                   train_batchsize=64,
+                   train_batchsize=32,
                    validate_batchsize=1,
                    num_epochs=200,
                    learning_rate=1e-5,
