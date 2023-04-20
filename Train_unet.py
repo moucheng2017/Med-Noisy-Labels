@@ -292,15 +292,15 @@ def trainSingleModel(model,
                 outputs_logits = torch.softmax(outputs_logits, dim=1)
             #
             _, train_output = torch.max(outputs_logits, dim = 1)
-            print(imagename)
+            # print(imagename)
             # print("labels: ", labels.size())
             # print("logits: ", outputs_logits.size())
             # print("maxedl: ", train_output.size())
             # train_iou = segmentation_scores(labels.cpu().detach().numpy(), outputs_logits.cpu().detach().numpy(), class_no)
             plt.imsave('./test_results/' + imagename[0] + '_segmented_max_0.png', train_output[0].cpu().detach().numpy(), cmap = 'gray')
             plt.imsave('./test_results/' + imagename[0] + '_label_0.png', labels[0, 0].cpu().detach().numpy(), cmap = 'gray')
-            plt.imsave('./test_results/' + imagename[0] + '_segmented_max_1.png', train_output[1].cpu().detach().numpy(), cmap = 'gray')
-            plt.imsave('./test_results/' + imagename[0] + '_label_1.png', labels[1, 0].cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + imagename[1] + '_segmented_max_1.png', train_output[1].cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + imagename[1] + '_label_1.png', labels[1, 0].cpu().detach().numpy(), cmap = 'gray')
             train_iou = dice_coef_simplified(torch.max(outputs_logits, dim = 1)[1], labels)
             running_loss += loss
             running_iou += train_iou
