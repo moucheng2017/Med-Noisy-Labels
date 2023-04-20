@@ -301,7 +301,7 @@ def trainSingleModel(model,
             plt.imsave('./test_results/' + imagename[0] + '_label_0.png', labels[0, 0].cpu().detach().numpy(), cmap = 'gray')
             plt.imsave('./test_results/' + imagename[1] + '_segmented_max_1.png', train_output[1].cpu().detach().numpy(), cmap = 'gray')
             plt.imsave('./test_results/' + imagename[1] + '_label_1.png', labels[1, 0].cpu().detach().numpy(), cmap = 'gray')
-            train_iou = dice_coef_simplified(torch.max(outputs_logits, dim = 1)[1], labels)
+            train_iou = dice_coef_simplified(train_output, labels)
             running_loss += loss
             running_iou += train_iou
             #

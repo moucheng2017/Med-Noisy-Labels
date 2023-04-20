@@ -681,11 +681,13 @@ def test(testdata,
             testoutput = model(testimg)
             if class_no == 2:
                 testoutput = torch.sigmoid(testoutput)
-                testoutput = (testoutput > 0.5).float()
+                #testoutput = (testoutput > 0.5).float()
+                _, testoutput = torch.max(testoutput, dim=1)
             else:
                 _, testoutput = torch.max(testoutput, dim=1)
             #
-            mean_iu_ = segmentation_scores(testlabel.cpu().detach().numpy(), testoutput.cpu().detach().numpy(), class_no)
+            # mean_iu_ = segmentation_scores(testlabel.cpu().detach().numpy(), testoutput.cpu().detach().numpy(), class_no)
+            mean_iu_ = dice_coef_simplified(testoutput, testlabel)
             test_iou += mean_iu_
             h = 192
             w = 256
