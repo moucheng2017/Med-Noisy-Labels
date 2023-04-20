@@ -14,7 +14,7 @@ from scipy import spatial
 from sklearn.metrics import mean_squared_error
 from torch.optim import lr_scheduler
 from Loss import dice_loss
-from Utilis import segmentation_scores, dice_coef_custom, dice_coef_default, dice_coef_torchmetrics, binary_dice_coefficient
+from Utilis import segmentation_scores, dice_coef_custom, dice_coef_default, dice_coef_torchmetrics, binary_dice_coefficient, dice_coef_simplified
 from Utilis import CustomDataset, evaluate, test
 from tensorboardX import SummaryWriter
 from torch.autograd import Variable
@@ -292,7 +292,7 @@ def trainSingleModel(model,
                 outputs_logits = torch.softmax(outputs_logits, dim=1)
             #
             # train_iou = segmentation_scores(labels.cpu().detach().numpy(), outputs_logits.cpu().detach().numpy(), class_no)
-            train_iou = dice_coef_default(outputs_logits, labels)
+            train_iou = dice_coef_simplified(outputs_logits, labels)
             running_loss += loss
             running_iou += train_iou
             #
