@@ -636,7 +636,7 @@ def evaluate(evaluatedata, model, device, class_no):
             testimg = testimg.to(device=device, dtype=torch.float32)
             testlabel = testlabel.to(device=device, dtype=torch.float32)
             #
-            testoutput = model(testimg)
+            testimg = model(testimg)
             if class_no == 2:
                 testoutput = torch.sigmoid(testoutput)
                 # testoutput = (testoutput > 0.5).float()
@@ -645,6 +645,10 @@ def evaluate(evaluatedata, model, device, class_no):
                 _, testoutput = torch.max(testoutput, dim=1)
             #
             # mean_iu_ = segmentation_scores(testlabel.cpu().detach().numpy(), testoutput.cpu().detach().numpy(), class_no)
+            plt.imsave('./test_results/' + testname[0] + '_segmented_max_0.png', testoutput[0].cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + testname[0] + '_label_0.png', testlabel[0, 0].cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + testname[1] + '_segmented_max_1.png', testoutput[1].cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + testname[1] + '_label_1.png', testlabel[1, 0].cpu().detach().numpy(), cmap = 'gray')
             mean_iu_ = dice_coef_simplified(testoutput, testlabel)
             # mean_iu_ = dice_coef_torchmetrics(testoutput, testlabel, 2, 'cuda')
             test_iou += mean_iu_
