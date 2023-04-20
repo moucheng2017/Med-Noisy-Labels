@@ -25,7 +25,7 @@ class CustomDataset(torch.utils.data.Dataset):
         self.imgs_folder = imgs_folder
         self.labels_folder = labels_folder
         self.data_augmentation = augmentation
-        self.skin_np = True
+        self.skin_np = False
         # self.transform = transforms
 
     def __getitem__(self, index):

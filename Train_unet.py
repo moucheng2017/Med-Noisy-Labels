@@ -204,7 +204,7 @@ def trainSingleModel(model,
     #
     writer = SummaryWriter(path_name + '/Log_' + datasettag + '/' + save_model_name)
 
-    model_tl = False
+    model_tl = True
 
     if model_tl:
 
