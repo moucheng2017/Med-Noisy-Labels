@@ -636,7 +636,7 @@ def evaluate(evaluatedata, model, device, class_no):
             testimg = testimg.to(device=device, dtype=torch.float32)
             testlabel = testlabel.to(device=device, dtype=torch.float32)
             #
-            testimg = model(testimg)
+            testoutput = model(testimg)
             if class_no == 2:
                 testoutput = torch.sigmoid(testoutput)
                 # testoutput = (testoutput > 0.5).float()
