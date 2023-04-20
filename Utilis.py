@@ -639,7 +639,8 @@ def evaluate(evaluatedata, model, device, class_no):
             testoutput = model(testimg)
             if class_no == 2:
                 testoutput = torch.sigmoid(testoutput)
-                testoutput = (testoutput > 0.5).float()
+                # testoutput = (testoutput > 0.5).float()
+                _, testoutput = torch.max(testoutput, dim=1)
             else:
                 _, testoutput = torch.max(testoutput, dim=1)
             #
