@@ -292,7 +292,10 @@ def trainSingleModel(model,
                 outputs_logits = torch.softmax(outputs_logits, dim=1)
             #
             # train_iou = segmentation_scores(labels.cpu().detach().numpy(), outputs_logits.cpu().detach().numpy(), class_no)
+            plt.imsave('./test_results/' + imagename[0] + '_segmented_max.png', torch.max(outputs_logits, dim = 1)[1].reshape(192, 256).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + imagename[0] + 'label.png', np.swapaxes(np.swapaxes(labels[0].cpu().detach().numpy(), 0, 1), 1, 2), cmap = 'gray')
             train_iou = dice_coef_simplified(torch.max(outputs_logits, dim = 1)[1], labels)
+            break
             running_loss += loss
             running_iou += train_iou
             #
