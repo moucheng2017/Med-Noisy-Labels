@@ -291,7 +291,7 @@ def trainSingleModel(model,
             else:
                 outputs_logits = torch.softmax(outputs_logits, dim=1)
             #
-            train_output = torch.max(outputs_logits, dim = 1)[1]
+            _, train_output = torch.max(outputs_logits, dim = 1)
             # train_iou = segmentation_scores(labels.cpu().detach().numpy(), outputs_logits.cpu().detach().numpy(), class_no)
             plt.imsave('./test_results/' + imagename[0] + '_segmented_max.png', train_output.reshape(192, 256).cpu().detach().numpy(), cmap = 'gray')
             plt.imsave('./test_results/' + imagename[0] + 'label.png', np.swapaxes(np.swapaxes(labels[0].cpu().detach().numpy(), 0, 1), 1, 2), cmap = 'gray')
