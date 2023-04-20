@@ -964,6 +964,7 @@ def trainSingleModel(model_seg,
             v_images = v_images.to(device=device, dtype=torch.float32)
             #
             v_outputs_logits_original, v_outputs_logits_noisy = model_seg(v_images)
+            print("image size: ", v_images.size())
             # print("y size: ", v_outputs_logits_original.size())
             # for noise in v_outputs_logits_noisy:
             #     print("y_noisy size: ", noise.size())
