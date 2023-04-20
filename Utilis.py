@@ -639,8 +639,8 @@ def evaluate(evaluatedata, model, device, class_no):
             testoutput = model(testimg)
             if class_no == 2:
                 testoutput = torch.sigmoid(testoutput)
-                # testoutput = (testoutput > 0.5).float()
-                _, testoutput = torch.max(testoutput, dim=1)
+                testoutput = (testoutput > 0.5).float()
+                # _, testoutput = torch.max(testoutput, dim=1)
             else:
                 _, testoutput = torch.max(testoutput, dim=1)
             #
@@ -696,7 +696,7 @@ def test(testdata,
             # print("image size: ", testimg.size())
             # print("y size: ", testoutput.size())
             plt.imsave('./test_results/' + testname[0] + '_GT.png', np.swapaxes(np.swapaxes(testimg[0].cpu().detach().numpy(), 0, 1), 1, 2))
-            plt.imsave('./test_results/' + testname[0] + '_segmented_original_1.png', testoutput[:, 1].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + testname[0] + '_segmented_original_1.png', testoutput[0].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             
             #
             # ========================================================
