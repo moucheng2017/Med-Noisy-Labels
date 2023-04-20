@@ -636,13 +636,13 @@ def evaluate(evaluatedata, model, device, class_no):
             testimg = testimg.to(device=device, dtype=torch.float32)
             testlabel = testlabel.to(device=device, dtype=torch.float32)
             #
-            print("val image: ", testname)
-            print("val image size: ", testimg.size())
-            print("val label size: ", testlabel.size())
+            # print("val image: ", testname)
+            # print("val image size: ", testimg.size())
+            # print("val label size: ", testlabel.size())
             testoutput = model(testimg)
-            print("val out size: ", testoutput.size())
+            # print("val out size: ", testoutput.size())
             if class_no == 2:
-                # testoutput = torch.sigmoid(testoutput)
+                testoutput = torch.sigmoid(testoutput)
                 # testoutput = (testoutput > 0.5).float()
                 _, testoutput = torch.max(testoutput, dim=1)
             else:
@@ -650,8 +650,8 @@ def evaluate(evaluatedata, model, device, class_no):
             print("val max size: ", testoutput.size())
             #
             # mean_iu_ = segmentation_scores(testlabel.cpu().detach().numpy(), testoutput.cpu().detach().numpy(), class_no)
-            plt.imsave('./test_results/' + testname[0] + '_segmented_max_0.png', testoutput[0].cpu().detach().numpy(), cmap = 'gray')
-            plt.imsave('./test_results/' + testname[0] + '_label_0.png', testlabel[0, 0].cpu().detach().numpy(), cmap = 'gray')
+            # plt.imsave('./test_results/' + testname[0] + '_segmented_max_0.png', testoutput[0].cpu().detach().numpy(), cmap = 'gray')
+            # plt.imsave('./test_results/' + testname[0] + '_label_0.png', testlabel[0, 0].cpu().detach().numpy(), cmap = 'gray')
             # plt.imsave('./test_results/' + testname[1] + '_segmented_max_1.png', testoutput[1].cpu().detach().numpy(), cmap = 'gray')
             # plt.imsave('./test_results/' + testname[1] + '_label_1.png', testlabel[1, 0].cpu().detach().numpy(), cmap = 'gray')
             mean_iu_ = dice_coef_simplified(testoutput, testlabel)
