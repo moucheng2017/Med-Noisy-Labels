@@ -636,13 +636,13 @@ def evaluate(evaluatedata, model, device, class_no):
             testimg = testimg.to(device=device, dtype=torch.float32)
             testlabel = testlabel.to(device=device, dtype=torch.float32)
             #
-            print("val image: ", testname)
-            print("val image size: ", testimg.size())
-            print("val label size: ", testlabel.size())
+            # print("val image: ", testname)
+            # print("val image size: ", testimg.size())
+            # print("val label size: ", testlabel.size())
             testoutput = model(testimg)
-            print("val out size: ", testoutput.size())
+            # print("val out size: ", testoutput.size())
             if class_no == 2:
-                testoutput = torch.sigmoid(testoutput)
+                # testoutput = torch.sigmoid(testoutput)
                 # testoutput = (testoutput > 0.5).float()
                 _, testoutput = torch.max(testoutput, dim=1)
             else:
