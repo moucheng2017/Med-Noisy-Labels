@@ -204,7 +204,7 @@ def trainSingleModel(model,
     #
     writer = SummaryWriter(path_name + '/Log_' + datasettag + '/' + save_model_name)
 
-    model_tl = True
+    model_tl = False
 
     if model_tl:
 
@@ -292,7 +292,7 @@ def trainSingleModel(model,
                 outputs_logits = torch.softmax(outputs_logits, dim=1)
             #
             # train_iou = segmentation_scores(labels.cpu().detach().numpy(), outputs_logits.cpu().detach().numpy(), class_no)
-            train_iou = dice_coef_torchmetrics(outputs_logits, labels, 2, 'cuda')
+            train_iou = dice_coef_default(outputs_logits, labels)
             running_loss += loss
             running_iou += train_iou
             #
