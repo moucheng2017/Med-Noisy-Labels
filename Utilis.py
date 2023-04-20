@@ -642,7 +642,8 @@ def evaluate(evaluatedata, model, device, class_no):
                 print("logits sig: ", testoutput.size())
                 testoutput = (testoutput > 0.5).float()
                 print("logits 0.5: ", testoutput.size())
-                # _, testoutput = torch.max(testoutput, dim=1)
+                _, testoutput = torch.max(testoutput, dim=1)
+                print("logits max: ", testoutput.size())
             else:
                 _, testoutput = torch.max(testoutput, dim=1)
             #
