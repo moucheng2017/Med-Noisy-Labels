@@ -640,6 +640,7 @@ def evaluate(evaluatedata, model, device, class_no):
             print("val image size: ", testimg.size())
             print("val label size: ", testlabel.size())
             testoutput = model(testimg)
+            print("val out size: ", testoutput.size())
             if class_no == 2:
                 testoutput = torch.sigmoid(testoutput)
                 # testoutput = (testoutput > 0.5).float()
