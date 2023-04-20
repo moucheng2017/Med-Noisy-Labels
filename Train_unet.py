@@ -292,6 +292,7 @@ def trainSingleModel(model,
                 outputs_logits = torch.softmax(outputs_logits, dim=1)
             #
             _, train_output = torch.max(outputs_logits, dim = 1)
+            print(imagename)
             # print("labels: ", labels.size())
             # print("logits: ", outputs_logits.size())
             # print("maxedl: ", train_output.size())
