@@ -293,7 +293,7 @@ def trainSingleModel(model,
             #
             _, train_output = torch.max(outputs_logits, dim = 1)
             # train_iou = segmentation_scores(labels.cpu().detach().numpy(), outputs_logits.cpu().detach().numpy(), class_no)
-            plt.imsave('./test_results/' + imagename[0] + '_segmented_max.png', train_output.cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + imagename[0] + '_segmented_max.png', train_output[0].cpu().detach().numpy(), cmap = 'gray')
             plt.imsave('./test_results/' + imagename[0] + 'label.png', np.swapaxes(np.swapaxes(labels[0].cpu().detach().numpy(), 0, 1), 1, 2), cmap = 'gray')
             train_iou = dice_coef_simplified(torch.max(outputs_logits, dim = 1)[1], labels)
             break
