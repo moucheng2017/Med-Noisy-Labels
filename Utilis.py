@@ -689,8 +689,10 @@ def test(testdata,
             test_iou += mean_iu_
             h = 192
             w = 256
+            print("image size: ", testimg.size())
+            print("y size: ", testoutput.size())
             plt.imsave('./test_results/' + testname[0] + '_GT.png', np.swapaxes(np.swapaxes(testimg[0].cpu().detach().numpy(), 0, 1), 1, 2), cmap = 'gray')
-            plt.imsave('./test_results/' + testname[0] + '_segmented_original_0.png', testoutput[:, 0].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + testname[0] + '_segmented_original_1.png', testoutput[:, 1].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             
             #
             # ========================================================
