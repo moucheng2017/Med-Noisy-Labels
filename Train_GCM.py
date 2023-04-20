@@ -984,8 +984,8 @@ def trainSingleModel(model_seg,
             #
             # v_outputs_logits = (v_outputs_logits_original > 0.5).float()
             _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
-            plt.imsave('./test_results_' + imagename[0] + '_segmented_sigmoid_0.png', v_outputs_logits_original.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
-            plt.imsave('./test_results_' + imagename[0] + '_segmented_sigmoid_1.png', v_outputs_logits_original.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results_' + imagename[0] + '_segmented_sigmoid_0.png', v_outputs_logits_original[:, 0].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results_' + imagename[0] + '_segmented_sigmoid_1.png', v_outputs_logits_original[:, 1].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             plt.imsave('./test_results_' + imagename[0] + '_segmented_max.png', v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             ### ENDS HERE ###
             #
