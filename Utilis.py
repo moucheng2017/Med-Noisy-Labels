@@ -687,7 +687,8 @@ def test(testdata,
             #
             mean_iu_ = segmentation_scores(testlabel.cpu().detach().numpy(), testoutput.cpu().detach().numpy(), class_no)
             test_iou += mean_iu_
-
+            h = 192
+            w = 256
             plt.imsave('./test_results/' + testname[0] + '_GT.png', np.swapaxes(np.swapaxes(testimg[0].cpu().detach().numpy(), 0, 1), 1, 2), cmap = 'gray')
             plt.imsave('./test_results/' + testname[0] + '_segmented_original_0.png', testoutput.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             
