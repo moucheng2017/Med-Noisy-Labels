@@ -691,8 +691,7 @@ def test(testdata,
             w = 256
             # print("image size: ", testimg.size())
             # print("y size: ", testoutput.size())
-            # plt.imsave('./test_results/' + testname[0] + '_GT.png', np.swapaxes(np.swapaxes(testimg[0].cpu().detach().numpy(), 0, 1), 1, 2), cmap = 'gray')
-            plt.imsave('./test_results/' + testname[0] + '_GT.png', testimg[0].cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + testname[0] + '_GT.png', np.swapaxes(np.swapaxes(testimg[0].cpu().detach().numpy(), 0, 1), 1, 2))
             plt.imsave('./test_results/' + testname[0] + '_segmented_original_1.png', testoutput[:, 1].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             
             #
