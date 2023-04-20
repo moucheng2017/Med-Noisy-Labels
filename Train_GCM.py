@@ -976,7 +976,7 @@ def trainSingleModel(model_seg,
             b, c, h, w = v_outputs_logits_original.size()
             #
             ### MODIFIED CODE ###
-            plt.imsave('./test_results/' + imagename[0] + '_GT.png', v_images[0].cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results/' + imagename[0] + '_GT.png', np.swapaxes(np.swapaxes(v_images[0].cpu().detach().numpy(), 0, 1), 1, 2), cmap = 'gray')
             plt.imsave('./test_results/' + imagename[0] + '_segmented_original_0.png', v_outputs_logits_original[:, 0].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             plt.imsave('./test_results/' + imagename[0] + '_segmented_original_1.png', v_outputs_logits_original[:, 1].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             if class_no == 2:
