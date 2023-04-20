@@ -644,7 +644,7 @@ def evaluate(evaluatedata, model, device, class_no):
             if class_no == 2:
                 testoutput = torch.sigmoid(testoutput)
                 testoutput = (testoutput > 0.5).float()
-                # _, testoutput = torch.max(testoutput, dim=1)
+                _, testoutput = torch.max(testoutput, dim=1)
             else:
                 _, testoutput = torch.max(testoutput, dim=1)
             # print("val max size: ", testoutput.size())
