@@ -965,15 +965,18 @@ def trainSingleModel(model_seg,
             #
             v_outputs_logits_original, v_outputs_logits_noisy = model_seg(v_images)
             print("y size: ", v_outputs_logits_original.size())
-            print("y_noisy size: ", v_outputs_logits_noisy.size())
+            for noise in v_outputs_logits_noisy:
+                print("y_noisy size: ", noise.size())
 
-            np.save('./cms1_test.npy', v_outputs_logits_noisy[0].cpu().detach().numpy())
-            np.save('./cms2_test.npy', v_outputs_logits_noisy[1].cpu().detach().numpy())
-            np.save('./cms3_test.npy', v_outputs_logits_noisy[2].cpu().detach().numpy())
+            np.save('./cms/cms1_test.npy', v_outputs_logits_noisy[0].cpu().detach().numpy())
+            np.save('./cms/cms2_test.npy', v_outputs_logits_noisy[1].cpu().detach().numpy())
+            np.save('./cms/cms3_test.npy', v_outputs_logits_noisy[2].cpu().detach().numpy())
             #
             b, c, h, w = v_outputs_logits_original.size()
             #
             ### MODIFIED CODE ###
+            plt.imsave('./test_results_' + imagename[0] + '_segmented_original.png', v_outputs_logits_original.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results_' + imagename[0] + '_segmented_original.png', v_outputs_logits_original.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             if class_no == 2:
                 v_outputs_logits_original = torch.sigmoid(v_outputs_logits_original)
             else:
@@ -981,6 +984,8 @@ def trainSingleModel(model_seg,
             #
             # v_outputs_logits = (v_outputs_logits_original > 0.5).float()
             _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
+            plt.imsave('./test_results_' + imagename[0] + '_segmented_sigmoid.png', v_outputs_logits_original.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results_' + imagename[0] + '_segmented_max.png', v_outputs_logits.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             ### ENDS HERE ###
             #
             # _, v_outputs_logits = torch.max(v_outputs_logits_original, dim=1)
