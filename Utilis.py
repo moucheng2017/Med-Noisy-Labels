@@ -647,7 +647,7 @@ def evaluate(evaluatedata, model, device, class_no):
                 _, testoutput = torch.max(testoutput, dim=1)
             else:
                 _, testoutput = torch.max(testoutput, dim=1)
-            print("val max size: ", testoutput.size())
+            # print("val max size: ", testoutput.size())
             #
             # mean_iu_ = segmentation_scores(testlabel.cpu().detach().numpy(), testoutput.cpu().detach().numpy(), class_no)
             # plt.imsave('./test_results/' + testname[0] + '_segmented_max_0.png', testoutput[0].cpu().detach().numpy(), cmap = 'gray')
