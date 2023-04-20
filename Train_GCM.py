@@ -524,10 +524,10 @@ def trainSingleModel(model_seg,
                 #
                 # dice #
                 #
-                # train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
+                train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
                 # train_iou = binary_dice_coefficient(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy())
                 #
-                train_iou = dice_coef_default(train_output, labels_avrg)
+                # train_iou = dice_coef_default(train_output, labels_avrg)
                 # train_iou = dice_coef_custom(outputs_logits, labels_avrg)
                 # train_iou = dice_coef_torchmetrics(outputs_logits, labels_avrg, class_no, device)
     
@@ -964,6 +964,8 @@ def trainSingleModel(model_seg,
             v_images = v_images.to(device=device, dtype=torch.float32)
             #
             v_outputs_logits_original, v_outputs_logits_noisy = model_seg(v_images)
+            print("y size: ", v_outputs_logits_original.size())
+            print("y_noisy size: ", v_outputs_logits_noisy.size())
 
             np.save('./cms1_test.npy', v_outputs_logits_noisy[0].cpu().detach().numpy())
             np.save('./cms2_test.npy', v_outputs_logits_noisy[1].cpu().detach().numpy())
