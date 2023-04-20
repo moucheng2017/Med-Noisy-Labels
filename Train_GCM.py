@@ -497,9 +497,9 @@ def trainSingleModel(model_seg,
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
 
-                np.save('./cms1.npy', outputs_logits_noisy[0].cpu().detach().numpy())
-                np.save('./cms2.npy', outputs_logits_noisy[1].cpu().detach().numpy())
-                np.save('./cms3.npy', outputs_logits_noisy[2].cpu().detach().numpy())
+                np.save('./cms/cms1.npy', outputs_logits_noisy[0].cpu().detach().numpy())
+                np.save('./cms/cms2.npy', outputs_logits_noisy[1].cpu().detach().numpy())
+                np.save('./cms/cms3.npy', outputs_logits_noisy[2].cpu().detach().numpy())
                 #
                 loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                 
@@ -975,8 +975,8 @@ def trainSingleModel(model_seg,
             b, c, h, w = v_outputs_logits_original.size()
             #
             ### MODIFIED CODE ###
-            plt.imsave('./test_results_' + imagename[0] + '_segmented_original.png', v_outputs_logits_original.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
-            plt.imsave('./test_results_' + imagename[0] + '_segmented_original.png', v_outputs_logits_original.reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results_' + imagename[0] + '_segmented_original_0.png', v_outputs_logits_original[:, 0].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
+            plt.imsave('./test_results_' + imagename[0] + '_segmented_original_1.png', v_outputs_logits_original[:, 1].reshape(h, w).cpu().detach().numpy(), cmap = 'gray')
             if class_no == 2:
                 v_outputs_logits_original = torch.sigmoid(v_outputs_logits_original)
             else:
