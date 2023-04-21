@@ -133,7 +133,7 @@ if __name__ == '__main__':
                 input_dim = 3,
                 class_no = 2,
                 repeat = 1,
-                train_batchsize = 2,
+                train_batchsize = 16,
                 validate_batchsize = 1,
                 num_epochs = 200,
                 learning_rate = 1e-3,

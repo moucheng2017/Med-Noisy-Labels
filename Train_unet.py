@@ -326,11 +326,11 @@ def trainSingleModel(model,
         for param_group in optimizer.param_groups:
             param_group['lr'] = learning_rate*((1 - epoch / num_epochs)**0.999)
             #
-    test(testdata,
-         model,
-         device,
-         class_no=class_no,
-         save_path=saved_information_path)
+    # test(testdata,
+    #      model,
+    #      device,
+    #      class_no=class_no,
+    #      save_path=saved_information_path)
     #
     # save model
     stop = timeit.default_timer()
