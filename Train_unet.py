@@ -139,7 +139,7 @@ def getData(data_directory, dataset_name, dataset_tag, train_batchsize, validate
     #
     testloader = data.DataLoader(test_dataset, batch_size=validate_batchsize, shuffle=False, num_workers=validate_batchsize, drop_last=False)
     #
-    return trainloader, validateloader, testloader, len(train_dataset)
+    return trainloader, testloader, validateloader, len(train_dataset)
 
 # =====================================================================================================================================
 
