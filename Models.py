@@ -421,7 +421,7 @@ class UNet(nn.Module):
 
             if self.dropout is True:
 
-                self.dropout_layers.append(nn.Dropout2d(0.4))
+                self.dropout_layers.append(nn.Dropout2d(0.2))
 
             if i == 0:
                 #

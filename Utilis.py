@@ -25,7 +25,7 @@ class CustomDataset(torch.utils.data.Dataset):
         self.imgs_folder = imgs_folder
         self.labels_folder = labels_folder
         self.data_augmentation = augmentation
-        self.skin_np = False
+        self.skin_np = True
         # self.transform = transforms
 
     def __getitem__(self, index):
@@ -650,8 +650,8 @@ def evaluate(evaluatedata, model, device, class_no):
             # print("val max size: ", testoutput.size())
             #
             # mean_iu_ = segmentation_scores(testlabel.cpu().detach().numpy(), testoutput.cpu().detach().numpy(), class_no)
-            plt.imsave('./test_results/' + testname[0] + '_segmented_max_0.png', testoutput[0].cpu().detach().numpy(), cmap = 'gray')
-            plt.imsave('./test_results/' + testname[0] + '_label_0.png', testlabel[0, 0].cpu().detach().numpy(), cmap = 'gray')
+            # plt.imsave('./test_results/' + testname[0] + '_segmented_max_0.png', testoutput[0].cpu().detach().numpy(), cmap = 'gray')
+            # plt.imsave('./test_results/' + testname[0] + '_label_0.png', testlabel[0, 0].cpu().detach().numpy(), cmap = 'gray')
             # plt.imsave('./test_results/' + testname[1] + '_segmented_max_1.png', testoutput[1].cpu().detach().numpy(), cmap = 'gray')
             # plt.imsave('./test_results/' + testname[1] + '_label_1.png', testlabel[1, 0].cpu().detach().numpy(), cmap = 'gray')
             mean_iu_ = dice_coef_simplified(testoutput, testlabel)

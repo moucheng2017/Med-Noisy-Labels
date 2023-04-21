@@ -107,9 +107,29 @@ if __name__ == '__main__':
     # ============================================
     # for simple u-net
     # ============================================
-    trainUnet(dataset_tag = 'oocytes_gent',
-                dataset_name = 'oocytes_gent',
-                data_directory = '/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
+    # trainUnet(dataset_tag = 'oocytes_gent',
+    #             dataset_name = 'oocytes_gent',
+    #             data_directory = '/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
+    #             input_dim = 3,
+    #             class_no = 2,
+    #             repeat = 1,
+    #             train_batchsize = 2,
+    #             validate_batchsize = 1,
+    #             num_epochs = 200,
+    #             learning_rate = 1e-3,
+    #             width = 32,
+    #             depth = 5,
+    #             augmentation='all_flip',
+    #             loss_f='dice',
+    #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Maj_Results/' + time.strftime("%Y%m%d-%H%M%S"),
+    #             labels_mode = 'avrg')
+    #
+    # ============================================
+    # for simple u-net for skin training
+    # ============================================
+    trainUnet(dataset_tag = 'skin',
+                dataset_name = 'skin',
+                data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin_np_192_256_3/',
                 input_dim = 3,
                 class_no = 2,
                 repeat = 1,
@@ -121,28 +141,8 @@ if __name__ == '__main__':
                 depth = 5,
                 augmentation='all_flip',
                 loss_f='dice',
-                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Maj_Results/' + time.strftime("%Y%m%d-%H%M%S"),
-                labels_mode = 'avrg')
-    #
-    # ============================================
-    # for simple u-net for skin training
-    # ============================================
-    # trainUnet(dataset_tag = 'skin',
-    #             dataset_name = 'skin',
-    #             data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin_np_192_256_3/',
-    #             input_dim = 3,
-    #             class_no = 2,
-    #             repeat = 1,
-    #             train_batchsize = 2,
-    #             validate_batchsize = 1,
-    #             num_epochs = 20,
-    #             learning_rate = 1e-3,
-    #             width = 32,
-    #             depth = 5,
-    #             augmentation='all_flip',
-    #             loss_f='dice',
-    #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/skin/' + time.strftime("%Y%m%d-%H%M%S"),
-    #             labels_mode = 'skin')
+                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/skin/' + time.strftime("%Y%m%d-%H%M%S"),
+                labels_mode = 'skin')
     # # #
     #
     # ============================================
