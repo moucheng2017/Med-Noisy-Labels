@@ -644,14 +644,15 @@ def evaluate(evaluatedata, model, device, class_no):
             if class_no == 2:
                 testoutput = torch.sigmoid(testoutput)
                 testoutput = (testoutput > 0.5).float()
-                _, testoutput = torch.max(testoutput, dim=1)
+                # _, testoutput = torch.max(testoutput, dim=1)
             else:
                 _, testoutput = torch.max(testoutput, dim=1)
             # print("val max size: ", testoutput.size())
             #
             # mean_iu_ = segmentation_scores(testlabel.cpu().detach().numpy(), testoutput.cpu().detach().numpy(), class_no)
-            plt.imsave('./test_results/' + testname[0] + '_segmented_max_0.png', testoutput[0].cpu().detach().numpy(), cmap = 'gray')
-            plt.imsave('./test_results/' + testname[0] + '_label_0.png', testlabel[0, 0].cpu().detach().numpy(), cmap = 'gray')
+            # plt.imsave('./test_results/' + testname[0] + '_GT.png', np.swapaxes(np.swapaxes(testimg[0].cpu().detach().numpy(), 0, 1), 1, 2))
+            # plt.imsave('./test_results/' + testname[0] + '_segmented_max_0.png', testoutput[0].cpu().detach().numpy(), cmap = 'gray')
+            # plt.imsave('./test_results/' + testname[0] + '_label_0.png', testlabel[0, 0].cpu().detach().numpy(), cmap = 'gray')
             # plt.imsave('./test_results/' + testname[1] + '_segmented_max_1.png', testoutput[1].cpu().detach().numpy(), cmap = 'gray')
             # plt.imsave('./test_results/' + testname[1] + '_label_1.png', testlabel[1, 0].cpu().detach().numpy(), cmap = 'gray')
             mean_iu_ = dice_coef_simplified(testoutput, testlabel)
