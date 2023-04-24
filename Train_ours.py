@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import torch.functional as F
 from torch.utils import data
 
-from Utilis import segmentation_scores, generalized_energy_distance, evaluate, binary_dice_coefficient
+from Utilis import segmentation_scores, generalized_energy_distance, evaluate, dice_coef_simplified
 from tensorboardX import SummaryWriter
 from torch.autograd import Variable
 
@@ -474,7 +474,7 @@ def trainSingleModel(model_seg,
                 ###_, train_output = torch.max(outputs_logits_noisy[0], dim=1)
                 #
                 # train_iou = segmentation_scores(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy(), class_no)
-                train_iou = binary_dice_coefficient(labels_avrg.cpu().detach().numpy(), train_output.cpu().detach().numpy())
+                train_iou = dice_coef_simplified(train_output, labels_avrg)
                 #
                 # print(train_iou)
                 running_loss += loss
