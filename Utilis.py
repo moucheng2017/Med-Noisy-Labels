@@ -2016,7 +2016,8 @@ def evaluate_noisy_label_4(data, model1, class_no):
             # cms = model2(v_images)
             #
             #_, v_output = torch.max(v_outputs_logits, dim=1)
-            v_output = (v_outputs_logits > 0.5).float()
+            # v_output = (v_outputs_logits > 0.5).float()
+            _, v_output = torch.max(v_outputs_logits, dim=1)
             ###_, v_output = torch.max(cms[0], dim=1)
 
             v_outputs_noisy = []
