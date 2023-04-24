@@ -1967,8 +1967,8 @@ def dice_coef_simplified(pred, target):
     if pred.size()[1] == 2:
         pred = pred[:, 1, :, :].unsqueeze(1)
 
-    iflat = pred.contiguous().view(-1)
-    tflat = target.contiguous().view(-1)
+    iflat = pred.contiguous().view(-1).to('cuda')
+    tflat = target.contiguous().view(-1).to('cuda')
 
     intersection = (iflat * tflat).sum()
 
