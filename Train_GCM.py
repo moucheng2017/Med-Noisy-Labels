@@ -497,9 +497,9 @@ def trainSingleModel(model_seg,
                 #
                 outputs_logits, outputs_logits_noisy = model_seg(images)
 
-                np.save('./cms/cms1.npy', outputs_logits_noisy[0].cpu().detach().numpy())
-                np.save('./cms/cms2.npy', outputs_logits_noisy[1].cpu().detach().numpy())
-                np.save('./cms/cms3.npy', outputs_logits_noisy[2].cpu().detach().numpy())
+                # np.save('./cms/cms1.npy', outputs_logits_noisy[0].cpu().detach().numpy())
+                # np.save('./cms/cms2.npy', outputs_logits_noisy[1].cpu().detach().numpy())
+                # np.save('./cms/cms3.npy', outputs_logits_noisy[2].cpu().detach().numpy())
                 #
                 loss, loss_ce, loss_trace = noisy_label_loss(outputs_logits, outputs_logits_noisy, labels_all, alpha)
                 
