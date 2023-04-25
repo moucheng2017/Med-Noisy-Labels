@@ -1779,7 +1779,21 @@ def binary_dice_coefficient(target, pred, threshold = 0.5):
 
     return dice
 
+class DiceScore(nn.Module):
+    def __init__(self, weight = None, size_average = True):
+        super(DiceScore, self).__init__()
 
+    def forward(self, inputs, targets, smooth = 1.):
+
+        inputs = torch.sigmoid(inputs)
+
+        inputs = inputs.view(-1)
+        targets = targets.view(-1)
+
+        intersection = (inputs * targets).sum()
+        dice = (2. * intersection + smooth) / (inputs.sum() + targets.sum() + smooth)
+
+        return dice
 
 def generalized_energy_distance(all_gts, all_segs, class_no):
     '''
