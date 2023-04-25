@@ -14,7 +14,7 @@ from scipy import spatial
 from sklearn.metrics import mean_squared_error
 from torch.optim import lr_scheduler
 from Loss import dice_loss, DiceLoss
-from Utilis import segmentation_scores, dice_coef_custom, dice_coef_default, dice_coef_torchmetrics, binary_dice_coefficient
+from Utilis import segmentation_scores, dice_coef_custom, dice_coef_default, binary_dice_coefficient
 from Utilis import DiceScore, dice_coef_simplified
 from Utilis import CustomDataset, evaluate, test
 from tensorboardX import SummaryWriter
