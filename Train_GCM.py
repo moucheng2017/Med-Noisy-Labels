@@ -19,7 +19,7 @@ from Loss import noisy_label_loss_low_rank, noisy_label_loss, dice_loss
 from Models import UNet_GlobalCMs
 
 from Utilis import evaluate_noisy_label_4, evaluate_noisy_label_5, evaluate_noisy_label_6
-from Utilis import dice_coef_torchmetrics, dice_coef_custom, dice_coef_default, plot_curves
+from Utilis import dice_coef_custom, dice_coef_default, plot_curves
 
 
 def trainGCMModels(input_dim,
