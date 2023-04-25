@@ -11,7 +11,7 @@ import gzip
 import torch.nn as nn
 import matplotlib.pyplot as plt
 from torch.utils import data
-import torchmetrics
+# import torchmetrics
 
 from sklearn.metrics import confusion_matrix
 # =============================================
@@ -1851,47 +1851,47 @@ def calculate_cm(pred, true):
 # ================================
 # Evaluation
 # ================================
-def dice_coef_torchmetrics(preds, targets, class_no, device):
+# def dice_coef_torchmetrics(preds, targets, class_no, device):
 
-    dice = 0
+#     dice = 0
 
-    # print("Preds size: ", preds.size())
-    # print("Targets size: ", targets.size())
+#     # print("Preds size: ", preds.size())
+#     # print("Targets size: ", targets.size())
 
-    dice_score = torchmetrics.Dice(zero_division = 1e-6,
-                                   num_classes = class_no,
-                                   threshold = 0.5,
-                                   average = 'macro').to(device)
+#     dice_score = torchmetrics.Dice(zero_division = 1e-6,
+#                                    num_classes = class_no,
+#                                    threshold = 0.5,
+#                                    average = 'macro').to(device)
 
-    probs = torch.sigmoid(preds)
-    targets_int = (targets > 0.5).long()
+#     probs = torch.sigmoid(preds)
+#     targets_int = (targets > 0.5).long()
 
-    ### Sanity Check ###
-    ### 1. Perfect P ###
-    # probs = torch.tensor([[[[1, 0],
-    #                         [0, 1]],
-    #                        [[0, 1],
-    #                         [1, 0]]],
-    #                       [[[1, 0],
-    #                         [0, 1]],
-    #                        [[0, 1],
-    #                         [1, 0]]]], dtype = torch.float32, device = device)
-    # targets_int = torch.tensor([[[[0, 1],
-    #                               [1, 0]]],
-    #                             [[[0, 1],
-    #                               [1, 0]]]], dtype = torch.long, device = device)
+#     ### Sanity Check ###
+#     ### 1. Perfect P ###
+#     # probs = torch.tensor([[[[1, 0],
+#     #                         [0, 1]],
+#     #                        [[0, 1],
+#     #                         [1, 0]]],
+#     #                       [[[1, 0],
+#     #                         [0, 1]],
+#     #                        [[0, 1],
+#     #                         [1, 0]]]], dtype = torch.float32, device = device)
+#     # targets_int = torch.tensor([[[[0, 1],
+#     #                               [1, 0]]],
+#     #                             [[[0, 1],
+#     #                               [1, 0]]]], dtype = torch.long, device = device)
  
-    # print("Probs size: ", probs.size())
-    # print("Targets_int size: ", targets_int.size())
-    ### 2. Worst Pre ###
-    # pass
-    ### ------------ ###
+#     # print("Probs size: ", probs.size())
+#     # print("Targets_int size: ", targets_int.size())
+#     ### 2. Worst Pre ###
+#     # pass
+#     ### ------------ ###
 
-    dice = dice_score(probs, targets_int)
+#     dice = dice_score(probs, targets_int)
 
-    # print("Dice score (metrics) = ", dice.item())
+#     # print("Dice score (metrics) = ", dice.item())
 
-    return dice.item()
+#     return dice.item()
 
 def dice_coef_custom(preds, targets):
     """ This is a normal dice coef function for binary segmentation.
