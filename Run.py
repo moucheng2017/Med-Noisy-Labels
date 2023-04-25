@@ -53,24 +53,24 @@ if __name__ == '__main__':
     # ============================================
     # for baseline with global confusion  matrices
     # ============================================
-    trainGCMModels(input_dim=3,
-                   class_no=2,
-                   repeat=1,
-                   train_batchsize=32,
-                   validate_batchsize=1,
-                   num_epochs=30,
-                   learning_rate=1e-4,
-                   input_height=192,
-                   input_width=256,
-                   alpha=0.01,
-                   width=32,
-                   depth=5,
-                   data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
-                   dataset_tag='oocytes_gent',
-                   label_mode='multi',
-                   loss_f='noisy_label',
-                   save_probability_map=False,
-                   path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
+    # trainGCMModels(input_dim=3,
+    #                class_no=2,
+    #                repeat=1,
+    #                train_batchsize=32,
+    #                validate_batchsize=1,
+    #                num_epochs=30,
+    #                learning_rate=1e-4,
+    #                input_height=192,
+    #                input_width=256,
+    #                alpha=0.01,
+    #                width=32,
+    #                depth=5,
+    #                data_path='/data/eurova/multi_annotators_project/LNLMI/oocytes_gent/',
+    #                dataset_tag='oocytes_gent',
+    #                label_mode='multi',
+    #                loss_f='noisy_label',
+    #                save_probability_map=False,
+    #                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/Global_CMs_Results/' + time.strftime("%Y%m%d-%H%M%S"))
     # ============================================
     # for baseline without label merging:
     # ============================================
@@ -127,22 +127,22 @@ if __name__ == '__main__':
     # ============================================
     # for simple u-net for skin training
     # ============================================
-    # trainUnet(dataset_tag = 'skin',
-    #             dataset_name = 'skin',
-    #             data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin_np_192_256_3/',
-    #             input_dim = 3,
-    #             class_no = 2,
-    #             repeat = 1,
-    #             train_batchsize = 16,
-    #             validate_batchsize = 1,
-    #             num_epochs = 200,
-    #             learning_rate = 1e-3,
-    #             width = 32,
-    #             depth = 5,
-    #             augmentation='all_flip',
-    #             loss_f='dice',
-    #             path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/skin/' + time.strftime("%Y%m%d-%H%M%S"),
-    #             labels_mode = 'skin')
+    trainUnet(dataset_tag = 'skin',
+                dataset_name = 'skin',
+                data_directory = '/data/eurova/multi_annotators_project/LNLMI/skin_np_192_256_3/',
+                input_dim = 3,
+                class_no = 2,
+                repeat = 1,
+                train_batchsize = 16,
+                validate_batchsize = 1,
+                num_epochs = 200,
+                learning_rate = 1e-3,
+                width = 32,
+                depth = 5,
+                augmentation='all_flip',
+                loss_f='ce',
+                path_name = '/data/eurova/multi_annotators_project/LNLMI/Results/skin/' + time.strftime("%Y%m%d-%H%M%S"),
+                labels_mode = 'skin')
     # # #
     #
     # ============================================
